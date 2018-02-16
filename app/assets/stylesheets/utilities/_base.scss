@@ -1,0 +1,46 @@
+//--------------------------------------------------
+// html elements
+//--------------------------------------------------
+* { 
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  font-family: $body-font;
+  margin: 0;
+}
+
+h1 {
+}
+
+h2 {
+}
+
+h3 {
+}
+
+h4 {
+}
+
+p {
+}
+
+a {
+  &:hover { text-decoration: none; }
+}
+
+//--------------------------------------------------
+// site structure
+//--------------------------------------------------
+.site-width { 
+  @include breakpoint($medium){ width: $site-width; }
+}
+
+.container {
+  @extend .site-width;
+  margin: 0 auto;
+  padding: rem-calc(0 $gutter-small);
+
+  @include breakpoint($medium){ padding: rem-calc(0 $gutter-medium); }
+}

@@ -1,0 +1,12 @@
+//--------------------------------------------------
+// footer
+//--------------------------------------------------
+.footer {
+  border-top: solid rem-calc(2) $grey-light;
+  padding: rem-calc(20);
+  text-align: center;
+
+  &__logo {
+    width: rem-calc(180); height: rem-calc(59);
+  }
+}
