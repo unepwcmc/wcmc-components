@@ -4,9 +4,11 @@
 // - colours
 // - fonts
 // - dimensions
-// - breakpoins
+// - breakpoints
 // - padding
-//
+// 
+// components
+// - topbar
 //--------------------------------------------------
 // colours
 //--------------------------------------------------
@@ -45,3 +47,9 @@ $medium: $site-width;
 //--------------------------------------------------
 $gutter-small: rem-calc(11); 
 $gutter-medium: rem-calc(16);
+
+//--------------------------------------------------
+// component - topbar
+//--------------------------------------------------
+$topbarHeightSmall: rem-calc(66);
+$topbarHeightLarge: rem-calc(86);

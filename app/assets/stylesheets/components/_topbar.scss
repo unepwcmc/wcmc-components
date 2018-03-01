@@ -1,10 +1,17 @@
 //--------------------------------------------------
-// footer
+// topbar
 //--------------------------------------------------
-.footer {
-  border-top: solid rem-calc(2) $grey-light;
-  padding: rem-calc(20);
-  text-align: center;
+.topbar {
+  background-color: $grey-light;
+  padding: 0 $gutter-small;
+  width: 100%; height: $topbarHeightSmall;
+
+  z-index: 3;
+
+  @include breakpoint($small){ 
+    padding: 0 $gutter-medium;
+    height: $topbarHeightLarge;
+  }
 
   &__logo {
     width: rem-calc(137); height: rem-calc(44);
