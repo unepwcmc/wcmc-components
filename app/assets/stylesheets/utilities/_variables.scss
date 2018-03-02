@@ -14,14 +14,21 @@
 //--------------------------------------------------
 $black: #000000;
 
+$blue: #00a0d1;
+
+$green: #b4c92b;
+
 $grey-light: #f4f4f4;
 $grey: #7f7f7f;
 $grey-dark: #343434;
 
-$primary: red;
-$secondary: blue;
+$navy-light:#A8CDEE;
+$navy: #043c7b;
 
-$accent: green;
+$primary: $navy;
+$secondary: $blue;
+
+$accent: $green;
 
 //--------------------------------------------------
 // fonts
@@ -30,6 +37,10 @@ $font-roboto: 'Roboto', sans-serif;
 
 $body-font: $font-roboto;
 $body-font-color: $black;
+
+$body-font-size: rem-calc(16);
+
+$bold: bold;
 
 //--------------------------------------------------
 // dimensions

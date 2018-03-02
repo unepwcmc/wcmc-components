@@ -5,4 +5,16 @@
 
     h1 { font-size: rem-calc(30); }
   }
+
+    &__sub-section {
+      background: repeating-linear-gradient(
+        -45deg,
+        #efefef,
+        #efefef 10px,
+        #eaeaea 10px,
+        #eaeaea 20px
+      );
+      margin-bottom: rem-calc(16);
+      padding: rem-calc(12 16);
+    }
 }
