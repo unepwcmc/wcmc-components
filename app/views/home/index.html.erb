@@ -12,11 +12,9 @@
 <%= render partial: 'global/topbar.html.erb' %>
 
 <section class="library__section">
-  <h2>Footer</h2>
-  <p>views/global/_footer.html.erb</p>
+  <h2>Primary navigation</h2>
+  <%= render partial: 'global/nav-primary.html.erb' %>
 </section>
-
-<%= render partial: 'global/footer.html.erb' %>
 
 <section class="library__section">
   <h2>Buttons</h2>
@@ -29,3 +27,10 @@
   <h2>Social</h2>
   <%= render partial: 'global/social.html.erb' %>
 </section>
+
+<section class="library__section">
+  <h2>Footer</h2>
+  <p>views/global/_footer.html.erb</p>
+</section>
+
+<%= render partial: 'global/footer.html.erb' %>

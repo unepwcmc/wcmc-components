@@ -1,0 +1,13 @@
+<% nav = ['item 1, item 2, item 3'] %>
+
+<p>views/global/_primary-nav.html.erb</p>
+
+<div class="library__subsection">
+  <ul class="nav nav--primary">
+    <% nav.each do |item| %>
+      <li>
+        <a href=""><%= item %></a>
+      </li>
+    <% end %>
+  </ul>  
+</div>

@@ -1,0 +1,57 @@
+//--------------------------------------------------
+// nav
+//--------------------------------------------------
+.nav {
+
+  &__item { list-style: none; }
+
+//--------------------------------------------------
+// nav - primary
+//--------------------------------------------------
+  &--primary {
+
+  }
+  
+
+//--------------------------------------------------
+// nav - secondary
+//--------------------------------------------------
+
+}
+
+@include flexbox;
+  @include justify-content(normal);
+  @include align-items(normal);
+  @include flex-direction(column);
+  margin: rem-calc(0 30);
+  padding: rem-calc(10 0);
+
+  @media (min-width: $tablet){
+    @include justify-content(flex-end);
+    @include flex-direction(row);
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    list-style: none;
+    padding: 0;
+  }
+
+  &__item-link {
+    color: $black;
+    padding: rem-calc(14 0);
+
+    display: block;
+
+    @media(min-width: $tablet){
+      padding: rem-calc(8 14)
+    }
+
+    &:hover {
+      @media(min-width: $tablet){
+        background: $light-grey;
+        text-decoration: none;
+      }
+    }
+  }
