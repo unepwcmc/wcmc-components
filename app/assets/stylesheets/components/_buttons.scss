@@ -10,6 +10,8 @@
   line-height: 1;
   padding: rem-calc(8 18);
 
+  display: inline-block;
+
   @include breakpoint($small){
     font-size: rem-calc(22);
     padding: rem-calc(12 28);

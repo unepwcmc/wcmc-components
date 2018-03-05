@@ -4,17 +4,27 @@
     padding: rem-calc(10);
 
     h1 { font-size: rem-calc(30); }
+
+    h3 { margin: rem-calc(0 0 18 0); }
   }
 
-    &__sub-section {
+    &__subsection {
+      margin-bottom: rem-calc(24);
+
+      a,
+      button { vertical-align: middle; }
+    }
+
+    &__background {
       background: repeating-linear-gradient(
         -45deg,
         #efefef,
-        #efefef 10px,
-        #eaeaea 10px,
-        #eaeaea 20px
+        #efefef 4px,
+        #eaeaea 4px,
+        #eaeaea 8px
       );
-      margin-bottom: rem-calc(16);
-      padding: rem-calc(12 16);
+      padding: rem-calc(14);
+
+      display: inline-block;
     }
 }
