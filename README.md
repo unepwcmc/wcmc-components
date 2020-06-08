@@ -1,24 +1,10 @@
-# README
+# WCMC Component Library
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+A central repository holding examples of components that can be reused for multiple projects. 
 
-Things you may want to cover:
+## Quickstart
 
-* Ruby version
 
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+- `bundle install` 
+- `yarn install`
+- `rails s` 
