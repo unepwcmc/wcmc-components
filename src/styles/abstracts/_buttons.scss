@@ -1,0 +1,18 @@
+@mixin button-basic {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  // &:focus { @include input-custom-focus; }
+  @include breakpoint($small) {
+    // padding-right: $ft-button-padding-medium;
+    // padding-left: $ft-button-padding-medium;
+  }
+
+  @include breakpoint($medium) {
+    // padding-right: $ft-button-padding-large;
+    // padding-left: $ft-button-padding-large;
+  }
+
+  &:hover { text-decoration: none; }
+}
