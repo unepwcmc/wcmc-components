@@ -1,0 +1,24 @@
+//--------------------------------------------------
+// breakpoints
+//--------------------------------------------------
+// must be in px not rem!
+// IF MODIFIED, PLEASE CHECK ELSEWHERE IN PROJECT e.g. in mixin-responsive.js
+$small: 767px !default; 
+$medium: 1024px !default;
+$large: 1200px !default;
+
+//--------------------------------------------------
+// buttons
+//--------------------------------------------------
+$ft-button-font-size: rem-calc(20) !default;
+$ft-button-padding-small: rem-calc(20) !default;
+$ft-button-padding-medium: rem-calc(20) !default;
+$ft-button-padding-large: rem-calc(20) !default;
+$ft-filter-trigger-height-small: rem-calc(34);
+$ft-filter-trigger-height-medium: rem-calc(34);
+$ft-filter-trigger-height-large: rem-calc(40);
+
+//--------------------------------------------------
+// font
+//--------------------------------------------------
+$ft-font: Arial, 'sans-serif' !default; 
