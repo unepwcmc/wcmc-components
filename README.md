@@ -19,7 +19,6 @@ In your new project do the following:
 - Run `yarn install`
 - In your new project add `import FilterableTable from 'wcmc-components'`
 - In your new project add `Vue.use(FilterableTable, { store })`
-```
 
 ### Compiles and minifies for production
 ```
