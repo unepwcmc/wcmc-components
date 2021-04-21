@@ -1,14 +1,21 @@
 {
-  "name": "fresh",
+  "name": "wcmc-components",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve dev/serve.js",
     "build": "vue-cli-service build",
-    "build-lib": "vue-cli-service build --target lib --name fresh src/main.js",
+    "build-lib": "vue-cli-service build --target lib --name wcmc-components src/main.js",
     "lint": "vue-cli-service lint"
   },
-  "main": "./dist/fresh.common.js",
+  "main": "./dist/wcmc-components.common.js",
+  "files": [
+    "dist/*",
+    "src/*",
+    "public/*",
+    "*.json",
+    "*.js"
+  ],
   "dependencies": {
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",

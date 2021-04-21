@@ -1,7 +1,9 @@
 <template>
   <div id="app">
-    <!-- <dummy-button /> -->
-    <filterable-table />
+    <p>
+      <dummy-button />
+    </p>
+    <!-- <filterable-table /> -->
     
     <!-- ELP -->
     <!-- <filterable-table
