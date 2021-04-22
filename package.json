@@ -17,6 +17,7 @@
     "*.js"
   ],
   "dependencies": {
+    "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "lodash": "^4.17.21",
     "sass": "^1.32.6",

@@ -37,8 +37,9 @@
 </template>
 
 <script>
-// import axios from 'axios'
-// import { setAxiosHeaders } from './helpers/axios-helpers.js'
+import axios from 'axios'
+import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
+
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 
 import { merge } from 'lodash'
@@ -74,16 +75,16 @@ export default {
 
   data () {
     return {
-      id: '',
       attributes: [],
-      filters: [],
-      items: [],
       currentPage: 1,
+      dummyData: DUMMY_DATA,
+      filters: [],
+      id: '',
+      items: [],
       itemsPerPage: 2,
-      totalItems: 5,
-      totalPages: 3,
       optionsMerged: {},
-      dummyData: DUMMY_DATA
+      totalItems: 5,
+      totalPages: 3
     }
   },
 
@@ -116,24 +117,26 @@ export default {
       this.filters = this.dummyData.filters
       this.items = this.dummyData.items
     }
+
+    this.$root.$on('getNewItems', this.getNewItems)
   },
 
   methods: {
     getNewItems () {
-      // let data = {
-      //   requested_page: this.$store.state.pame.requestedPage,
-      //   filters: this.$store.state.pame.selectedFilterOptions
-      // }
+      let data = {
+        requested_page: this.$store.state.pame.requestedPage,
+        filters: this.$store.state.pame.selectedFilterOptions
+      }
 
-      // axiosSetHeaders()
+      setAxiosHeaders()
 
-      // axios.post(this.endpoint, data)
-      // .then(response => {
-      //   this.updateProperties(response.data)
-      // })
-      // .catch(function (error) {
-      //   console.log(error)
-      // })
+      axios.post(this.endpoint, data)
+      .then(response => {
+        this.updateProperties(response.data)
+      })
+      .catch(function (error) {
+        console.log(error)
+      })
     },
     importUserOptions () {
       const obj = {
@@ -142,7 +145,14 @@ export default {
       }
 
       this.$store.dispatch('filterableTable/updateOptions', obj)
-    }
+    },
+    updateProperties (data) {
+      this.currentPage = data.current_page
+      this.itemsPerPage = data.per_page
+      this.totalItems = data.total_entries
+      this.totalPages = data.total_pages
+      this.items = data.items
+    },
   }
 }
 </script>

@@ -1,7 +1,6 @@
 <template>
   <button
     @click="download"
-    :title="title"
     :class="['button', { 'button--disabled' : noResults }]"
     :style="cssVariables"
     v-bind="{ 'disabled' : noResults }">
