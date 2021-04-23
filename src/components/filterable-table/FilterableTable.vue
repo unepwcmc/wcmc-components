@@ -155,7 +155,7 @@ export default {
         filters: this.selectedFilterOptions
       }
 
-      setAxiosHeaders()
+      setAxiosHeaders(axios)
 
       axios.post(this.endpoint, data)
       .then(response => {
