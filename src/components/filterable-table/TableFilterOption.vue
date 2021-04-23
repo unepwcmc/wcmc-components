@@ -51,12 +51,6 @@ export default {
     optionId () {
       return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
     }
-  },
-
-  methods: {
-    // selectOption (option) {
-    //   this.isSelected = true
-    // }
   }
 }
 </script>

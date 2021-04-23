@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import { merge } from 'lodash'
+// import { mergeWith } from 'lodash'
 
 const DEFAULT_STATE = {
   options: {},
@@ -20,11 +20,16 @@ export const storeFilterableTable = {
 
   getters: {
     modalContent: state => id => {
-      console.log(state.tables[id].modalContent)
       return state.tables[id].modalContent
     },
     options: state => id => {
       return state.tables[id].options
+    },
+    getRequestedPage: state => id => {
+      return state.tables[id].requestedPage
+    },
+    getSelectedFilterOptions: state => id => {
+      return state.tables[id].selectedFilterOptions
     },
     tableCount: state => state.tableCount,
   },
@@ -45,8 +50,6 @@ export const storeFilterableTable = {
       commit('incrementTableCount')
     },
     setFilterOptions ({ commit }, obj) {
-      console.log('setFilterOptions', obj.tableId)
-      console.log('setFilterOptions', obj.filterOptions)
       commit('setFilterOptions', obj)
     },
     updateModal ({ commit }, obj) {
@@ -55,7 +58,9 @@ export const storeFilterableTable = {
     updateOptions ({ commit }, options) {
       commit('updateOptions', options)
     },
-    
+    updateRequestedPage ({ commit }, obj) {
+      commit('updateRequestedPage', obj)
+    }
   },
   
   mutations: {
@@ -69,21 +74,13 @@ export const storeFilterableTable = {
       state.tables[obj.tableId].selectedFilterOptions = cloneDeep(obj.filterOptions)
     },
     updateFilterOptions (state, obj) {
-      // const selectedFilterOptions = cloneDeep(state.tables[obj.tableId].selectedFilterOptions)
+      state.tables[obj.tableId].selectedFilterOptions.map(filter => {
+        if(filter.name == obj.newOptions.name) {
+          filter.options = obj.newOptions.options
+        }
 
-      // // find the correct filter to update
-      // selectedFilterOptions.forEach(filter => {
-      //   if(filter.name == obj.newOptions.filter){
-
-      //     // replace filter options array with newOptions array
-      //     filter.options = obj.newOptions.options
-      //   }
-      // })
-
-      state.tables[obj.tableId].selectedFilterOptions = cloneDeep(merge(state.tables[obj.tableId].selectedFilterOptions, obj.newOptions))
-      console.log(obj.newOptions)
-      console.log(state.tables[obj.tableId].selectedFilterOptions)
-      
+        return filter
+      })
     },
     updateOptions (state, obj) {
       state.tables[obj.id].options = cloneDeep(obj.options)
@@ -94,12 +91,6 @@ export const storeFilterableTable = {
     updateRequestedPage (state, obj) {
       state.tables[obj.tableId].requestedPage = obj.requestedPage
     },
-
-
-
-
-    
-
     updateTotalItemsOnCurrentPage (state, total) {
       state.totalItemsOnCurrentPage = total
     },

@@ -51,7 +51,7 @@ import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
 
 import { mapState } from 'vuex'
-import { mapGetters } from 'vuex'
+// import { mapGetters } from 'vuex'
 
 export default {
   name: 'FilterableTable',
@@ -95,14 +95,17 @@ export default {
       }
     },
     ...mapState({
-      counter: state => state.filterableTable.counter
+      tableCount: state => state.filterableTable.tableCount
     }),
-    ...mapGetters({
-      tableCount: 'filterableTable/tableCount'
-    }),
-    config() {
+    config () {
       return this.$store.getters['filterableTable/options'](this.id)
-    } 
+    },
+    requestedPage () {
+      return this.$store.getters['filterableTable/getRequestedPage'](this.id)
+    },
+    selectedFilterOptions () {
+      return this.$store.getters['filterableTable/getSelectedFilterOptions'](this.id)
+    }
   },
 
   created () {
@@ -119,13 +122,34 @@ export default {
     }
 
     this.$root.$on('getNewItems', this.getNewItems)
+
+    this.createSelectedFilterOptions()
   },
 
   methods: {
+    createSelectedFilterOptions () {
+      // create an empty array for each filter
+      const array = this.filters.map(filter => {
+        if (filter.name !== undefined && filter.options.length > 0) {
+          return {
+            name: filter.name,
+            options: [],
+            type: filter.type
+          }
+        }
+      })
+      
+      const obj = {
+        tableId: this.id,
+        filterOptions: array
+      }
+
+      this.$store.dispatch('filterableTable/setFilterOptions', obj)
+    },
     getNewItems () {
       let data = {
-        requested_page: this.$store.state.pame.requestedPage,
-        filters: this.$store.state.pame.selectedFilterOptions
+        requested_page: this.requestedPage,
+        filters: this.selectedFilterOptions
       }
 
       setAxiosHeaders()

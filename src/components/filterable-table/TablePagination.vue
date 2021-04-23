@@ -118,8 +118,13 @@ export default {
       // only change the page if the button is active
       if (isActive) {
         const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
+        
+        const obj = { 
+          tableId: this.tableId,
+          requestedPage: newPage 
+        }
 
-        this.$store.commit('updateRequestedPage', newPage)
+        this.$store.dispatch('filterableTable/updateRequestedPage', obj)
         this.$emit('updated:page')
       }
     }

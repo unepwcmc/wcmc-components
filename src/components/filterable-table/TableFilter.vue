@@ -210,16 +210,16 @@
         const obj = {
           tableId: this.tableId,
           newOptions: {
-            filter: this.name,
+            name: this.name,
             options: this.activeOptions
           },
           requestedPage: 1
         }
-
+        
         this.$store.dispatch('filterableTable/applyNewFilterOptions', obj)
         this.$root.$emit('getNewItems')
 
-        //TODO
+        //TODO - sort out tracking
         // const eventLabel = `Page: PAME - Filter title: ${this.title} - Button: Apply`
         // this.$ga.event('Button', 'click', eventLabel)
       }
