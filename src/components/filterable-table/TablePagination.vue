@@ -134,6 +134,8 @@ export default {
 
 <style lang="scss" scoped>
 .pagination__content {
+  margin-top: rem-calc(16);
+
   align-items: center;
   display: flex;
   justify-items: flex-end;

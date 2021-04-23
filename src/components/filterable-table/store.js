@@ -1,5 +1,4 @@
 import { cloneDeep } from 'lodash'
-// import { mergeWith } from 'lodash'
 
 const DEFAULT_STATE = {
   options: {},
@@ -30,8 +29,7 @@ export const storeFilterableTable = {
     },
     getSelectedFilterOptions: state => id => {
       return state.tables[id].selectedFilterOptions
-    },
-    tableCount: state => state.tableCount,
+    }
   },
 
   actions: {
@@ -93,30 +91,6 @@ export const storeFilterableTable = {
     },
     updateTotalItemsOnCurrentPage (state, total) {
       state.totalItemsOnCurrentPage = total
-    },
-
-    
-
-    
-
-    clearFilterOptions (state) {
-      state.selectedFilterOptions.forEach(filter => {
-        filter.options = []
-      })
-    },
-
-    removeFilterOption (state, removeOption) {
-      state.selectedFilterOptions.forEach(filter => {
-        if(filter.name == removeOption.name){ 
-          filter.options.forEach(option => {
-            if(option == removeOption.option){
-              const index = filter.options.indexOf(removeOption.option)
-
-              filter.options.splice(index, 1)
-            }
-          })
-        }
-      })
     },
     updateSortDirection (state, direction) {
       state.sortDirection = direction
