@@ -11,7 +11,9 @@
     />
 
     <table-download 
+      v-if="endpointDownload"
       class="filter__button-download"  
+      :endpoint="this.endpointDownload"
       :tableId="tableId"
       :total-items="totalItems" 
     />
@@ -31,6 +33,9 @@
     },
 
     props: {
+      endpointDownload: {
+        type: String
+      },
       filters: {
         required: true,
         type: Array

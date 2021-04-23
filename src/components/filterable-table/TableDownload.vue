@@ -9,7 +9,8 @@
 </template>
 
 <script>
-// import axios from 'axios'
+import axios from 'axios'
+import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
 export default {
   name: 'TableDownload',
@@ -32,6 +33,9 @@ export default {
     cssVariables () {
       return {
         '--bg-color'      : this.config.download.bgColor,
+        '--bg-color-hover': this.config.download.bgColorHover,
+        '--border-color'      : this.config.download.borderColor,
+        '--border-color-hover': this.config.download.borderColorHover,
         '--color'         : this.config.download.color,
         '--height'        : this.config.download.height,
         '--icon-fill'     : this.config.download.iconFill,
@@ -41,37 +45,43 @@ export default {
     },
     noResults () {
       return this.totalItems == 0
+    },
+    selectedFilterOptions () {
+      return this.$store.getters['filterableTable/getSelectedFilterOptions'](this.tableId)
     }
   },
 
   methods: {
     download () {
+      setAxiosHeaders('download')
+
       // const csrf = document.querySelectorAll('meta[name="csrf-token"]')[0].
       // getAttribute('content'),
-        // const data = this.$store.state.pame.selectedFilterOptions,
-        // const config = {
-        //   headers: {
-        //     'X-CSRF-Token': csrf,
-        //     'Accept': 'text/csv',
-        //     'responseType': 'blob'
-        //   }
-        // }
-
+      
+      const data = this.selectedFilterOptions
+      
+      // const config = {
+      //     headers: {
+      //       'Accept': 'text/csv',
+      //       'responseType': 'blob'
+      //     }
+      //   }
       // axios.post('/pame/download', data, config)
-      //   .then((response) => {
-      //     // content-disposition looks something like: 'attachment; filename="the_file_name_here.csv"
-      //     // so splitting the string by 'filename=" will leave us with ['attachemnt;', 'the_file_name_here.csv"']
-      //     // we then get the last item and split it further by the the remaining '"' to ensure anything after that is gone.
-      //     // Finally we get the first element of that split.
-      //     const filename = response.headers['content-disposition'].split('filename\="')[1].split('\"')[0]
+      axios.post(this.endpoint, data)
+        .then((response) => {
+          // content-disposition looks something like: 'attachment; filename="the_file_name_here.csv"
+          // so splitting the string by 'filename=" will leave us with ['attachemnt;', 'the_file_name_here.csv"']
+          // we then get the last item and split it further by the the remaining '"' to ensure anything after that is gone.
+          // Finally we get the first element of that split.
+          const filename = response.headers['content-disposition'].split('filename="')[1].split('"')[0]
 
-      //     this.createBlob(filename, response.data)
+          this.createBlob(filename, response.data)
 
-      //     this.$ga.event('Button', 'click', 'PAME - CSV download')
-      //   })
-      //   .catch(function (error) {
-      //     console.log(error)
-      //   })
+          // this.$ga.event('Button', 'click', 'PAME - CSV download')
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
 
     createBlob (filename, data) {
@@ -104,6 +114,7 @@ export default {
     },
 
     simulateClick () {
+      //TODO check if this is needed
       // created because standard .click() doesn't work in Firefox
       // const event = new MouseEvent('click', {
       //   bubbles: true,
@@ -121,13 +132,15 @@ export default {
 .button {
   @include button-basic;
   background-color: var(--bg-color);
+  border-color: var(--border-color);
   color: var(--color);
   height: var(--height);
   padding-left: var(--padding-left);
   padding-right: var(--padding-right);
 
   &:hover {
-
+    background-color: var(--bg-color-hover);
+    border-color: var(--border-color-hover);
   }
 }
 

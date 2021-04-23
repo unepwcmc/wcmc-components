@@ -189,8 +189,8 @@
           child.isSelected = this.activeOptions.includes(child.option) ? true : false
         })
 
-        const eventLabel = `Page: PAME - Filter title: ${this.title} - Button: cancel`
-        this.$ga.event('Button', 'click', eventLabel)
+        // const eventLabel = `Page: PAME - Filter title: ${this.title} - Button: cancel`
+        // this.$ga.event('Button', 'click', eventLabel)
       },
 
       clear () {
@@ -199,8 +199,9 @@
           child.isSelected = false
         })
 
-        const eventLabel = `Page: PAME - Filter title: ${this.title} - Button: clear`
-        this.$ga.event('Button', 'click', eventLabel)
+        //todo sort out event tracking
+        // const eventLabel = `Page: PAME - Filter title: ${this.title} - Button: clear`
+        // this.$ga.event('Button', 'click', eventLabel)
       },
 
       apply () {

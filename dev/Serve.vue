@@ -26,6 +26,7 @@
 
     <!-- TH Tools Inventory -->
     <filterable-table
+      endpoint-download="/get-button-to-show"
       :options="{ 
         filters: {
           buttonApply: {

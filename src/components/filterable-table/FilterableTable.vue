@@ -1,8 +1,9 @@
 <template>
   <div :style="cssVariables">
     <table-filters 
+      :endpoint-download="endpointDownload"
       :filters="filters" 
-      :tableId="id"
+      :table-id="id"
       :total-items="totalItems"
     />
 
@@ -10,21 +11,21 @@
       <table-head 
         :headings="attributes"
         :options="optionsMerged"
-        :tableId="id"
+        :table-id="id"
       />
     </div>
     <div class="table-body">
       <table-row v-for="item in items"
         :key="item._uid"
         :item="item" 
-        :tableId="id"
+        :table-id="id"
       />
     </div>
   
     <table-pagination 
       :current-page="currentPage" 
       :items-per-page="itemsPerPage" 
-      :tableId="id"
+      :table-id="id"
       :total-items="totalItems" 
       :total-pages="totalPages"
       v-on:updated:page="getNewItems"
@@ -51,7 +52,6 @@ import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
 
 import { mapState } from 'vuex'
-// import { mapGetters } from 'vuex'
 
 export default {
   name: 'FilterableTable',
@@ -66,6 +66,9 @@ export default {
 
   props: {
     endpoint: {
+      type: String
+    },
+    endpointDownload: {
       type: String
     },
     options: {
