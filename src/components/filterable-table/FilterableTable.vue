@@ -39,17 +39,17 @@
 
 <script>
 import axios from 'axios'
-import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
+import { setAxiosHeaders } from '../helpers/helpers-axios.js'
 
-import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
+import { DEFAULT_OPTIONS, DUMMY_DATA } from './filterable-table/constants.js'
 
 import { merge } from 'lodash'
 
-import TableHead from './TableHead.vue'
-import TableFilters from './TableFilters.vue'
-import TableModal from './TableModal.vue'
-import TablePagination from './TablePagination.vue'
-import TableRow from './TableRow.vue'
+import TableHead from './filterable-table/TableHead.vue'
+import TableFilters from './filterable-table/TableFilters.vue'
+import TableModal from './filterable-table/TableModal.vue'
+import TablePagination from './filterable-table/TablePagination.vue'
+import TableRow from './filterable-table/TableRow.vue'
 
 import { mapState } from 'vuex'
 
@@ -75,9 +75,6 @@ export default {
       type: String
     },
     filterArray: {
-      type: Array
-    },
-    paginatedRows: {
       type: Array
     },
     options: {
@@ -130,16 +127,20 @@ export default {
     if(this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
-      this.items = this.dummyData.items
     } else {
       this.headings = this.attributes
       this.filters = this.filterArray
-      this.items = this.paginatedRows
     }
 
     this.$root.$on('getNewItems', this.getNewItems)
 
     this.createSelectedFilterOptions()
+
+    if(this.endpoint == undefined) {
+      this.items = this.dummyData.items
+    } else {
+      this.getNewItems()
+    }
   },
 
   methods: {
@@ -167,6 +168,8 @@ export default {
         requested_page: this.requestedPage,
         filters: this.selectedFilterOptions
       }
+
+      console.log('data', data)
 
       setAxiosHeaders(axios)
 

@@ -4,10 +4,10 @@
     :style="cssVariables"
   >
     <div 
+      v-show="haveResults"
       class="pagination__content"
-      v-if="haveResults"
     >
-      <span class="bold">
+      <span class="pagination__numbers">
         {{ config.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ config.pagination.textItems }}
       </span>
 
@@ -29,9 +29,12 @@
       </button>
     </div>
 
-    <div v-else class="left">
-      <p>There are no evaluations matching the selected filters options.</p>
-    </div>
+    <p 
+      v-show="!haveResults"
+      class="pagination__message"
+    >
+      There are no evaluations matching the selected filters options.
+    </p>
   </div>
 </template>
 
@@ -110,6 +113,7 @@ export default {
     },
     haveResults () {
       return this.totalItems > 0
+      // return false
     }
   },
 
@@ -133,18 +137,24 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pagination__content {
-  margin-top: rem-calc(16);
+.pagination {
+  &__content {
+    margin-top: rem-calc(16);
 
-  align-items: center;
-  display: flex;
-  justify-items: flex-end;
-}
+    align-items: center;
+    display: flex;
+    justify-items: flex-end;
+  }
 
-.no-results {
-  font-weight: bold;
-  margin: rem-calc(60 0);
-  text-align: center;
+  &__numbers {
+    margin-left: auto;
+  }
+
+  &__message {
+    font-weight: bold;
+    margin: rem-calc(60 0);
+    text-align: center;
+  }
 }
 
 $buttons: ('next', 'previous', '');

@@ -5,6 +5,7 @@
 </template>
 <script>
 export default {
+  name: 'DummyButton',
   computed: {
     times () {
       return this.$store.getters['dummyButton/counter'] > 1
