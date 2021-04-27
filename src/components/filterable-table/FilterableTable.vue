@@ -9,7 +9,7 @@
 
     <div class="table-head">
       <table-head 
-        :headings="attributes"
+        :headings="headings"
         :options="optionsMerged"
         :table-id="id"
       />
@@ -65,11 +65,20 @@ export default {
   },
 
   props: {
+    attributes: {
+      type: Array,
+    },
     endpoint: {
       type: String
     },
     endpointDownload: {
       type: String
+    },
+    filterArray: {
+      type: Array
+    },
+    paginatedRows: {
+      type: Array
     },
     options: {
       type: Object
@@ -78,7 +87,7 @@ export default {
 
   data () {
     return {
-      attributes: [],
+      headings: [],
       currentPage: 1,
       dummyData: DUMMY_DATA,
       filters: [],
@@ -119,9 +128,13 @@ export default {
 
   mounted() {
     if(this.endpoint == undefined) {
-      this.attributes = this.dummyData.attributes
+      this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
       this.items = this.dummyData.items
+    } else {
+      this.headings = this.attributes
+      this.filters = this.filterArray
+      this.items = this.paginatedRows
     }
 
     this.$root.$on('getNewItems', this.getNewItems)
