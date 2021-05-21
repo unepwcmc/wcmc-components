@@ -39,17 +39,17 @@
 
 <script>
 import axios from 'axios'
-import { setAxiosHeaders } from '../helpers/helpers-axios.js'
+import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
-import { DEFAULT_OPTIONS, DUMMY_DATA } from './filterable-table/constants.js'
+import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 
 import { merge } from 'lodash'
 
-import TableHead from './filterable-table/TableHead.vue'
-import TableFilters from './filterable-table/TableFilters.vue'
-import TableModal from './filterable-table/TableModal.vue'
-import TablePagination from './filterable-table/TablePagination.vue'
-import TableRow from './filterable-table/TableRow.vue'
+import TableHead from './TableHead.vue'
+import TableFilters from './TableFilters.vue'
+import TableModal from './TableModal.vue'
+import TablePagination from './TablePagination.vue'
+import TableRow from './TableRow.vue'
 
 import { mapState } from 'vuex'
 
