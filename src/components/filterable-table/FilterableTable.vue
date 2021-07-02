@@ -170,7 +170,7 @@ export default {
       let data = {
         filters: this.selectedFilterOptions,
         items_per_page: this.itemsPerPage,
-        requested_page: this.requestedPage
+        requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id)
       }
 
       setAxiosHeaders(axios)
@@ -185,7 +185,7 @@ export default {
     },
     importUserOptions () {
       const obj = {
-        id: this.id,
+        tableId: this.id,
         options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
       }
 

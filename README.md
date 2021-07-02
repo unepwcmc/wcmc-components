@@ -13,10 +13,10 @@ yarn serve
 #### Pull a component into a project locally
 - Clone this repo
 - Run `yarn build-lib` to create the library files in the dist folder
+- Run `yarn link` to enable you to sync this repo to another
 
 In your new project do the following:
-- Add `"wcmc-components": "../wcmc-components",` to your package.json
-- Run `yarn install`
+- Run `yarn link "wcmc-components"`
 - In your new project add `import FilterableTable from 'wcmc-components'`
 - In your new project add `Vue.use(FilterableTable, { store })`
 

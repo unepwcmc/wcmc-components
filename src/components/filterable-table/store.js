@@ -81,13 +81,13 @@ export const storeFilterableTable = {
       })
     },
     updateOptions (state, obj) {
-      state.tables[obj.id].options = cloneDeep(obj.options)
+      state.tables[obj.tableId].options = cloneDeep(obj.options)
     },
     updateModal (state, obj) {
-      state.tables[obj.id].modalContent = cloneDeep(obj.content)
+      state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
     },
     updateRequestedPage (state, obj) {
-      state.tables[obj.tableId].requestedPage = obj.requestedPage
+      state.tables[obj.tableId].requestedPage = cloneDeep(obj.requestedPage)
     },
     updateTotalItemsOnCurrentPage (state, total) {
       state.totalItemsOnCurrentPage = total

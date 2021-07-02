@@ -75,7 +75,7 @@ export default {
 
     openModal () {
       const obj = {
-        id: this.tableId,
+        tableId: this.tableId,
         content: this.item
       }
 
