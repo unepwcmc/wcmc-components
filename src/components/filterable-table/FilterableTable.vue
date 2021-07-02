@@ -90,7 +90,10 @@ export default {
       filters: [],
       id: '',
       items: [],
-      itemsPerPage: 2,
+      itemsPerPage: {
+        default: 10,
+        type: Number
+      },
       optionsMerged: {},
       totalItems: 5,
       totalPages: 3
@@ -165,8 +168,9 @@ export default {
     },
     getNewItems () {
       let data = {
-        requested_page: this.requestedPage,
-        filters: this.selectedFilterOptions
+        filters: this.selectedFilterOptions,
+        items_per_page: this.itemsPerPage,
+        requested_page: this.requestedPage
       }
 
       console.log('data', data)
