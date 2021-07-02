@@ -77,6 +77,10 @@ export default {
     filterArray: {
       type: Array
     },
+    itemsPerPage: {
+      default: 10,
+      type: Number
+    },
     options: {
       type: Object
     }
@@ -90,10 +94,6 @@ export default {
       filters: [],
       id: '',
       items: [],
-      itemsPerPage: {
-        default: 10,
-        type: Number
-      },
       optionsMerged: {},
       totalItems: 5,
       totalPages: 3
