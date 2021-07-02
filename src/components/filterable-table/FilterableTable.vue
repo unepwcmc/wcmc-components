@@ -173,8 +173,6 @@ export default {
         requested_page: this.requestedPage
       }
 
-      console.log('data', data)
-
       setAxiosHeaders(axios)
 
       axios.post(this.endpoint, data)
