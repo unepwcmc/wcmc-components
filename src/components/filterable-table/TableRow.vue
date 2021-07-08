@@ -4,14 +4,16 @@
     :style="cssVariables"
     @click="openModal()"
   >
-    <p
-      v-for="(cell, index) in item" 
-      :key="index"
-      class="cell"
-    >
-      <span class="cell__name">{{ cell.name }}:</span>
-      {{ cell.value }}
-    </p>
+    <template v-for="(cell, index) in item">
+      <p
+        v-if="cell.showInTable"
+        :key="index"
+        class="cell"
+      >
+        <span class="cell__name">{{ cell.name }}:</span>
+        {{ cell.value }}
+      </p>
+    </template>
     <!-- <p class="table__cell">{{ item.designation }}</p>
     <p class="table__cell">
       <template v-if="item.restricted">{{ item.wdpa_id }}</template>
