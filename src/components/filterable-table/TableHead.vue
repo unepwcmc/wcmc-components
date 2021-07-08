@@ -11,6 +11,11 @@
         :heading="heading"
         :tableId="tableId"
       />
+      
+      <!-- empty heading for 'more content' button -->
+      <table-heading
+        :tableId="tableId"
+      />
     </div>
   </div>
 </template>
@@ -44,7 +49,7 @@ export default {
   computed: {
     cssVariables () {
       return {
-        '--columns': Object.keys(this.headings).length
+        '--columns': Object.keys(this.headings).length + 1
       }
     }
   },

@@ -20,14 +20,16 @@
           {{ config.modal.title }}
         </h2>
 
-        <p 
-          v-for="(item, index) in modalContent"
-          :key="index"
-          class=""
-        >
-          <span class="modal__item-name">{{ item.name }}:</span> 
-          {{ item.value }}
-        </p>
+        <template v-for="(item, index) in modalContent">
+          <p 
+            v-if="item.showInModal"
+            :key="index"
+            class=""
+          >
+            <span class="modal__item-name">{{ item.name }}:</span> 
+            {{ item.value }}
+          </p>
+        </template>
       </div>
     </div>
   </div>

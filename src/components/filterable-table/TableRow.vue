@@ -2,9 +2,8 @@
   <div 
     class="row"
     :style="cssVariables"
-    @click="openModal()"
   >
-    <template v-for="(cell, index) in item">
+    <template v-for="(cell, index) in item.cells">
       <p
         v-if="cell.showInTable"
         :key="index"
@@ -14,6 +13,21 @@
         {{ cell.value }}
       </p>
     </template>
+
+    <p
+      class="cell"
+    >
+      <a 
+        v-if="item.pageUrl"
+        class="cell__button"
+        :href="item.pageUrl"
+      />
+      <button 
+        v-else 
+        class="cell__button"
+        @click="openModal"
+      />
+    </p>
   </div>
 </template>
 
@@ -40,7 +54,7 @@ export default {
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
         '--border-width': this.config.rows.borderWidth,
-        '--columns': Object.keys(this.item).length
+        '--columns': Object.keys(this.item.cells).length + 1
       }
     },
     projectTitle () {
@@ -59,7 +73,7 @@ export default {
     openModal () {
       const obj = {
         tableId: this.tableId,
-        content: this.item
+        content: this.item.cells
       }
 
       this.$store.dispatch('filterableTable/updateModal', obj)
@@ -142,6 +156,13 @@ export default {
       margin-right: rem-calc(6);
 
       @include breakpoint($medium){ display: none; }
+    }
+
+    &__button {
+      background-color: red;
+      width: rem-calc(20); height: rem-calc(20);
+
+      display: block;
     }
   }
 </style>

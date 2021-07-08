@@ -3,14 +3,16 @@
     class="cell flex flex-h-center"
     :style="cssVariables" 
   >
-    <span class="title">{{ heading.title }}</span>
+    <template v-if="heading">
+      <span class="title">{{ heading.title }}</span>
 
-    <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
+      <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
-    <div v-if="hasOptions" class="sorting" @click="sort()">
-      <span alt="Sort results" class="sort--ascending"></span>
-      <span alt="Sort results" class="sort--descending"></span>
-    </div>
+      <div v-if="hasOptions" class="sorting" @click="sort()">
+        <span alt="Sort results" class="sort--ascending"></span>
+        <span alt="Sort results" class="sort--descending"></span>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -24,7 +26,6 @@ export default {
 
   props: {
     heading: {
-      required: true,
       type: Object
     },
     tableId: {

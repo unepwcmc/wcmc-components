@@ -137,137 +137,146 @@ export const DUMMY_DATA = {
     }
   ],
   items: [
-    [
-      {
-        name: "Attribute 1",
-        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 2",
-        value: "Lorem ipsum",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 3",
-        value: 1,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 4",
-        value: "Lorem",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 5",
-        value: "Lorem ipsum dolor sit amet, consectetur",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 6",
-        value: 1,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 7",
-        value: "Lorem ipsum dolor sit",
-        showInTable: true,
-        showInModal: true
-      }, 
-    ],
-    [
-      {
-        name: "Attribute 1",
-        value: "1",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 2",
-        value: "Lorem ipsum dolor sit",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 3",
-        value: 3,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 4",
-        value: "Lorem ipsum",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 5",
-        value: "Lorem ipsum dolor sit",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 6",
-        value: 6,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 7",
-        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        showInTable: true,
-        showInModal: true
-      }, 
-    ],
-    [
-      {
-        name: "Attribute 1",
-        value: "Lorem ipsum",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 2",
-        value: "Lorem ipsum dolor sit amet, consectetur",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 3",
-        value: 3,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 4",
-        value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 5",
-        value: "Lorem ipsum dolor sit amet, consectetur",
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 6",
-        value: 6,
-        showInTable: true,
-        showInModal: true
-      }, 
-      {
-        name: "Attribute 7",
-        value: "Lorem Ipsum, lorem ipsum",
-        showInTable: true,
-        showInModal: true
-      }, 
-    ]
+    {
+      pageUrl: "http://google.com",
+      cells: [
+        {
+          name: "Attribute 1",
+          value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 2",
+          value: "Lorem ipsum",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 3",
+          value: 1,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 4",
+          value: "Lorem",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 5",
+          value: "Lorem ipsum dolor sit amet, consectetur",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 6",
+          value: 1,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 7",
+          value: "Lorem ipsum dolor sit",
+          showInTable: true,
+          showInModal: true
+        }, 
+      ]
+    },
+    {
+      pageUrl: '',  
+      cells:[
+        {
+          name: "Attribute 1",
+          value: "1",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 2",
+          value: "Lorem ipsum dolor sit",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 3",
+          value: 3,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 4",
+          value: "Lorem ipsum",
+          showInTable: true,
+          showInModal: true
+        },
+        {
+          name: "Attribute 5",
+          value: "Lorem ipsum dolor sit",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 6",
+          value: 6,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 7",
+          value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          showInTable: true,
+          showInModal: true
+        }, 
+      ],
+    },
+    {
+      pageUrl: "",
+      cells: [
+        {
+          name: "Attribute 1",
+          value: "Lorem ipsum",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 2",
+          value: "Lorem ipsum dolor sit amet, consectetur",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 3",
+          value: 3,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 4",
+          value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 5",
+          value: "Lorem ipsum dolor sit amet, consectetur",
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 6",
+          value: 6,
+          showInTable: true,
+          showInModal: true
+        }, 
+        {
+          name: "Attribute 7",
+          value: "Lorem Ipsum, lorem ipsum",
+          showInTable: true,
+          showInModal: true
+        }, 
+      ]
+    }
   ]
 }
