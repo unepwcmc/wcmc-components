@@ -14,25 +14,6 @@
         {{ cell.value }}
       </p>
     </template>
-    <!-- <p class="table__cell">{{ item.designation }}</p>
-    <p class="table__cell">
-      <template v-if="item.restricted">{{ item.wdpa_id }}</template>
-      <a v-else :href="item.wdpa_url" title="View protected area on Protected Planet" target="_blank">{{ item.wdpa_id }}</a>
-    </p>
-    <p class="table__cell">{{ item.id }}</p>
-    <p class="table__cell">{{ checkForMultiples('iso3') }}</p>
-    <p class="table__cell">{{ item.methodology }}</p>
-    <p class="table__cell">{{ item.year }}</p>
-    <p 
-      v-html="assessmentUrl(item.url)"
-      class="table__cell"
-    />
-    <p 
-      @click="openModal()" 
-      class="table__cell table__cell-modal-trigger"
-    >
-      {{ item.metadata_id }}
-    </p> -->
   </div>
 </template>
 
