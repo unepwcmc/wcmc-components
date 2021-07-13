@@ -109,6 +109,7 @@ export const DEFAULT_OPTIONS = {
     borderColor: '#ffffff',
     borderStyle: 'solid',
     borderWidth: '1px',
+    buttonHoverColor: UNEP_WCMC_BLUE
   }
 }
 

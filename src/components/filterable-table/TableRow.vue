@@ -64,6 +64,7 @@ export default {
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
         '--border-width': this.config.rows.borderWidth,
+        '--button-hover-color': this.config.rows.buttonHoverColor,
         '--columns': Object.keys(this.item.cells).length + 1
       }
     },
@@ -180,8 +181,7 @@ export default {
       cursor: pointer;
 
       ::v-deep .svg-arrow .svg__circle {
-        // fill: var(--svg-hover-color);
-        fill: red;
+        fill: var(--button-hover-color);
       }
     }
   }
