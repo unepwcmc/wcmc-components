@@ -1,3 +1,6 @@
+import { polyfill } from 'es6-promise'
+polyfill()
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 
