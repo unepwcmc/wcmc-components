@@ -21,21 +21,31 @@
     >
       <a 
         v-if="item.pageUrl"
-        class="cell__button"
+        class="button"
         :href="item.pageUrl"
-      />
+      >
+        <svg-arrow class="button__svg" />
+      </a>
+
       <button 
         v-else 
-        class="cell__button"
+        class="button"
         @click="openModal"
-      />
+      >
+        <svg-arrow class="button__svg" />
+      </button>
     </p>
   </div>
 </template>
 
 <script>
+import SvgArrow from './svgs/SvgArrow.vue'
+
 export default {
   name: "row",
+
+  components: { SvgArrow },
+
   props: {
     item: {
       required: true,
@@ -58,6 +68,7 @@ export default {
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
         '--border-width': this.config.rows.borderWidth,
+        '--button-hover-color': this.config.rows.buttonHoverColor
       }
     },
     gridColumnsCss () {
@@ -176,12 +187,22 @@ export default {
 
       @include breakpoint($medium){ display: none; }
     }
+  }
 
-    &__button {
-      background-color: red;
-      width: rem-calc(20); height: rem-calc(20);
+  .button {
+    background: transparent;
+    border: none;
+    padding: 0;
 
-      display: block;
+    display: block;
+
+    &:hover {
+      cursor: pointer;
+
+      ::v-deep .svg-arrow .svg__circle {
+        fill: #009FE3; // IE11
+        fill: var(--button-hover-color);
+      }
     }
   }
 </style>
