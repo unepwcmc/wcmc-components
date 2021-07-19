@@ -57,7 +57,7 @@ export const DEFAULT_OPTIONS = {
       textTransform: 'capitalize'
     },
     filterOptions: {
-      borderRadius: '0',
+      // borderRadius: '0',
       tickFill: UNEP_WCMC_BLUE
     },
     trigger: {

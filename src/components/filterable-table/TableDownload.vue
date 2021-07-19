@@ -131,20 +131,29 @@ export default {
 <style lang="scss" scoped>
 .button {
   @include button-basic;
+  background-color: #aaa; // IE11
   background-color: var(--bg-color);
+  border-color: #009FE3; // IE11
   border-color: var(--border-color);
+  color: #fff; // IE11
   color: var(--color);
+  height: '50px'; // IE11
   height: var(--height);
+  padding-left: '24px'; // IE11
   padding-left: var(--padding-left);
+  padding-right: '24px'; // IE11
   padding-right: var(--padding-right);
 
   &:hover {
+    background-color: #009FE3; // IE11
     background-color: var(--bg-color-hover);
+    border-color: #009FE3; // IE11
     border-color: var(--border-color-hover);
   }
 }
 
 ::v-deep .svg--download {
+  fill: '#fff'; // IE11
   fill: var(--icon-fill);
 }
 </style>

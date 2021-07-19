@@ -162,7 +162,9 @@ $buttons: ('next', 'previous', '');
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
     @include button-basic;
+    background-color: #009FE3; // IE11
     background-color: var(--button-bg-color);
+    border-radius: 0; // IE11
     border-radius: var(--button-border-radius);
     padding: 0;
     width: 50px; height: 50px;
@@ -178,6 +180,7 @@ $buttons: ('next', 'previous', '');
     }
 
     &.disabled { 
+      background-color: #ccc; // IE11 
       background-color: var(--button-bg-color-disabled); 
       cursor: disabled;
     }
@@ -185,6 +188,7 @@ $buttons: ('next', 'previous', '');
 }
 
 ::v-deep .svg-chevron {
+  fill: #fff; // IE11
   fill: var(--svg-chevron-fill);
 }
 </style>

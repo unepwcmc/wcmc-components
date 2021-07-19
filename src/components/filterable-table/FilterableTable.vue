@@ -209,6 +209,7 @@ export default {
 
 .table {
   font-size: rem-calc(60);
+  font-family: 'Arial, sans-serif'; // IE11
   font-family: var(--font-family);
 }
 </style>

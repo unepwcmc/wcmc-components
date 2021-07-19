@@ -1,13 +1,14 @@
 <template>
   <div 
     class="row"
-    :style="cssVariables"
+    :style="cssVariablesAndStyles"
   >
     <template v-for="(cell, index) in item.cells">
       <p
         v-if="cell.showInTable"
         :key="index"
         class="cell"
+        :style="`grid-column: ${index + 1}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
         {{ cell.value }}
@@ -16,6 +17,7 @@
 
     <p
       class="cell"
+      :style="`grid-column: ${columnsCount}`"
     >
       <a 
         v-if="item.pageUrl"
@@ -37,7 +39,7 @@ export default {
   props: {
     item: {
       required: true,
-      type: Array,
+      type: Object,
     },
     tableId: {
       required: true,
@@ -46,16 +48,29 @@ export default {
   },
 
   computed: {
-    cssVariables () {
+    cssVariablesAndStyles () {
       return {
+        'grid-template-columns': `repeat(${this.columnsCount}, 1fr)`,
+        'grid-columns': this.gridColumnsCss, // IE11
         '--bg-color-1': this.config.rows.bgColor1,
         '--bg-color-2': this.config.rows.bgColor2,
         '--bg-color-mobile': this.config.rows.bgColorMobile,
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
         '--border-width': this.config.rows.borderWidth,
-        '--columns': Object.keys(this.item.cells).length + 1
       }
+    },
+    gridColumnsCss () {
+      const cols = []
+
+      for (let i=0; i < this.columnsCount; i++) {
+        cols.push('1fr')
+      }
+
+      return cols.join(' ')
+    },
+    columnsCount () {
+      return Object.keys(this.item.cells).length + 1
     },
     projectTitle () {
       return this.trim(this.item.title)
@@ -113,6 +128,7 @@ export default {
 
 <style lang="scss" scoped>
   .row {
+    background-color: #efefef; // IE11
     background-color: var(--bg-color-mobile);
     margin-bottom: rem-calc(18);
     padding: rem-calc(6 0);      
@@ -121,17 +137,19 @@ export default {
     flex-direction: column;
 
     @include breakpoint($medium) { 
+      background-color: #ffffff; // IE11
       background-color: var(--bg-color-1);
       margin: 0;
       padding: 0;
 
+      display: -ms-grid; // IE11
       display: grid;
-      grid-template-columns: repeat(var(--columns), 1fr);
     }
 
     &:nth-child(even) { 
       @include breakpoint($medium) { 
-        background-color: var(--bg-color-2); 
+        background-color: #f4f4f4; // IE11
+        background-color: var(--bg-color-2);
       }
     }
   }
@@ -142,6 +160,7 @@ export default {
     width: 100%;
 
     @include breakpoint($medium) {
+      border-left: solid #ffffff 1px; // IE11
       border-left: var(--border-style) var(--border-color) var(--border-width);
       padding: rem-calc(16 14);
       width: auto;
