@@ -102,6 +102,9 @@ export const DEFAULT_OPTIONS = {
     textTitle: '',
     textItems: ''
   },
+  columns: {
+    widths: [2, 2, 1, 1, 1, 1, 1, 1], // Length = attributes.length + 1
+  },
   rows: {
     bgColor1: '#ffffff',
     bgColor2: '#f4f4f4',
