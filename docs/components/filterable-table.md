@@ -25,7 +25,6 @@ sidebar: auto
 | `id`            | `string`  |             | `""`          |
 | `items`         | `array`   |             | `[]`          |
 | `itemsPerPage`  | `number`  |             | `2`           |
-| `optionsMerged` | `object`  |             | `{}`          |
 | `totalItems`    | `number`  |             | `5`           |
 | `totalPages`    | `number`  |             | `3`           |
 
