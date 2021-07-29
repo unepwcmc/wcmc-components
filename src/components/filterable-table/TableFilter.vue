@@ -256,13 +256,17 @@ $table-filter-trigger-border-color: black !default;
 .trigger {
   @include button-basic;
   border: solid 1px $table-filter-trigger-border-color;
+  border-radius: 0; // IE11
   border-radius: var(--border-radius);
   color: black;
   cursor: pointer;
   margin: 0;
+  padding-right: 24px; // IE11
   padding-right: var(--padding-right);
+  padding-left: 24px; // IE11
   padding-left: var(--padding-left);
 
+  height: 50px; // IE11
   height: var(--height);
 
   align-items: center;
@@ -274,8 +278,11 @@ $table-filter-trigger-border-color: black !default;
   }
 
   &:hover { 
+    background-color: #333; // IE 11
     background-color: var(--color-bg-hover);
+    border-color: ''; // IE11
     border-color: var(--color-border-hover);
+    color: #fff; // IE11
     color: var(--color-text-hover);
 
     // &:after { background-image: image-url('icons/chevron-white-down.svg'); }
@@ -285,15 +292,18 @@ $table-filter-trigger-border-color: black !default;
     content: '';
     width: rem-calc(8); height: rem-calc(6);
 
-    align-items: vertical;
+    // align-items: vertical;
     right: rem-calc(24);
 
     // @include breakpoint-down($medium) { display: none; }
   }
       
   &.active {
+    background-color: #009FE3; // IE11
     background-color: var(--color-bg-active);
+    border-color: ''; // IE11
     border-color: var(--color-border-active);
+    color: #fff; // IE11
     color: var(--color-text-active);
 
     // &:after,
@@ -301,7 +311,9 @@ $table-filter-trigger-border-color: black !default;
   }
 
   &.has-selected {
+    background-color: #009FE3; // IE11
     background-color: var(--color-bg-selected);
+    color: #fff; // IE11
     color: var(--color-text-selected);
 
     @include breakpoint($small){ padding-right: rem-calc(34); }
@@ -315,18 +327,23 @@ $table-filter-trigger-border-color: black !default;
   display: none;
 
   @include breakpoint($small) {
+    background-color: #fff; // IE11
     background-color: var(--color-text-active);
     border-radius: 100%;
+    color: #009FE3; // IE11
     color: var(--color-bg-active);
     font-size: rem-calc(14);
     line-height: $total-width-mobile;
     text-align: center;
     width: $total-width-mobile; height: $total-width-mobile;
 
-    align-items: vertical;
+    // align-items: vertical;
     display: block;
     position: absolute;
     right: rem-calc(8);
+    top: 50%;
+
+    transform: translateY(-50%);
   }
 
   @include breakpoint($medium){ 
@@ -373,7 +390,7 @@ $table-filter-trigger-border-color: black !default;
     padding: $focus-outline-margin;
     margin-bottom: rem-calc(20);
     max-height: 85vh;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden; //for IE11
     white-space: nowrap; 
 
@@ -406,7 +423,7 @@ $table-filter-trigger-border-color: black !default;
   margin-top: rem-calc(18);
   text-align: right;
 
-  align-items: vertical;
+  // align-items: vertical;
   display: flex;
 }
 
@@ -420,6 +437,23 @@ $buttons: ('apply', 'cancel', 'clear', '');
 
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
+    border-color: #000; // IE11
+    border-radius: 2px; // IE11
+    border-style: solid; // IE11
+    border-width: 2px; // IE11
+    background-color: #fff; // IE11
+    color: #000; // IE11
+    padding-right: 24px; // IE11
+    padding-left: 24px; // IE11
+    text-transform: capitalize; // IE11
+
+    height: 50px; // IE11
+
+    @if nth($buttons, $i) == 'apply' {
+      border-color: #009FE3; // IE11
+      background-color: #009FE3; // IE11
+    }
+
     border-color: var(--#{nth($buttons, $i)}-border-color);
     border-radius: var(--#{nth($buttons, $i)}-border-radius);
     border-style: var(--#{nth($buttons, $i)}-border-style);
@@ -438,7 +472,9 @@ $buttons: ('apply', 'cancel', 'clear', '');
     }
 
     &:hover {
+      background-color: #333; // IE11
       background-color: var(--#{nth($buttons, $i)}-color-bg-hover);
+      color: #fff;  // IE11
       color: var(--#{nth($buttons, $i)}-color-text-hover);
     }
   }

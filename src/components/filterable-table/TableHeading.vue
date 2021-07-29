@@ -67,11 +67,15 @@ export default {
 
 <style lang="scss" scoped>
 .cell {
+  background-color: #000000; // IE11
   background-color: var(--bg-color);
+  border-left: solid #ffffff 1px; // IE11
   border-left: var(--border-style) var(--border-color) var(--border-width);
   color: white;
   font-size: rem-calc(18);
+  font-family: 'Arial, sans-serif'; // IE11
   font-family: var(--font-family);
+  font-weight: normal; // IE11
   font-weight: var(--font-weight);
   height: rem-calc(57);
   padding: rem-calc(8 14);

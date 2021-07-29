@@ -2,19 +2,23 @@
   <div 
     id="sticky" 
     :class="{ 'stuck' : isSticky }"
-    :style="cssVariables"
   >
-    <div class="table-head">
+    <div
+      class="table-head"
+      :style="cssVariables"
+    >
       <table-heading 
-        v-for="heading in headings" 
+        v-for="(heading, n) in headings" 
         :key="heading._uid"
         :heading="heading"
         :tableId="tableId"
+        :style="`grid-column: ${n+1}`"
       />
       
       <!-- empty heading for 'more content' button -->
       <table-heading
         :tableId="tableId"
+        :style="`grid-column: ${columnsCount}`"
       />
     </div>
   </div>
@@ -49,9 +53,22 @@ export default {
   computed: {
     cssVariables () {
       return {
-        '--columns': Object.keys(this.headings).length + 1
+        'grid-template-columns': `repeat(${this.columnsCount}, 1fr)`,
+        'grid-columns': this.gridColumnsCss, // IE11
       }
-    }
+    },
+    gridColumnsCss () {
+      const cols = []
+
+      for (let i=0; i < this.columnsCount; i++) {
+        cols.push('1fr')
+      }
+
+      return cols.join(' ')
+    },
+    columnsCount () {
+      return Object.keys(this.headings).length + 1
+    },
   },
 
   mounted () {
@@ -92,8 +109,8 @@ export default {
     display: none;
 
     @include breakpoint($medium) { 
+      display: -ms-grid; // IE11
       display: grid;
-      grid-template-columns: repeat(var(--columns), 1fr);
     }
   }
 </style>

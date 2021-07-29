@@ -100,6 +100,7 @@ $checkbox-height: rem-calc(22) !default;
 }
 
 ::v-deep .svg-tick {
+  fill: #009FE3; // IE11
   fill: var(--svg-tick-color);
 }
 </style>

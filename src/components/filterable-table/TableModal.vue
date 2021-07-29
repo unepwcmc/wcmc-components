@@ -106,6 +106,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal-wrapper {
+  background-color: rgba(0,0,0,.2); // IE11
   background-color: var(--wrapper-color);
 
   display: none;
@@ -143,7 +144,9 @@ export default {
 
   &__close {
     @include button-basic;
+    background-color: #fff; // IE11
     background-color: var(--close-bg-color);
+    border-radius: 0; // IE11
     border-radius: var(--close-border-radius);
     cursor: pointer;
     width: rem-calc(50); height: rem-calc(50);
@@ -170,6 +173,7 @@ export default {
 }
 
 ::v-deep .svg-cross {
+  fill: #000; // IE11
   fill: var(--svg-cross-color);
 }
 </style>
