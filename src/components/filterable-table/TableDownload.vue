@@ -69,15 +69,14 @@ export default {
       // axios.post('/pame/download', data, config)
       axios.post(this.endpoint, data)
         .then((response) => {
-          // content-disposition looks something like: 'attachment; filename="the_file_name_here.csv"
-          // so splitting the string by 'filename=" will leave us with ['attachemnt;', 'the_file_name_here.csv"']
-          // we then get the last item and split it further by the the remaining '"' to ensure anything after that is gone.
-          // Finally we get the first element of that split.
-          const filename = response.headers['content-disposition'].split('filename="')[1].split('"')[0]
-
-          this.createBlob(filename, response.data)
-
-          // this.$ga.event('Button', 'click', 'PAME - CSV download')
+          try {
+            const filename = response.headers['content-disposition'].match(/filename="([^"]*)"/)[1]
+            
+            this.createBlob(filename, response.data)
+            // this.$ga.event('Button', 'click', 'PAME - CSV download')
+          } catch (e) {
+            throw new TypeError('TableDownload: cannot extract filename from response headers.')
+          }
         })
         .catch(function (error) {
           console.log(error)
