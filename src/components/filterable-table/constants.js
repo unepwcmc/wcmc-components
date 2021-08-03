@@ -2,7 +2,7 @@ const UNEP_WCMC_BLUE = '#009FE3';
 
 export const DEFAULT_OPTIONS = {
   columns: {
-    widths: [2, 2, 1, 1, 1, 1, 1], // widths.length = attributes.length + 1
+    widths: ['1fr', '1fr', '300px', '1fr', '1fr', '1fr', '100px'], // widths.length = attributes.length + 1
   },
   download: {
     bgColor: '#aaa',

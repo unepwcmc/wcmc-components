@@ -8,7 +8,7 @@
         v-show="cell.showInTable"
         :key="index"
         class="cell"
-        :style="`grid-column: ${index}`"
+        :style="`grid-column: ${index}/${index + 1}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
         {{ cell.value }}

@@ -27,7 +27,7 @@ export default {
         return this.gridEvenColumnsCss
       }
       
-      return this.columnsConfig.widths.map(x => `${x}fr`).join(' ')
+      return this.columnsConfig.widths.map(x => x).join(' ')
     },
 
     gridEvenColumnsCss () {
