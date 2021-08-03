@@ -10,10 +10,13 @@ export const DEFAULT_OPTIONS = {
     borderColor: UNEP_WCMC_BLUE,
     borderColorHover: UNEP_WCMC_BLUE,
     color: '#fff',
+    fontSize: '16px',
+    fontWeight: '500',
     height: '50px',
     iconFill: '#fff',
     paddingLeft: '24px',
     paddingRight: '24px',
+    text: 'CSV'
   },
   fontFamily: 'Arial, sans-serif',
   filters: {
@@ -77,9 +80,10 @@ export const DEFAULT_OPTIONS = {
       colorTextHover: '#fff',
       colorTextSelected: '#fff',
       borderRadius: '0',
+      fontSize: '16px',
       height: '50px',
       paddingLeft: '24px',
-      paddingRight: '24px',
+      paddingRight: '36px',
     },
   },
   headings: {

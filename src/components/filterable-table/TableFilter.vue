@@ -86,6 +86,7 @@
           '--color-text-hover'        : this.config.trigger.colorTextHover,
           '--color-text-selected'     : this.config.trigger.colorTextSelected,
           '--border-radius'           : this.config.trigger.borderRadius,
+          '--font-size'                  : this.config.trigger.fontSize,
           '--height'                  : this.config.trigger.height,
           '--padding-left'            : this.config.trigger.paddingLeft,
           '--padding-right'           : this.config.trigger.paddingRight,
@@ -246,22 +247,20 @@ $table-filter-trigger-border-color: black !default;
     margin-right: rem-calc(20); 
     margin-bottom: 0;
   }
-
-  // &__title {
-  //   font-size: rem-calc(20);
-  //   margin-right: rem-calc(20);
-  // }
 }
 
 .trigger {
   @include button-basic;
+  background-color: var(--color-bg);
   border: solid 1px $table-filter-trigger-border-color;
   border-radius: 0; // IE11
   border-radius: var(--border-radius);
   color: black;
   cursor: pointer;
+  font-size: 16px; // IE11
+  font-size: var(--font-size);
   margin: 0;
-  padding-right: 24px; // IE11
+  padding-right: 36px; // IE11
   padding-right: var(--padding-right);
   padding-left: 24px; // IE11
   padding-left: var(--padding-left);
@@ -316,7 +315,10 @@ $table-filter-trigger-border-color: black !default;
     color: #fff; // IE11
     color: var(--color-text-selected);
 
-    @include breakpoint($small){ padding-right: rem-calc(34); }
+    @include breakpoint($small){ 
+      padding-right: rem-calc(36); // IE11
+      padding-right: var(--padding-right);
+    }
     
     &:after,
     &:hover:after { visibility: hidden; }
@@ -351,7 +353,7 @@ $table-filter-trigger-border-color: black !default;
     line-height: $total-width-desktop;
     width: $total-width-desktop; height: $total-width-desktop;
 
-    right: rem-calc(16); 
+    right: rem-calc(12); 
   }
 }
 
@@ -395,35 +397,15 @@ $table-filter-trigger-border-color: black !default;
     white-space: nowrap; 
 
     @include breakpoint($small) {
-      // max-height: $filters-menu-max-height;
+      max-height: 40vh;
     }
   }
-
-  &--donors {
-    column-count: 2;
-    flex-wrap: wrap;
-    width: 928px;
-    white-space: normal;
-
-    display: flex;
-
-    li {
-      flex: 1 0 50%;
-
-      float: left;
-    }
-  }
-    
-  &--category { max-width: rem-calc(803); }
-  &--country { max-width: rem-calc(480); }
-  &--ocean-region { max-width: rem-calc(300); }
 }
 
 .buttons {
   margin-top: rem-calc(18);
   text-align: right;
 
-  // align-items: vertical;
   display: flex;
 }
 

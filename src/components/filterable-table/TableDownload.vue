@@ -4,7 +4,7 @@
     :class="['button', { 'button--disabled' : noResults }]"
     :style="cssVariables"
     v-bind="{ 'disabled' : noResults }">
-    CSV
+    {{ config.download.text }}
   </button>
 </template>
 
@@ -32,15 +32,17 @@ export default {
     },
     cssVariables () {
       return {
-        '--bg-color'      : this.config.download.bgColor,
-        '--bg-color-hover': this.config.download.bgColorHover,
+        '--bg-color'          : this.config.download.bgColor,
+        '--bg-color-hover'    : this.config.download.bgColorHover,
         '--border-color'      : this.config.download.borderColor,
         '--border-color-hover': this.config.download.borderColorHover,
-        '--color'         : this.config.download.color,
-        '--height'        : this.config.download.height,
-        '--icon-fill'     : this.config.download.iconFill,
-        '--padding-left'  : this.config.download.paddingLeft,
-        '--padding-right' : this.config.download.paddingRight
+        '--color'             : this.config.download.color,
+        '--font-size'         : this.config.download.fontSize,
+        '--font-weight'       : this.config.download.fontWeight,
+        '--height'            : this.config.download.height,
+        '--icon-fill'         : this.config.download.iconFill,
+        '--padding-left'      : this.config.download.paddingLeft,
+        '--padding-right'     : this.config.download.paddingRight
       }
     },
     noResults () {
@@ -137,8 +139,13 @@ export default {
   border-color: var(--border-color);
   color: #fff; // IE11
   color: var(--color);
+  font-size: 18px;
+  font-size: var(--font-size);
+  font-weight: 500;
+  font-weight: var(--font-weight);
   height: '50px'; // IE11
   height: var(--height);
+  margin-left: auto;
   padding-left: '24px'; // IE11
   padding-left: var(--padding-left);
   padding-right: '24px'; // IE11
