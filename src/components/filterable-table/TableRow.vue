@@ -5,10 +5,10 @@
   >
     <template v-for="(cell, index) in item.cells">
       <p
-        v-if="cell.showInTable"
+        v-show="cell.showInTable"
         :key="index"
         class="cell"
-        :style="`grid-column: ${index + 1}`"
+        :style="`grid-column: ${index}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
         {{ cell.value }}
@@ -17,7 +17,7 @@
 
     <p
       class="cell"
-      :style="`grid-column: ${columnsCount}`"
+      :style="`grid-column: ${totalColumns}`"
     >
       <a 
         v-if="item.pageUrl"
@@ -58,6 +58,10 @@ export default {
     tableId: {
       required: true,
       type: Number,
+    },
+    totalColumns: {
+      required: true,
+      type: Number,
     }
   },
 
@@ -74,9 +78,6 @@ export default {
         '--border-width': this.config.rows.borderWidth,
         '--button-hover-color': this.config.rows.buttonHoverColor
       }
-    },
-    columnsCount () {
-      return Object.keys(this.item.cells).length + 1
     },
     projectTitle () {
       return this.trim(this.item.title)

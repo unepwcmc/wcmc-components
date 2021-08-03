@@ -5,8 +5,8 @@ export default {
     },
 
     gridColumnsCss () {
-      if (!('columnsCount' in this)) {
-        console.error(`columnsCount is not implemented for ${this.$options.name}`)
+      if (!('totalColumns' in this)) {
+        console.error(`totalColumns is not implemented for ${this.$options.name}`)
 
         return ''
       } else if (this.hasColumnWidths) {
@@ -21,8 +21,8 @@ export default {
     },
 
     gridColumnWidthFromConfig () {
-      if (this.columnsConfig.widths.length !== this.columnsCount) {
-        console.warn(`columnsConfig.widths must have the same length as the number of columns: ${this.columnsCount}`)
+      if (this.columnsConfig.widths.length !== this.totalColumns) {
+        console.warn(`columnsConfig.widths must have the same length as the number of columns: ${this.totalColumns}`)
 
         return this.gridEvenColumnsCss
       }
@@ -33,7 +33,7 @@ export default {
     gridEvenColumnsCss () {
       const cols = []
 
-      for (let i=0; i < this.columnsCount; i++) {
+      for (let i=0; i < this.totalColumns; i++) {
         cols.push('1fr')
       }
 

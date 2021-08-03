@@ -11,6 +11,7 @@
       <table-head 
         :headings="headings"
         :table-id="id"
+        :totalColumns="getTotalTableColumns"
       />
     </div>
     <div class="table-body">
@@ -18,6 +19,7 @@
         :key="item._uid"
         :item="item" 
         :table-id="id"
+        :totalColumns="getTotalTableColumns"
       />
     </div>
   
@@ -109,6 +111,16 @@ export default {
     }),
     config () {
       return this.$store.getters['filterableTable/options'](this.id)
+    },
+    getTotalTableColumns () {
+      //Add an additional column for the "View more" button
+      let total = 0
+      
+      if(this.items.length > 0) {
+        total = this.items[0].cells.filter(cell => cell.showInTable == true).length + 1
+      }
+
+      return total
     },
     requestedPage () {
       return this.$store.getters['filterableTable/getRequestedPage'](this.id)

@@ -1,7 +1,9 @@
 const UNEP_WCMC_BLUE = '#009FE3';
 
 export const DEFAULT_OPTIONS = {
-  fontFamily: 'Arial, sans-serif',
+  columns: {
+    widths: [2, 2, 1, 1, 1, 1, 1], // widths.length = attributes.length + 1
+  },
   download: {
     bgColor: '#aaa',
     bgColorHover: UNEP_WCMC_BLUE,
@@ -13,6 +15,7 @@ export const DEFAULT_OPTIONS = {
     paddingLeft: '24px',
     paddingRight: '24px',
   },
+  fontFamily: 'Arial, sans-serif',
   filters: {
     buttonApply: {
       borderColor: UNEP_WCMC_BLUE,
@@ -102,9 +105,6 @@ export const DEFAULT_OPTIONS = {
     textTitle: '',
     textItems: ''
   },
-  columns: {
-    widths: [2, 2, 1, 1, 1, 1, 1, 1], // Length = attributes.length + 1
-  },
   rows: {
     bgColor1: '#ffffff',
     bgColor2: '#f4f4f4',
@@ -123,8 +123,7 @@ export const DUMMY_DATA = {
     { field: "column-3", title: "Column 3" },
     { field: "column-4", title: "Column 4" },
     { field: "column-5", title: "Column 5" },
-    { field: "column-6", title: "Column 6" },
-    { field: "column-7", title: "Column 7" }
+    { field: "column-6", title: "Column 6" }
   ],
   "filters": [
     {
@@ -146,43 +145,43 @@ export const DUMMY_DATA = {
       cells: [
         {
           name: "Attribute 1",
-          value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
-          showInTable: true,
+          value: " Attribute 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit",
+          showInTable: false,
           showInModal: true
         }, 
         {
           name: "Attribute 2",
-          value: "Lorem ipsum",
+          value: " Attribute 2 Lorem ipsum",
           showInTable: true,
           showInModal: true
         }, 
         {
           name: "Attribute 3",
-          value: 1,
+          value: 3,
           showInTable: true,
           showInModal: true
         }, 
         {
           name: "Attribute 4",
-          value: "Lorem",
+          value: " Attribute 4 Lorem",
           showInTable: true,
           showInModal: true
         }, 
         {
           name: "Attribute 5",
-          value: "Lorem ipsum dolor sit amet, consectetur",
+          value: " Attribute 5 Lorem ipsum dolor sit amet, consectetur",
           showInTable: true,
           showInModal: true
         }, 
         {
           name: "Attribute 6",
-          value: 1,
+          value: 6,
           showInTable: true,
           showInModal: true
         }, 
         {
           name: "Attribute 7",
-          value: "Lorem ipsum dolor sit",
+          value: " Attribute 7 Lorem ipsum dolor sit",
           showInTable: true,
           showInModal: true
         }, 
@@ -194,7 +193,7 @@ export const DUMMY_DATA = {
         {
           name: "Attribute 1",
           value: "1",
-          showInTable: true,
+          showInTable: false,
           showInModal: true
         }, 
         {
@@ -241,7 +240,7 @@ export const DUMMY_DATA = {
         {
           name: "Attribute 1",
           value: "Lorem ipsum",
-          showInTable: true,
+          showInTable: false,
           showInModal: true
         }, 
         {

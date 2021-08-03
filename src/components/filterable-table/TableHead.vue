@@ -18,7 +18,7 @@
       <!-- empty heading for 'more content' button -->
       <table-heading
         :tableId="tableId"
-        :style="`grid-column: ${columnsCount}`"
+        :style="`grid-column: ${totalColumns}`"
       />
     </div>
   </div>
@@ -44,6 +44,10 @@ export default {
     tableId: {
       required: true,
       type: Number,
+    },
+    totalColumns: {
+      required: true,
+      type: Number,
     }
   },
 
@@ -60,10 +64,6 @@ export default {
         'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
       }
-    },
-
-    columnsCount () {
-      return Object.keys(this.headings).length + 1
     },
   },
 
