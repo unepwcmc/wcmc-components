@@ -10,7 +10,6 @@
     <div class="table-head">
       <table-head 
         :headings="headings"
-        :options="optionsMerged"
         :table-id="id"
       />
     </div>
@@ -94,7 +93,6 @@ export default {
       filters: [],
       id: '',
       items: [],
-      optionsMerged: {},
       totalItems: 5,
       totalPages: 3
     }

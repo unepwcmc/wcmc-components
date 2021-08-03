@@ -27,10 +27,14 @@
 <script>
 import TableHeading from './TableHeading.vue'
 
+import mixinColumns from './mixins/mixin-columns'
+
 export default {
   name: 'TableHead',
 
   components: { TableHeading },
+
+  mixins: [mixinColumns],
 
   props: {
     headings: {
@@ -53,19 +57,11 @@ export default {
   computed: {
     cssVariables () {
       return {
-        'grid-template-columns': `repeat(${this.columnsCount}, 1fr)`,
+        'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
       }
     },
-    gridColumnsCss () {
-      const cols = []
 
-      for (let i=0; i < this.columnsCount; i++) {
-        cols.push('1fr')
-      }
-
-      return cols.join(' ')
-    },
     columnsCount () {
       return Object.keys(this.headings).length + 1
     },

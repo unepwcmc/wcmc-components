@@ -41,10 +41,14 @@
 <script>
 import SvgArrow from './svgs/SvgArrow.vue'
 
+import mixinColumns from './mixins/mixin-columns'
+
 export default {
   name: "row",
 
   components: { SvgArrow },
+
+  mixins: [mixinColumns],
 
   props: {
     item: {
@@ -60,7 +64,7 @@ export default {
   computed: {
     cssVariablesAndStyles () {
       return {
-        'grid-template-columns': `repeat(${this.columnsCount}, 1fr)`,
+        'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
         '--bg-color-1': this.config.rows.bgColor1,
         '--bg-color-2': this.config.rows.bgColor2,
@@ -70,15 +74,6 @@ export default {
         '--border-width': this.config.rows.borderWidth,
         '--button-hover-color': this.config.rows.buttonHoverColor
       }
-    },
-    gridColumnsCss () {
-      const cols = []
-
-      for (let i=0; i < this.columnsCount; i++) {
-        cols.push('1fr')
-      }
-
-      return cols.join(' ')
     },
     columnsCount () {
       return Object.keys(this.item.cells).length + 1
