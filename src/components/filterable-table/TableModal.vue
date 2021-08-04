@@ -26,8 +26,20 @@
             :key="index"
             class=""
           >
-            <span class="modal__item-name">{{ item.name }}:</span> 
-            {{ item.value }}
+            <span class="modal__item-name">{{ item.title }}:</span> 
+            <ul 
+              v-if="hasMultipleValues(item.value)"
+              class="modal__ul"
+            >
+              <li v-for="v, index in item.value"
+                :key="Math.random() * index"
+              >
+                {{ v }}
+              </li>
+            </ul>
+            <template v-else>
+              {{ item.value }}
+            </template>
           </p>
         </template>
       </div>
@@ -92,14 +104,9 @@ export default {
       this.isActive = false
     },
 
-    // printMultiple (field) {
-    //   // print out the array of values comma separated as a string
-    //   let array = this.modalContent[field]
-
-    //   if (array !== undefined) {
-    //     return array.join(', ')
-    //   }
-    // }
+    hasMultipleValues (value) {
+      return Array.isArray(value)
+    }
   }
 }
 </script>
@@ -172,6 +179,11 @@ export default {
   }
 
   &__title { margin-top: 0; }
+
+  &__ul {
+    margin-top: rem-calc(6);
+    padding-left: rem-calc(24);
+  }
 }
 
 ::v-deep .svg-cross {

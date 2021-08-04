@@ -6,12 +6,12 @@
     
       <p
         v-for="(cell, index) in columns"
-        :key="Math.Random * index"
+        :key="Math.random() * index"
         class="cell"
         :style="`grid-column: ${index + 1}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
-        {{ cell.value }}
+        {{ printValue(cell.value) }}
       </p>
     
 
@@ -106,15 +106,11 @@ export default {
       this.$root.$emit('openModal', this.tableId)
     },
 
-    checkForMultiples (field) {
-      // set output to the first item in the array
-      // if the array has more than 1 value then set output to 'multiple'
-      let output = this.item[field][0]
+    printValue (value) {
+      let output = value
 
-      if(this.item[field].length > 1) {
-        output = 'Multiple'
-      } else {
-        output = this.trim(output)
+      if(Array.isArray(value)) {
+        output =  value.join(', ')
       }
 
       return output

@@ -147,43 +147,50 @@ export const DUMMY_DATA = {
       pageUrl: "http://google.com",
       cells: [
         {
-          name: "Attribute 1",
+          name: "attribute_1",
+          title: "Attribute 1",
           value: " Attribute 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 2",
+          name: "attribute_2",
+          title: "Attribute 2",
           value: " Attribute 2 Lorem ipsum",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 3",
+          name: "attribute_3",
+          title: "Attribute 3",
           value: 3,
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 4",
+          name: "attribute_4",
+          title: "Attribute 4",
           value: " Attribute 4 Lorem",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 5",
+          name: "attribute_5",
+          title: "Attribute 5",
           value: " Attribute 5 Lorem ipsum dolor sit amet, consectetur",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 6",
+          name: "attribute_6",
+          title: "Attribute 6",
           value: 6,
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 7",
+          name: "attribute_7",
+          title: "Attribute 7",
           value: " Attribute 7 Lorem ipsum dolor sit",
           showInTable: true,
           showInModal: true
@@ -194,43 +201,50 @@ export const DUMMY_DATA = {
       pageUrl: '',  
       cells:[
         {
-          name: "Attribute 1",
+          name: "attribute_1",
+          title: "Attribute 1",
           value: "1",
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 2",
-          value: "Lorem ipsum dolor sit",
+          name: "attribute_2",
+          title: "Attribute 2",
+          value: ["Item 1", "Item 2", "item 3"],
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 3",
+          name: "attribute_3",
+          title: "Attribute 3",
           value: 3,
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 4",
+          name: "attribute_4",
+          title: "Attribute 4",
           value: "Lorem ipsum",
           showInTable: true,
           showInModal: true
         },
         {
-          name: "Attribute 5",
+          name: "attribute_5",
+          title: "Attribute 5",
           value: "Lorem ipsum dolor sit",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 6",
+          name: "attribute_6",
+          title: "Attribute 6",
           value: 6,
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 7",
+          name: "attribute_7",
+          title: "Attribute 7",
           value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           showInTable: true,
           showInModal: true
@@ -241,43 +255,50 @@ export const DUMMY_DATA = {
       pageUrl: "",
       cells: [
         {
-          name: "Attribute 1",
+          name: "attribute_1",
+          title: "Attribute 1",
           value: "Lorem ipsum",
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 2",
+          name: "attribute_2",
+          title: "Attribute 2",
           value: "Lorem ipsum dolor sit amet, consectetur",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 3",
+          name: "attribute_3",
+          title: "Attribute 3",
           value: 3,
           showInTable: false,
           showInModal: true
         }, 
         {
-          name: "Attribute 4",
+          name: "attribute_4",
+          title: "Attribute 4",
           value: "Lorem ipsum dolor sit amet, consectetur adipiscing elit",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 5",
+          name: "attribute_5",
+          title: "Attribute 5",
           value: "Lorem ipsum dolor sit amet, consectetur",
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 6",
+          name: "attribute_6",
+          title: "Attribute 6",
           value: 6,
           showInTable: true,
           showInModal: true
         }, 
         {
-          name: "Attribute 7",
+          name: "attribute_7",
+          title: "Attribute 7",
           value: "Lorem Ipsum, lorem ipsum",
           showInTable: true,
           showInModal: true
