@@ -123,6 +123,7 @@ export default {
 .modal {
   background-color: white;
   box-shadow: #ababab 2px 2px 2px;
+  overflow-y: scroll;
   padding: rem-calc(34 32);
   width: 100%; height: 100vh;
   
@@ -135,6 +136,7 @@ export default {
     border-radius: 0;
     padding: rem-calc(34 32);
     width: 60%; height: auto;
+    max-height: 80vh;
 
     top: 50%;
     left: 50%;

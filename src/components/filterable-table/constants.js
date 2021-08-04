@@ -2,7 +2,7 @@ const UNEP_WCMC_BLUE = '#009FE3';
 
 export const DEFAULT_OPTIONS = {
   columns: {
-    widths: ['1fr', '1fr', '300px', '1fr', '1fr', '1fr', '100px'], // widths.length = attributes.length + 1
+    widths: ['1fr', '1fr', '300px', '1fr', '1fr', '100px'], // widths.length = attributes.length + 1
   },
   download: {
     bgColor: '#aaa',
@@ -122,12 +122,11 @@ export const DEFAULT_OPTIONS = {
 
 export const DUMMY_DATA = {
   "attributes": [
-    { field: "column-1", title: "Column 1" },
-    { field: "column-2", title: "Column 2" },
-    { field: "column-3", title: "Column 3" },
-    { field: "column-4", title: "Column 4" },
-    { field: "column-5", title: "Column 5" },
-    { field: "column-6", title: "Column 6" }
+    { field: "attribute-2", title: "attribute 2" },
+    { field: "attribute-4", title: "attribute 4" },
+    { field: "attribute-5", title: "attribute 5" },
+    { field: "attribute-6", title: "attribute 6" },
+    { field: "attribute-7", title: "attribute 7" }
   ],
   "filters": [
     {
@@ -162,7 +161,7 @@ export const DUMMY_DATA = {
         {
           name: "Attribute 3",
           value: 3,
-          showInTable: true,
+          showInTable: false,
           showInModal: true
         }, 
         {
@@ -209,7 +208,7 @@ export const DUMMY_DATA = {
         {
           name: "Attribute 3",
           value: 3,
-          showInTable: true,
+          showInTable: false,
           showInModal: true
         }, 
         {
@@ -256,7 +255,7 @@ export const DUMMY_DATA = {
         {
           name: "Attribute 3",
           value: 3,
-          showInTable: true,
+          showInTable: false,
           showInModal: true
         }, 
         {

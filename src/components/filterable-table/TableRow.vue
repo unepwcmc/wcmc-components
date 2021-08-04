@@ -3,17 +3,17 @@
     class="row"
     :style="cssVariablesAndStyles"
   >
-    <template v-for="(cell, index) in item.cells">
+    
       <p
-        v-show="cell.showInTable"
-        :key="index"
+        v-for="(cell, index) in columns"
+        :key="Math.Random * index"
         class="cell"
-        :style="`grid-column: ${index}/${index + 1}`"
+        :style="`grid-column: ${index + 1}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
         {{ cell.value }}
       </p>
-    </template>
+    
 
     <p
       class="cell"
@@ -84,6 +84,9 @@ export default {
     },
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
+    },
+    columns () {
+      return this.item.cells.filter(cell => cell.showInTable == true)
     }
   },
 
