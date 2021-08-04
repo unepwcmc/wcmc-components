@@ -83,7 +83,7 @@ export const DEFAULT_OPTIONS = {
       fontSize: '16px',
       height: '50px',
       paddingLeft: '24px',
-      paddingRight: '36px',
+      paddingRight: '40px',
     },
   },
   headings: {

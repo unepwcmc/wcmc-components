@@ -10,7 +10,9 @@
       :class="{ 'active' : isOpen , 'has-selected' : hasSelected }"
       :style="cssVariables"
     >
-      {{ title }} <span v-show="hasSelected" class="option-total">{{ totalSelectedOptions }}</span>
+      {{ title }} 
+      <span v-show="hasSelected" class="option-total">{{ totalSelectedOptions }}</span>
+      <svg-chevron class="trigger__icon" />
     </p>
     
     <div class="options" :class="{ 'active' : isOpen }">
@@ -36,11 +38,15 @@
 
 <script>
   import TableFilterOption from './TableFilterOption.vue'
+  import SvgChevron from './svgs/SvgChevron.vue'
 
   export default {
     name: 'TableFilter',
 
-    components: { TableFilterOption },
+    components: { 
+      TableFilterOption,
+      SvgChevron
+    },
 
     props: {
       name: {
@@ -230,12 +236,20 @@
 </script>
 
 <style lang="scss" scoped>
+// variables
 $focus-outline-margin: rem-calc(4) !default;
 $total-width-mobile: rem-calc(20) !default;
 $total-width-desktop: rem-calc(24) !default;
 
 $table-filter-trigger-border-color: black !default;
 
+// mixins
+@mixin svg-color($color) {
+  fill: $color; 
+  stroke: $color;
+}
+
+// classes
 .filter {
   margin-right: rem-calc(10);
   margin-bottom: rem-calc(10);
@@ -260,11 +274,10 @@ $table-filter-trigger-border-color: black !default;
   font-size: 16px; // IE11
   font-size: var(--font-size);
   margin: 0;
-  padding-right: 36px; // IE11
+  padding-right: 40px; // IE11
   padding-right: var(--padding-right);
   padding-left: 24px; // IE11
   padding-left: var(--padding-left);
-
   height: 50px; // IE11
   height: var(--height);
 
@@ -284,17 +297,10 @@ $table-filter-trigger-border-color: black !default;
     color: #fff; // IE11
     color: var(--color-text-hover);
 
-    // &:after { background-image: image-url('icons/chevron-white-down.svg'); }
-  }
-
-  &:after {
-    content: '';
-    width: rem-calc(8); height: rem-calc(6);
-
-    // align-items: vertical;
-    right: rem-calc(24);
-
-    // @include breakpoint-down($medium) { display: none; }
+    ::v-deep .svg-chevron { 
+      @include svg-color(#fff); //IE11
+      @include svg-color(--var(--color-text-hover)); 
+    }
   }
       
   &.active {
@@ -305,8 +311,10 @@ $table-filter-trigger-border-color: black !default;
     color: #fff; // IE11
     color: var(--color-text-active);
 
-    // &:after,
-    // &:hover:after { background-image: image-url('icons/chevron-white-up.svg'); }
+    ::v-deep .svg-chevron { 
+      @include svg-color(#fff); //IE11
+      @include svg-color(--var(--color-text-hover)); 
+    }
   }
 
   &.has-selected {
@@ -320,8 +328,24 @@ $table-filter-trigger-border-color: black !default;
       padding-right: var(--padding-right);
     }
     
-    &:after,
-    &:hover:after { visibility: hidden; }
+    .trigger__icon { visibility: hidden; }
+  }
+
+  &__icon {
+    width: rem-calc(10); height: rem-calc(6);
+
+    display: block;
+    position: absolute;
+    right: rem-calc(16);
+    top: 50%;
+
+    transform: translateY(-50%) rotateZ(90deg);
+  }
+
+  ::v-deep .svg-chevron { 
+    @include svg-color(#000); //IE11
+    @include svg-color(--var(--color-text)); 
+    stroke-width: 3px;
   }
 }
 
@@ -339,10 +363,9 @@ $table-filter-trigger-border-color: black !default;
     text-align: center;
     width: $total-width-mobile; height: $total-width-mobile;
 
-    // align-items: vertical;
     display: block;
     position: absolute;
-    right: rem-calc(8);
+    right: rem-calc(9);
     top: 50%;
 
     transform: translateY(-50%);
@@ -352,8 +375,6 @@ $table-filter-trigger-border-color: black !default;
     font-size: rem-calc(18);
     line-height: $total-width-desktop;
     width: $total-width-desktop; height: $total-width-desktop;
-
-    right: rem-calc(12); 
   }
 }
 
