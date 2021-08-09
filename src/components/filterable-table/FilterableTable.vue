@@ -15,12 +15,19 @@
       />
     </div>
     <div class="table-body">
-      <table-row v-for="item in items"
-        :key="item._uid"
-        :item="item" 
-        :table-id="id"
-        :totalColumns="getTotalTableColumns"
-      />
+      <template v-if="hasItems">
+        <table-row v-for="item in items"
+          :key="item._uid"
+          :item="item" 
+          :table-id="id"
+          :totalColumns="getTotalTableColumns"
+        />
+      </template>
+      <template v-else>
+        <div class="table-body__placeholder">
+          SPINNER
+        </div>
+      </template>
     </div>
   
     <table-pagination 
@@ -122,6 +129,9 @@ export default {
 
       return total
     },
+    hasItems () {
+      return this.items.length > 0
+    },
     requestedPage () {
       return this.$store.getters['filterableTable/getRequestedPage'](this.id)
     },
@@ -217,9 +227,15 @@ export default {
   box-sizing: border-box;
 }
 
+.cloak { display: none; }
+
 .table {
   font-size: rem-calc(60);
   font-family: 'Arial, sans-serif'; // IE11
   font-family: var(--font-family);
+
+  &-body__placeholder {
+    min-height: rem-calc(400);
+  }
 }
 </style>

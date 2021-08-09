@@ -10,15 +10,26 @@ yarn install
 yarn serve
 ```
 
-#### Pull a component into a project locally
+
+### Install this package into you project
+- Add `"@unep-wcmc/wcmc-components": "1.0.0"` to your package.json
+- Run `yarn install`
+- In your new project add `import FilterableTable from '@unep-wcmc/wcmc-components'`
+- In your new project add `Vue.use(FilterableTable, { store })`
+
+### Pull a component into a project locally
 - Clone this repo
 - Run `yarn build-lib` to create the library files in the dist folder
 - Run `yarn link` to enable you to sync this repo to another
 
 In your new project do the following:
+- Run `yarn add ../wcmc-components -D`
 - Run `yarn link "wcmc-components"`
 - In your new project add `import FilterableTable from 'wcmc-components'`
 - In your new project add `Vue.use(FilterableTable, { store })`
+
+### Publish to npm
+- 
 
 ### Compiles and minifies for production
 ```
