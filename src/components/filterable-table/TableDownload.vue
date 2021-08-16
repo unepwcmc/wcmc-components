@@ -70,6 +70,7 @@ export default {
       
       const config = {
           headers: {
+            'X-CSRF-Token': csrf,
             'Accept': 'text/csv',
             'responseType': 'blob'
           }
