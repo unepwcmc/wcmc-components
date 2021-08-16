@@ -11,7 +11,7 @@
       <table-head 
         :headings="headings"
         :table-id="id"
-        :totalColumns="getTotalTableColumns"
+        :totalColumns="totalColumns"
       />
     </div>
     <div class="table-body">
@@ -20,17 +20,18 @@
           :key="item._uid"
           :item="item" 
           :table-id="id"
-          :totalColumns="getTotalTableColumns"
+          :totalColumns="totalColumns"
         />
       </template>
       <template v-else>
         <div class="table-body__placeholder">
-          SPINNER
+          {{ config.text.noResultsMessage }}
         </div>
       </template>
     </div>
   
     <table-pagination 
+      v-if="hasItems"
       :current-page="currentPage" 
       :items-per-page="itemsPerPage" 
       :table-id="id"
@@ -102,6 +103,8 @@ export default {
       filters: [],
       id: '',
       items: [],
+      noResultsMessage: '',
+      totalColumns: 0,
       totalItems: 5,
       totalPages: 3
     }
@@ -118,16 +121,6 @@ export default {
     }),
     config () {
       return this.$store.getters['filterableTable/options'](this.id)
-    },
-    getTotalTableColumns () {
-      //Add an additional column for the "View more" button
-      let total = 0
-      
-      if(this.items.length > 0) {
-        total = this.items[0].cells.filter(cell => cell.showInTable == true).length + 1
-      }
-
-      return total
     },
     hasItems () {
       return this.items.length > 0
@@ -164,6 +157,8 @@ export default {
     } else {
       this.getNewItems()
     }
+
+    this.getTotalTableColumns()
   },
 
   methods: {
@@ -203,6 +198,13 @@ export default {
         console.log(error)
       })
     },
+    getTotalTableColumns () {
+      //Add an additional column for the "View more" button
+      if(this.items.length > 0) {
+        const columns = this.items[0].cells.filter(cell => cell.showInTable == true).length
+        this.totalColumns = columns + 1
+      }
+    },
     importUserOptions () {
       const obj = {
         tableId: this.id,
@@ -230,12 +232,15 @@ export default {
 .cloak { display: none; }
 
 .table {
-  font-size: rem-calc(60);
   font-family: 'Arial, sans-serif'; // IE11
   font-family: var(--font-family);
 
   &-body__placeholder {
-    min-height: rem-calc(400);
+    font-size: rem-calc(18);
+    font-family: 'Arial, sans-serif'; // IE11
+    font-family: var(--font-family);
+    padding: rem-calc(60 0 100 0);
+    text-align: center;
   }
 }
 </style>

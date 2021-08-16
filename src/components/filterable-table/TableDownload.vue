@@ -16,6 +16,10 @@ export default {
   name: 'TableDownload',
 
   props: {
+    endpoint: {
+      required: true,
+      type: String
+    },
     tableId: {
       required: true,
       type: Number

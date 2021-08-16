@@ -22,11 +22,11 @@ yarn serve
 - Run `yarn build-lib` to create the library files in the dist folder
 - Run `yarn link` to enable you to sync this repo to another
 
-In your new project do the following:
-- Run `yarn add ../wcmc-components -D`
-- Run `yarn link "wcmc-components"`
-- In your new project add `import FilterableTable from 'wcmc-components'`
-- In your new project add `Vue.use(FilterableTable, { store })`
+In your **new project** do the following:
+- Add the following the the package.json `"@unep-wcmc/wcmc-components": "../wcmc-components",`
+- Run `yarn link "@unep-wcmc/wcmc-components"`
+- In your js file add `import FilterableTable from 'wcmc-components'`
+- In your js file add `Vue.use(FilterableTable, { store })`
 
 ### Publish to npm
 - 
