@@ -60,7 +60,6 @@ export default {
 
   methods: {
     download () {
-console.log('download')
       setAxiosHeaders(axios, 'download')
 
       let data = {
@@ -121,7 +120,6 @@ console.log('download')
     },
 
     simulateClick (element) {
-      console.log('simulateclick')
       // created because standard .click() doesn't work in Firefox
       const event = new MouseEvent('click', {
         bubbles: true,
