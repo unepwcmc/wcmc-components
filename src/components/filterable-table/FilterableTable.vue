@@ -200,9 +200,8 @@ export default {
     },
     getTotalTableColumns () {
       //Add an additional column for the "View more" button
-      if(this.items.length > 0) {
-        const columns = this.items[0].cells.filter(cell => cell.showInTable == true).length
-        this.totalColumns = columns + 1
+      if(this.headings.length > 0) {
+        this.totalColumns = this.headings.length + 1
       }
     },
     importUserOptions () {
