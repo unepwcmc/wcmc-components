@@ -3,6 +3,7 @@
     @click="download"
     :class="['button', { 'button--disabled' : noResults }]"
     :style="cssVariables"
+    title="Download CSV"
     v-bind="{ 'disabled' : noResults }">
     {{ config.download.text }}
   </button>
@@ -59,18 +60,15 @@ export default {
 
   methods: {
     download () {
+console.log('download')
       setAxiosHeaders(axios, 'download')
 
-      //csrf is Rails specific
-      //Move this into a config option for when this will be used with WordPress
-      const csrf = document.querySelectorAll('meta[name="csrf-token"]')[0].
-        getAttribute('content')
+      let data = {
+        filters: this.selectedFilterOptions
+      }
 
-      const data = this.selectedFilterOptions
-      
       const config = {
           headers: {
-            'X-CSRF-Token': csrf,
             'Accept': 'text/csv',
             'responseType': 'blob'
           }
@@ -85,7 +83,7 @@ export default {
           const filename = response.headers['content-disposition'].split('filename="')[1].split('"')[0]
 
           this.createBlob(filename, response.data)
-
+          //TODO Add GA tracking
           // this.$ga.event('Button', 'click', 'PAME - CSV download')
         })
         .catch(function (error) {
@@ -122,16 +120,16 @@ export default {
       }
     },
 
-    simulateClick () {
-      //TODO check if this is needed
+    simulateClick (element) {
+      console.log('simulateclick')
       // created because standard .click() doesn't work in Firefox
-      // const event = new MouseEvent('click', {
-      //   bubbles: true,
-      //   cancelable: true,
-      //   view: window
-      // })
+      const event = new MouseEvent('click', {
+        bubbles: true,
+        cancelable: true,
+        view: window
+      })
       // If cancelled, don't dispatch our event
-      // var cancelled = !element.dispatchEvent(event)
+      !element.dispatchEvent(event)
     }
   }
 }
