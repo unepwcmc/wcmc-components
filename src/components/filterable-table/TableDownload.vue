@@ -61,19 +61,21 @@ export default {
     download () {
       setAxiosHeaders(axios, 'download')
 
-      // const csrf = document.querySelectorAll('meta[name="csrf-token"]')[0].
-      // getAttribute('content'),
-      
+      //csrf is Rails specific
+      //Move this into a config option for when this will be used with WordPress
+      const csrf = document.querySelectorAll('meta[name="csrf-token"]')[0].
+        getAttribute('content')
+
       const data = this.selectedFilterOptions
       
-      // const config = {
-      //     headers: {
-      //       'Accept': 'text/csv',
-      //       'responseType': 'blob'
-      //     }
-      //   }
-      // axios.post('/pame/download', data, config)
-      axios.post(this.endpoint, data)
+      const config = {
+          headers: {
+            'Accept': 'text/csv',
+            'responseType': 'blob'
+          }
+        }
+
+      axios.post(this.endpoint, data, config)
         .then((response) => {
           // content-disposition looks something like: 'attachment; filename="the_file_name_here.csv"
           // so splitting the string by 'filename=" will leave us with ['attachemnt;', 'the_file_name_here.csv"']
