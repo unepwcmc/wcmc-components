@@ -1,23 +1,34 @@
 # wcmc-components
 
-## Project setup
-```
-yarn install
-```
+## Working with this Repo
+### Repo setup
+- Clone this repo
+- `yarn install`
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+### Run the repo
+- `yarn serve` compiles and hot-reloads for development
 
+### Lints and fixes files
+```
+yarn lint
+```
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### Install this package into you project
-- Add `"@unep-wcmc/wcmc-components": "1.0.0"` to your package.json
+### Publish to npm
+- Update version number in `package.json`
+- Update the `CHANGELOG.MD`
+- Commit the changes
+- Run `npm publish`
+
+## Installing the package into another repo
+### Install npm package
+- Add `"@unep-wcmc/wcmc-components": "1.0.2"` to your package.json (Or the version you want to use)
 - Run `yarn install`
 - In your new project add `import FilterableTable from '@unep-wcmc/wcmc-components'`
 - In your new project add `Vue.use(FilterableTable, { store })`
 
-### Pull a component into a project locally
+### Install local package
 - Clone this repo
 - Run `yarn build-lib` to create the library files in the dist folder
 - Run `yarn link` to enable you to sync this repo to another
@@ -27,26 +38,6 @@ In your **new project** do the following:
 - Run `yarn link "@unep-wcmc/wcmc-components"`
 - In your js file add `import FilterableTable from 'wcmc-components'`
 - In your js file add `Vue.use(FilterableTable, { store })`
-
-### Publish to npm
-- 
-
-### Compiles and minifies for production
-```
-yarn build
-
-or 
-
-yarn build-lib
-```
-
-### Lints and fixes files
-```
-yarn lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Docs
 
