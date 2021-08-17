@@ -18,6 +18,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Publish to npm
 - Update version number in `package.json`
 - Update the `CHANGELOG.MD`
+- Run `yarn build-lib`
 - Commit the changes
 - Run `npm publish`
 
