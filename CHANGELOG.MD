@@ -1,5 +1,9 @@
 ### 1.0.2
 
+- Make strings with 'http' in them into hyperlinks
+
+### 1.0.2
+
 - Fix the CSV Download
 ### 1.0.1
 
