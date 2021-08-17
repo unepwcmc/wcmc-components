@@ -1,4 +1,8 @@
-### 1.0.2
+### 1.0.4
+
+- Publish build files!
+
+### 1.0.3
 
 - Make strings with 'http' in them into hyperlinks
 
