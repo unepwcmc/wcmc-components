@@ -11,7 +11,7 @@
         :style="`grid-column: ${index + 1}`"
       >
         <span class="cell__name">{{ cell.name }}:</span>
-        {{ printValue(cell.value) }}
+        <span v-html="printValue(cell.value)" />
       </p>
     
 
@@ -40,7 +40,7 @@
 
 <script>
 import SvgArrow from './svgs/SvgArrow.vue'
-
+import { isALink } from '../../helpers/helpers-url.js'
 import mixinColumns from './mixins/mixin-columns'
 
 export default {
@@ -110,7 +110,11 @@ export default {
       let output = value
 
       if(Array.isArray(value)) {
-        output =  value.join(', ')
+        const strings = value.map(string => {
+          return isALink(string)
+        })
+
+        output = strings.join(', ')
       }
 
       return output

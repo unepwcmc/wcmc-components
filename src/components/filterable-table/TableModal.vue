@@ -24,17 +24,16 @@
           <p 
             v-if="item.showInModal"
             :key="index"
-            class=""
           >
             <span class="modal__item-name">{{ item.title }}:</span> 
             <ul 
               v-if="hasMultipleValues(item.value)"
               class="modal__ul"
             >
-              <li v-for="v, index in item.value"
+              <li v-for="string, index in item.value"
                 :key="Math.random() * index"
+                v-html="printValue(string)"
               >
-                {{ v }}
               </li>
             </ul>
             <template v-else>
@@ -49,6 +48,7 @@
 
 <script>
 import SvgCross from './svgs/SvgCross.vue'
+import { isALink } from '../../helpers/helpers-url.js'
 
 export default {
   name: 'TableModal',
@@ -106,6 +106,10 @@ export default {
 
     hasMultipleValues (value) {
       return Array.isArray(value)
+    },
+
+    printValue(string) {
+      return isALink(string) 
     }
   }
 }

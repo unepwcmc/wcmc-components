@@ -213,7 +213,7 @@ export const DUMMY_DATA = {
         {
           name: "attribute_2",
           title: "Attribute 2",
-          value: ["Item 1", "Item 2", "item 3"],
+          value: ["http://google.com", "Item 2", "item 3"],
           showInTable: true,
           showInModal: true
         }, 
