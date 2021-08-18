@@ -146,12 +146,12 @@ export default {
   font-size: var(--font-size);
   font-weight: 500;
   font-weight: var(--font-weight);
-  height: '50px'; // IE11
+  height: 50px; // IE11
   height: var(--height);
   margin-left: auto;
-  padding-left: '24px'; // IE11
+  padding-left: 24px; // IE11
   padding-left: var(--padding-left);
-  padding-right: '24px'; // IE11
+  padding-right: 24px; // IE11
   padding-right: var(--padding-right);
 
   &:hover {
