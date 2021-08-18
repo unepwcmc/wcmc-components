@@ -1,3 +1,7 @@
+### 1.0.5
+
+- CSS and JavaScript Fixes for IE11
+- Add option to change colour of the arrow in the "view more" button
 ### 1.0.4
 
 - Publish build files!
