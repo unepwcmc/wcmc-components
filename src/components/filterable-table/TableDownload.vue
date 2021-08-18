@@ -148,11 +148,14 @@ export default {
   font-weight: var(--font-weight);
   height: 50px; // IE11
   height: var(--height);
+  margin-bottom: rem-calc(10); //to sit inline with filters on mobile
   margin-left: auto;
   padding-left: 24px; // IE11
   padding-left: var(--padding-left);
   padding-right: 24px; // IE11
   padding-right: var(--padding-right);
+
+  @include breakpoint($medium) { margin-bottom: 0; }
 
   &:hover {
     background-color: #009FE3; // IE11

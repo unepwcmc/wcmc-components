@@ -393,7 +393,6 @@ $table-filter-trigger-border-color: black !default;
 
   @include breakpoint($small) {
     border: solid rem-calc(1) black;
-    // border-radius: $radius-global;
     margin-top: rem-calc(18);
     min-width: rem-calc(460);
     width: auto; height: auto;
