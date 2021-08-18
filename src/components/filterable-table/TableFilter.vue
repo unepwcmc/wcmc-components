@@ -399,10 +399,10 @@ $table-filter-trigger-border-color: black !default;
     width: auto; height: auto;
 
     position: absolute;
-    top: unset;
-    right: unset;
-    bottom: unset;
-    left: unset;
+    top: auto;
+    right: auto;
+    bottom: auto;
+    left: auto;
   }
 
   &.active {

@@ -74,6 +74,9 @@
 
 <style lang="scss" scoped>
 .filters {
+  font-family: Arial, sans-serif; // IE11
+  font-family: var(--font-family);
+
   align-items: center;
   display: flex;
 }

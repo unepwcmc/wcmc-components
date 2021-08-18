@@ -231,12 +231,12 @@ export default {
 .cloak { display: none; }
 
 .table {
-  font-family: 'Arial, sans-serif'; // IE11
+  font-family: Arial, sans-serif; // IE11
   font-family: var(--font-family);
 
   &-body__placeholder {
     font-size: rem-calc(18);
-    font-family: 'Arial, sans-serif'; // IE11
+    font-family: Arial, sans-serif; // IE11
     font-family: var(--font-family);
     padding: rem-calc(60 0 100 0);
     text-align: center;

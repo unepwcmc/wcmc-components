@@ -73,7 +73,7 @@ export default {
   border-left: var(--border-style) var(--border-color) var(--border-width);
   color: white;
   font-size: rem-calc(18);
-  font-family: 'Arial, sans-serif'; // IE11
+  font-family: Arial, sans-serif; // IE11
   font-family: var(--font-family);
   font-weight: normal; // IE11
   font-weight: var(--font-weight);

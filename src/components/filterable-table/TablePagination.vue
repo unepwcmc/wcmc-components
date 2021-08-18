@@ -147,6 +147,8 @@ export default {
   }
 
   &__numbers {
+    font-family: Arial, sans-serif; // IE11
+    font-family: var(--font-family);
     margin-left: auto;
   }
 

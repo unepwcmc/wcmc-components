@@ -140,6 +140,8 @@ export default {
   .row {
     background-color: #efefef; // IE11
     background-color: var(--bg-color-mobile);
+    font-family: Arial, sans-serif; // IE11
+    font-family: var(--font-family);
     margin-bottom: rem-calc(18);
     padding: rem-calc(6 0);      
 
