@@ -68,15 +68,16 @@ export default {
   computed: {
     cssVariablesAndStyles () {
       return {
-        'grid-template-columns': this.gridColumnsCss,
-        'grid-columns': this.gridColumnsCss, // IE11
-        '--bg-color-1': this.config.rows.bgColor1,
-        '--bg-color-2': this.config.rows.bgColor2,
-        '--bg-color-mobile': this.config.rows.bgColorMobile,
-        '--border-color': this.config.rows.borderColor,
-        '--border-style': this.config.rows.borderStyle,
-        '--border-width': this.config.rows.borderWidth,
-        '--button-hover-color': this.config.rows.buttonHoverColor
+        'grid-template-columns'     : this.gridColumnsCss,
+        'grid-columns'              : this.gridColumnsCss, // IE11
+        '--bg-color-1'              : this.config.rows.bgColor1,
+        '--bg-color-2'              : this.config.rows.bgColor2,
+        '--bg-color-mobile'         : this.config.rows.bgColorMobile,
+        '--border-color'            : this.config.rows.borderColor,
+        '--border-style'            : this.config.rows.borderStyle,
+        '--border-width'            : this.config.rows.borderWidth,
+        '--button-hover-color'      : this.config.rows.buttonHoverColor,
+        '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
     projectTitle () {
@@ -203,6 +204,11 @@ export default {
       ::v-deep .svg-arrow .svg__circle {
         fill: #009FE3; // IE11
         fill: var(--button-hover-color);
+      }
+
+      ::v-deep .svg-arrow .svg__arrow {
+        fill: #fff; // IE11
+        fill: var(--button-hover-color-arrow);
       }
     }
   }

@@ -116,7 +116,8 @@ export const DEFAULT_OPTIONS = {
     borderColor: '#ffffff',
     borderStyle: 'solid',
     borderWidth: '1px',
-    buttonHoverColor: UNEP_WCMC_BLUE
+    buttonHoverColor: UNEP_WCMC_BLUE,
+    buttonHoverColorArrow: '#fff',
   },
   text: {
     noResultsMessage: 'There are no items to display.'
