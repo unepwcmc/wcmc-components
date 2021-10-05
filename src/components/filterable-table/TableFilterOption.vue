@@ -49,11 +49,7 @@ export default {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
     labelClasses () {
-      let classes = ""
-      for (const key in this.config.filters.filterOptions.labels) {
-        this.config.filters.filterOptions.labels[key] == true ? classes += " " + key : ""
-      }
-      return classes;
+      return this.config.filters.filterOptions.labels.toString().replace(/,/g, ' ')
     },
     optionId () {
       return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
