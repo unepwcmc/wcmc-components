@@ -5,7 +5,7 @@
       :id="optionId" 
       v-model="isSelected" 
       class="checkbox"
-    >
+    />
     <svg-tick
       v-show="isSelected"
       class="icon-tick" 
