@@ -19,6 +19,6 @@
 | -------------- | --------- | ------------------------------------- |
 | `cssVariables` | `object`  | **Dependencies:** `config`            |
 | `config`       | `unknown` | **Dependencies:** `$store`, `tableId` |
-| `labelClasses` | `array` or| **Dependencies:** `config`
-|                |   `string`|          |
+| `labelClasses` | `array` or| **Dependencies:** `config`            |
+|                | `string`|                                       |
 | `optionId`     | `string`  | **Dependencies:** `option`            |
