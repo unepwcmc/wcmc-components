@@ -64,7 +64,11 @@ export const DEFAULT_OPTIONS = {
     },
     filterOptions: {
       // borderRadius: '0',
-      tickFill: UNEP_WCMC_BLUE
+      tickFill: UNEP_WCMC_BLUE,
+      labels: {
+        truncate: true,
+        wrap: false,
+      }
     },
     trigger: {
       colorBg: '#fff',
@@ -135,7 +139,7 @@ export const DUMMY_DATA = {
   "filters": [
     {
       "name": "filter-1",
-      "options": ["Option 1", "Option 2", "Option 3"],
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very ong label that needs to be handled"],
       "title": "Filter 1",
       "type": "multiple"
     },

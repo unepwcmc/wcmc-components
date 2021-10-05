@@ -11,7 +11,7 @@
       class="icon-tick" 
       :style="cssVariables"
     />
-    <label :for="optionId" class="label">{{ option }}</label>
+    <label :for="optionId" :class="`label ${labelClasses}`">{{ option }}</label>
   </li>
 </template>
 
@@ -48,6 +48,13 @@ export default {
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
+    labelClasses () {
+      let classes = ""
+      for (const key in this.config.filters.filterOptions.labels) {
+        this.config.filters.filterOptions.labels[key] == true ? classes += " " + key : ""
+      }
+      return classes;
+    },
     optionId () {
       return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
     }
@@ -58,6 +65,8 @@ export default {
 <style lang="scss" scoped>
 $checkbox-border-color: #3c3c3c !default;
 $checkbox-height: rem-calc(22) !default;
+$label-max-width: calc(100vw - 10%) !default;
+$label-min-width: rem-calc(460) !default;
 
 .option {
   font-size: rem-calc(16);
@@ -89,9 +98,9 @@ $checkbox-height: rem-calc(22) !default;
 .label {
   line-height: $checkbox-height;
   padding: rem-calc(0 20 0 38);
-
   display: inline-block;
 }
+
 
 .icon-tick {
   position: absolute;
@@ -102,5 +111,18 @@ $checkbox-height: rem-calc(22) !default;
 ::v-deep .svg-tick {
   fill: #009FE3; // IE11
   fill: var(--svg-tick-color);
+}
+
+.truncate {
+  overflow: hidden;
+  max-width: $label-max-width;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wrap {
+  max-width: $label-min-width;
+  white-space: normal;
+  word-wrap: break-word;
 }
 </style>
