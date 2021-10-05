@@ -136,7 +136,7 @@ export const DUMMY_DATA = {
   "filters": [
     {
       "name": "filter-1",
-      "options": ["Option 1", "Option 2", "Option 3 - this is an example very ong label that needs to be handled"],
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very long label that needs to be handled"],
       "title": "Filter 1",
       "type": "multiple"
     },
