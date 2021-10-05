@@ -11,7 +11,7 @@
       class="icon-tick" 
       :style="cssVariables"
     />
-    <label :for="optionId" :class="`label ${labelClasses}`">{{ option }}</label>
+    <label :for="optionId" class="label" :class="labelClasses">{{ option }}</label>
   </li>
 </template>
 
@@ -48,8 +48,13 @@ export default {
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
+    /*
+    filterOptions -- Properties: tickFill, handleLongLabels
+    filterOptions.handleLongLabels -- array/string with values 'truncate', 'wrap' 
+    passed as classes to labels (example constants.js).
+    */
     labelClasses () {
-      return this.config.filters.filterOptions.labels.toString().replace(/,/g, ' ')
+      return this.config.filters.filterOptions.handleLongLabels
     },
     optionId () {
       return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
@@ -61,7 +66,7 @@ export default {
 <style lang="scss" scoped>
 $checkbox-border-color: #3c3c3c !default;
 $checkbox-height: rem-calc(22) !default;
-$label-max-width: calc(100vw - 10%) !default;
+$label-max-width: calc(100vw - 15%) !default;
 $label-min-width: rem-calc(460) !default;
 
 .option {

@@ -65,7 +65,8 @@ export const DEFAULT_OPTIONS = {
     filterOptions: {
       // borderRadius: '0',
       tickFill: UNEP_WCMC_BLUE,
-      labels: ['truncate', 'wrap']
+      handleLongLabels:'truncate',
+      // handleLongLabels: ['truncate', 'wrap'],
     },
     trigger: {
       colorBg: '#fff',
