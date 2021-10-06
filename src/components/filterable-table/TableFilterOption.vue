@@ -48,11 +48,12 @@ export default {
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
-    /*
-    filterOptions -- Properties: tickFill, handleLongLabels
-    filterOptions.handleLongLabels -- array/string with values 'truncate', 'wrap' 
-    passed as classes to labels (example constants.js).
-    */
+    /**
+     * filterOptions -- Properties: tickFill, handleLongLabels
+     * filterOptions.handleLongLabels
+     * @returns {string} returns array/string with values 'truncate', 'wrap'
+     * passed as classes to labels (see example constants.js)
+     */
     labelClasses () {
       return this.config.filters.filterOptions.handleLongLabels
     },

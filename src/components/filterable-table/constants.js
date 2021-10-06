@@ -63,10 +63,8 @@ export const DEFAULT_OPTIONS = {
       textTransform: 'capitalize'
     },
     filterOptions: {
-      // borderRadius: '0',
       tickFill: UNEP_WCMC_BLUE,
-      handleLongLabels:'truncate',
-      // handleLongLabels: ['truncate', 'wrap'],
+      handleLongLabels: 'truncate',
     },
     trigger: {
       colorBg: '#fff',
