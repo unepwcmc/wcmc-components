@@ -11,7 +11,7 @@
       class="icon-tick" 
       :style="cssVariables"
     />
-    <label :for="optionId" class="label" :class="labelClasses">{{ option }}</label>
+    <label :for="optionId" :title="option" class="label" :class="labelClasses">{{ option }}</label>
   </li>
 </template>
 
@@ -67,8 +67,9 @@ export default {
 <style lang="scss" scoped>
 $checkbox-border-color: #3c3c3c !default;
 $checkbox-height: rem-calc(22) !default;
-$label-max-width: calc(100vw - 15%) !default;
+$label-max-width: 45vw !default;
 $label-min-width: rem-calc(460) !default;
+$sm-label-max-width: 80vw !default;
 
 .option {
   font-size: rem-calc(16);
@@ -117,14 +118,20 @@ $label-min-width: rem-calc(460) !default;
 
 .truncate {
   overflow: hidden;
-  max-width: $label-max-width;
+  max-width: $sm-label-max-width;
   text-overflow: ellipsis;
   white-space: nowrap;
+  @include breakpoint($small) {
+    max-width: $label-max-width;
+  }
 }
 
 .wrap {
-  max-width: $label-min-width;
+  min-width: $sm-label-max-width;
   white-space: normal;
   word-wrap: break-word;
+  @include breakpoint($small) {
+    min-width: $label-min-width;
+  }
 }
 </style>
