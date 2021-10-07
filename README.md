@@ -38,7 +38,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 In your **new project** do the following:
 - Add the following the the package.json `"@unep-wcmc/wcmc-components": "../wcmc-components",`
 - Run `yarn link "@unep-wcmc/wcmc-components"`
-- In your js file add `import FilterableTable from 'wcmc-components'`
+- In your js file add `import FilterableTable from "@unep-wcmc/wcmc-components"`
 - In your js file add `Vue.use(FilterableTable, { store })`
 
 ## Docs
