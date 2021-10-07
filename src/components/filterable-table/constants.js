@@ -63,8 +63,8 @@ export const DEFAULT_OPTIONS = {
       textTransform: 'capitalize'
     },
     filterOptions: {
-      // borderRadius: '0',
-      tickFill: UNEP_WCMC_BLUE
+      tickFill: UNEP_WCMC_BLUE,
+      handleLongLabels: 'truncate',
     },
     trigger: {
       colorBg: '#fff',
@@ -135,7 +135,7 @@ export const DUMMY_DATA = {
   "filters": [
     {
       "name": "filter-1",
-      "options": ["Option 1", "Option 2", "Option 3"],
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very long label that needs to be handled"],
       "title": "Filter 1",
       "type": "multiple"
     },
