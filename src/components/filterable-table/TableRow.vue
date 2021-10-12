@@ -4,17 +4,28 @@
     :style="cssVariablesAndStyles"
   >
     
-      <p
-        v-for="(cell, index) in columns"
+    <div
+      v-for="(cell, index) in columns"
+      :key="Math.random() * index"
+      class="cell"
+      :style="`grid-column: ${index + 1}`"
+    >
+    <div v-if="cell.legend_on">
+      <span
+        v-for="(value, index) in cell.value"
         :key="Math.random() * index"
-        class="cell"
-        :style="`grid-column: ${index + 1}`"
       >
-        <span class="cell__name">{{ cell.name }}:</span>
-        <span v-html="printValue(cell.value)" />
-      </p>
-    
+        <span class="cell__name">{{ cell.name }}: </span>
+        <span :class="`legend-icon ${kebabCaseClassName(value)}`"></span>
+      </span>
+    </div>
 
+    <p v-else>
+      <span class="cell__name">{{ cell.name }}: </span>
+      <span v-html="printValue(cell.value)" />
+    </p>
+    </div>
+    
     <p
       class="cell"
       :style="`grid-column: ${totalColumns}`"
@@ -132,6 +143,10 @@ export default {
       }
 
       return output
+    },
+      
+    kebabCaseClassName (title) {
+      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
   }
 }
@@ -165,6 +180,13 @@ export default {
         background-color: var(--bg-color-2);
       }
     }
+  }
+
+  .legend-icon {
+    width: rem-calc(38);
+    height: rem-calc(38);
+    display: inline-block;
+    margin: rem-calc(4);
   }
 
   .cell {

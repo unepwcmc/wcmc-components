@@ -21,10 +21,10 @@
             <h2 class="modal__title">
               {{ legend.title }}
             </h2>
-            <ul v-for="(item, index) in legend.options" :key="index">
-              <span class="modal__item-name">{{ item }}: </span>
-              <span :class="'legend-icon' + ` ${kebabCaseClassName(item)}`"></span>
-            </ul>
+            <div class="legend-row" v-for="(item, index) in legend.options" :key="index">
+              <span :class="`legend-icon ${kebabCaseClassName(item)}`"></span>
+              <span class="modal__item-name">{{ item }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -181,6 +181,18 @@ export default {
     margin-top: rem-calc(6);
     padding-left: rem-calc(24);
   }
+}
+
+.legend-icon {
+  width: rem-calc(38);
+  height: rem-calc(38);
+  display: inline-block;
+  margin: rem-calc(4);
+}
+
+.legend-row {
+  display: flex;
+  align-items: center;
 }
 
 ::v-deep .svg-cross {
