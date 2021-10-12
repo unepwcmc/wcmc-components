@@ -1,59 +1,39 @@
 <template>
-<div>
-<button
-    @click="openLegend(tableId)"
-    :class="button"
-    v-bind="{ 'disabled' : noResults }">
-    LEGEND
-  </button>
-  <div
-    :class="['modal-wrapper', { active: isActive }]"
-    @click.stop.self="closeModal()"
-    :style="cssVariables"
-  >
-    <div class="modal">
-      <div class="modal__content">
-        <button class="modal__close" @click="closeModal()">
-          <svg-cross class="modal__close-svg" />
-        </button>
-        <div v-for="legend in legends" :key="legend.title">
-          <h2 class="modal__title">
-            {{ legend.title }}
-            <!-- {{ config.modal.title }} -->
-          </h2>
-
-          <!-- <template v-for="(item, index) in legends">
-          <p 
-            v-if="item.option"
-            :key="index"
-          > -->
-          <ul v-for="(item, index) in legend.options" :key="index">
-            <span class="modal__item-name">{{ item }}:</span>
-            <!-- <ul 
-              v-if="hasMultipleValues(item.value)"
-              class="modal__ul"
-            > -->
-            <li
-              v-for="(string, index) in item.value"
-              :key="Math.random() * index"
-              v-html="printValue(string)"
-            ></li>
-          </ul>
-          <!-- <template v-else>
-              {{ item.value }}
-            </template> -->
-          <!-- </p> -->
-          <!-- </template> -->
+  <div>
+    <button
+      @click="openLegend(tableId)"
+      :class="button"
+      v-bind="{ disabled: noResults }"
+    >
+      {{ config.legend.title }}
+    </button>
+    <div
+      :class="['modal-wrapper', { active: isActive }]"
+      @click.stop.self="closeModal()"
+      :style="cssVariables"
+    >
+      <div class="modal">
+        <div class="modal__content">
+          <button class="modal__close" @click="closeModal()">
+            <svg-cross class="modal__close-svg" />
+          </button>
+          <div v-for="legend in legends" :key="legend.title">
+            <h2 class="modal__title">
+              {{ legend.title }}
+            </h2>
+            <ul v-for="(item, index) in legend.options" :key="index">
+              <span class="modal__item-name">{{ item }}: </span>
+              <span :class="'legend-icon' + ` ${kebabCaseClassName(item)}`"></span>
+            </ul>
+          </div>
         </div>
       </div>
     </div>
   </div>
-    </div>
 </template>
 
 <script>
 import SvgCross from "./svgs/SvgCross.vue";
-import { isALink } from "../../helpers/helpers-url.js";
 
 export default {
   name: "TableLegend",
@@ -99,11 +79,11 @@ export default {
   },
 
   methods: {
-    openLegend (tableId) {
+    openLegend(tableId) {
       if (this.tableId !== tableId) {
         return false;
       }
-      console.log('open')  
+      console.log("open");
 
       this.isActive = true;
     },
@@ -112,13 +92,9 @@ export default {
       this.isActive = false;
     },
 
-    hasMultipleValues(value) {
-      return Array.isArray(value);
-    },
-
-    printValue(string) {
-      return isALink(string);
-    },
+    kebabCaseClassName(title) {
+      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
+    }
   },
 };
 </script>
@@ -177,7 +153,8 @@ export default {
     width: rem-calc(50);
     height: rem-calc(50);
 
-    position: absolute;
+    position: sticky;
+    float: right;
     top: rem-calc(-18);
     right: rem-calc(-16);
 
