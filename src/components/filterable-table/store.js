@@ -54,9 +54,6 @@ export const storeFilterableTable = {
     setFilterOptions ({ commit }, obj) {
       commit('setFilterOptions', obj)
     },
-    updateLegend ({ commit }, obj) {
-      commit('updateLegend', obj)
-    },
     updateModal ({ commit }, obj) {
       commit('updateModal', obj)
     },
@@ -90,9 +87,6 @@ export const storeFilterableTable = {
     updateOptions (state, obj) {
       state.tables[obj.tableId].options = cloneDeep(obj.options)
     },    
-    updateLegend (state, obj) {
-      state.tables[obj.tableId].legendContent = cloneDeep(obj.content)
-    },
     updateModal (state, obj) {
       state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
     },

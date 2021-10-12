@@ -1,54 +1,54 @@
 <template>
-  <div 
-    :class="['modal-wrapper', { 'active' : isActive }]"
+<div>
+<button
+    @click="openLegend(tableId)"
+    :class="button"
+    v-bind="{ 'disabled' : noResults }">
+    LEGEND
+  </button>
+  <div
+    :class="['modal-wrapper', { active: isActive }]"
     @click.stop.self="closeModal()"
     :style="cssVariables"
   >
     <div class="modal">
       <div class="modal__content">
-        <button 
-          class="modal__close"
-          @click="closeModal()"
-        >
+        <button class="modal__close" @click="closeModal()">
           <svg-cross class="modal__close-svg" />
         </button>
-        <div
-            v-for="legend in legends" 
-            :key="legend"
-        >
-        <h2
-            class="modal__title"
-        >
-       {{legend.title}}
-          <!-- {{ config.modal.title }} -->
-        </h2>
+        <div v-for="legend in legends" :key="legend.title">
+          <h2 class="modal__title">
+            {{ legend.title }}
+            <!-- {{ config.modal.title }} -->
+          </h2>
 
-        <!-- <template v-for="(item, index) in legends">
+          <!-- <template v-for="(item, index) in legends">
           <p 
             v-if="item.option"
             :key="index"
           > -->
           <ul v-for="(item, index) in legend.options" :key="index">
-            <span class="modal__item-name">{{ item }}:</span> 
+            <span class="modal__item-name">{{ item }}:</span>
             <!-- <ul 
               v-if="hasMultipleValues(item.value)"
               class="modal__ul"
             > -->
-              <li v-for="string, index in item.value"
-                :key="Math.random() * index"
-                v-html="printValue(string)"
-              >
-              </li>
-            </ul>
-            <!-- <template v-else>
+            <li
+              v-for="(string, index) in item.value"
+              :key="Math.random() * index"
+              v-html="printValue(string)"
+            ></li>
+          </ul>
+          <!-- <template v-else>
               {{ item.value }}
             </template> -->
           <!-- </p> -->
-        <!-- </template> -->
+          <!-- </template> -->
         </div>
       </div>
     </div>
   </div>
+    </div>
 </template>
 
 <script>
@@ -72,7 +72,7 @@ export default {
 
   data() {
     return {
-      isActive: true,
+      isActive: false,
       modalOffset: 0,
       styleObject: {
         top: 0,
@@ -95,18 +95,15 @@ export default {
   },
 
   mounted() {
-    this.$root.$on("openLegend", this.openModal);
+    this.$root.$on("openLegend", this.openLegend);
   },
 
   methods: {
-    openModal(tableId) {
+    openLegend (tableId) {
       if (this.tableId !== tableId) {
         return false;
       }
-
-      this.legends = this.$store.getters["filterableTable/updateLegend"](
-        this.tableId
-      );
+      console.log('open')  
 
       this.isActive = true;
     },
