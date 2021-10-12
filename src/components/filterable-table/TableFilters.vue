@@ -9,7 +9,11 @@
       :title="filter.title" 
       :type="filter.type" 
     />
-
+    <table-legend 
+      class="filter__button-download"
+      :tableId="tableId"
+      :legends="legends"
+    />
     <table-download 
       v-if="endpointDownload"
       class="filter__button-download"  
@@ -23,13 +27,15 @@
 <script>
   import TableFilter from './TableFilter.vue'
   import TableDownload from './TableDownload.vue'
+  import TableLegend from './TableLegend.vue'
 
   export default {
     name: "TableFilters",
 
     components: { 
       TableFilter, 
-      TableDownload 
+      TableDownload,
+      TableLegend 
     },
 
     props: {
@@ -48,6 +54,9 @@
         required: true,
         type: Number,
       },
+      legends: {
+        type: Array
+      },
     },
 
     data () {
@@ -59,7 +68,6 @@
     mounted () {
       this.$root.$on('clickDropdown', this.updateDropdowns)
     },
-
     methods: {
       updateDropdowns (name, tableId) {
         if(this.tableId !== tableId) { return false }
@@ -68,6 +76,7 @@
           filter.isOpen = filter.name == name
         })
       }
+      
     }
   }
 </script>

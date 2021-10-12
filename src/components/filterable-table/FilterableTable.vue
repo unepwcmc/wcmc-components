@@ -2,7 +2,8 @@
   <div :style="cssVariables">
     <table-filters 
       :endpoint-download="endpointDownload"
-      :filters="filters" 
+      :filters="filters"
+      :legends="legends"
       :table-id="id"
       :total-items="totalItems"
     />
@@ -29,7 +30,7 @@
         </div>
       </template>
     </div>
-  
+
     <table-pagination 
       v-if="hasItems"
       :current-page="currentPage" 
@@ -56,6 +57,7 @@ import { merge } from 'lodash'
 
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
+
 import TableModal from './TableModal.vue'
 import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
@@ -86,6 +88,9 @@ export default {
     filterArray: {
       type: Array
     },
+    legendArray: {
+      type: Array
+    },
     itemsPerPage: {
       default: 10,
       type: Number
@@ -101,6 +106,7 @@ export default {
       currentPage: 1,
       dummyData: DUMMY_DATA,
       filters: [],
+      legends: [],
       id: '',
       items: [],
       noResultsMessage: '',
@@ -143,9 +149,11 @@ export default {
     if(this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
+      this.legends = this.dummyData.legends
     } else {
       this.headings = this.attributes
       this.filters = this.filterArray
+      this.legends = this.legendArray
     }
 
     this.$root.$on('getNewItems', this.getNewItems)
@@ -181,9 +189,11 @@ export default {
 
       this.$store.dispatch('filterableTable/setFilterOptions', obj)
     },
+
     getNewItems () {
       let data = {
         filters: this.selectedFilterOptions,
+        legends: this.legendArray,
         items_per_page: this.itemsPerPage,
         requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id)
       }

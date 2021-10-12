@@ -5,6 +5,7 @@ const DEFAULT_STATE = {
     totalItemsOnCurrentPage: 0,
     requestedPage: 1,
     selectedFilterOptions: [], // an array containing an object for each filter that has an array of selected options
+    legendContent: {},
     modalContent: {},
     sortDirection: ''
 }
@@ -23,6 +24,9 @@ export const storeFilterableTable = {
     },
     options: state => id => {
       return state.tables[id].options
+    },
+    legendOptions:state => id => {
+      return state.tables[id].legendContent
     },
     getRequestedPage: state => id => {
       return state.tables[id].requestedPage
@@ -49,6 +53,9 @@ export const storeFilterableTable = {
     },
     setFilterOptions ({ commit }, obj) {
       commit('setFilterOptions', obj)
+    },
+    updateLegend ({ commit }, obj) {
+      commit('updateLegend', obj)
     },
     updateModal ({ commit }, obj) {
       commit('updateModal', obj)
@@ -82,6 +89,9 @@ export const storeFilterableTable = {
     },
     updateOptions (state, obj) {
       state.tables[obj.tableId].options = cloneDeep(obj.options)
+    },    
+    updateLegend (state, obj) {
+      state.tables[obj.tableId].legendContent = cloneDeep(obj.content)
     },
     updateModal (state, obj) {
       state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
