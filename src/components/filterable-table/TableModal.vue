@@ -20,17 +20,18 @@
           {{ config.modal.title }}
         </h2>
 
-        <template v-for="(item, index) in modalContent">
-          <p 
-            v-if="item.showInModal"
-            :key="index"
+        <template v-for="(item, index) in modalContent" >
+          <div 
+            v-if="item.showInModal"         
+            :key="index" 
           >
             <span class="modal__item-name">{{ item.title }}:</span> 
-            <ul 
+            <div 
               v-if="hasMultipleValues(item.value)"
               class="modal__ul"
+              :key="index" 
             >
-              <span 
+              <ul 
                 v-if="item.legend_on"
                 class="legend"
               >
@@ -38,27 +39,26 @@
                   :key="Math.random() * index"
                   class="legend__li"
                 >
-                  <span 
-                  :class="`legend__icon ${kebabCaseClassName(string)}`"
-                  ></span>
-                  <p v-html="printValue(string)"></p>
+                  <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
+                  <p v-html="printValue(string)"/>
                 </li>
-              </span>
-              <span v-else>
+              </ul>
+              <ul v-else>
                 <li v-for="string, index in item.value"
                   :key="Math.random() * index"
                   v-html="printValue(string)"
-                ></li>
-              </span>
-            </ul>
+                />
+              </ul>
+            </div>
             <template v-else>
               <span 
                 v-if="item.legend_on"
+                :key="index" 
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
-              ></span>             
+              />             
               {{ item.value }}
             </template>
-          </p>
+          </div>
         </template>
       </div>
     </div>
