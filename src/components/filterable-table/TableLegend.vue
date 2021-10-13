@@ -5,7 +5,7 @@
       :class="button"
       v-bind="{ disabled: noResults }"
     >
-      {{ config.legend.title }}
+      {{ config.legend.title.toUpperCase() }}
     </button>
     <div
       :class="['modal-wrapper', { active: isActive }]"
@@ -19,11 +19,14 @@
           </button>
           <div v-for="legend in legends" :key="legend.title">
             <h2 class="modal__title">
-              {{ legend.title }}
+              <strong>{{ config.legend.title }}</strong>
             </h2>
+            <h3 class="modal__item-name">{{ legend.title }}: </h3>
+            <div class="legend-options">
             <div class="legend-row" v-for="(item, index) in legend.options" :key="index">
               <span :class="`legend-icon ${kebabCaseClassName(item)}`"></span>
-              <span class="modal__item-name">{{ item }}</span>
+              <p class="legend-item">{{ item }}</p>
+            </div>
             </div>
           </div>
         </div>
@@ -170,11 +173,11 @@ export default {
 
   &__item-name {
     font-weight: bold;
-    margin-right: rem-calc(4);
+    margin: rem-calc(0 4 12 0);
   }
 
   &__title {
-    margin-top: 0;
+    margin-bottom: rem-calc(32);
   }
 
   &__ul {
@@ -183,11 +186,20 @@ export default {
   }
 }
 
+.legend-options {
+  display: flex;
+  flex-wrap: wrap;
+}
+
 .legend-icon {
   width: rem-calc(38);
   height: rem-calc(38);
   display: inline-block;
   margin: rem-calc(4);
+}
+
+.legend-item {
+  padding: rem-calc(0 12);
 }
 
 .legend-row {
