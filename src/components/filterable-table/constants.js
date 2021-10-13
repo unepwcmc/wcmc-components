@@ -102,7 +102,7 @@ export const DEFAULT_OPTIONS = {
     wrapperColor: 'rgba(0,0,0,.2)'
   },
   legend: {
-    title: 'Legend',
+    buttonTitle: 'Legend',
     buttonClass: 'legend-icon'
   },
   pagination: {
