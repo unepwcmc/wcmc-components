@@ -27,7 +27,6 @@
             <div class="legend__row" v-for="(item, index) in legend.options" :key="index">
               <span :class="`legend__icon ${kebabCaseClassName(item)}`"></span>
               <p class="legend__item">{{ item }}</p>
-              {{kebabCaseClassName(item)}}
             </div>
             </div>
           </div>
