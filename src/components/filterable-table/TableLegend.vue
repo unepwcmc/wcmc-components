@@ -6,7 +6,7 @@
       v-bind="{ disabled: noResults }"
     >
       <span :class="`legend__icon ${config.legend.buttonClass}`"></span>
-      <span class="legend__item">{{ config.legend.title.toUpperCase() }}</span>
+      <span class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
     </button>
     <div
       :class="['modal-wrapper', { active: isActive }]"

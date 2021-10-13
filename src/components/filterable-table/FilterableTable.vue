@@ -193,7 +193,6 @@ export default {
     getNewItems () {
       let data = {
         filters: this.selectedFilterOptions,
-        legends: this.legendArray,
         items_per_page: this.itemsPerPage,
         requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id)
       }
