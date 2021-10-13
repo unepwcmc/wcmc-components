@@ -87,7 +87,6 @@ export default {
       if (this.tableId !== tableId) {
         return false;
       }
-      console.log("open");
 
       this.isActive = true;
     },
