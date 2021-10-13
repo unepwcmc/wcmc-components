@@ -10,20 +10,24 @@
       class="cell"
       :style="`grid-column: ${index + 1}`"
     >
-    <div v-if="cell.legend_on">
-      <span
-        v-for="(value, index) in cell.value"
-        :key="Math.random() * index"
+      <div 
+      class="cell__legend" 
+      v-if="cell.legend_on"
       >
         <span class="cell__name">{{ cell.name }}: </span>
-        <span :class="`legend-icon ${kebabCaseClassName(value)}`"></span>
-      </span>
-    </div>
 
-    <p v-else>
-      <span class="cell__name">{{ cell.name }}: </span>
-      <span v-html="printValue(cell.value)" />
-    </p>
+        <span
+          v-for="(value, index) in cell.value"
+          :key="Math.random() * index"
+          :class="`legend-icon ${kebabCaseClassName(value)}`"
+        >
+        </span>
+      </div>
+
+      <p v-else>
+        <span class="cell__name">{{ cell.name }}: </span>
+        <span v-html="printValue(cell.value)" />
+      </p>
     </div>
     
     <p
@@ -210,6 +214,14 @@ export default {
       margin-right: rem-calc(6);
 
       @include breakpoint($medium){ display: none; }
+    }
+    
+    &__legend {
+      display: flex;
+      align-items: center;
+      @include breakpoint($medium) {
+        display: block;
+      }
     }
   }
 

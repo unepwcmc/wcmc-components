@@ -5,7 +5,6 @@ const DEFAULT_STATE = {
     totalItemsOnCurrentPage: 0,
     requestedPage: 1,
     selectedFilterOptions: [], // an array containing an object for each filter that has an array of selected options
-    legendContent: {},
     modalContent: {},
     sortDirection: ''
 }
@@ -24,9 +23,6 @@ export const storeFilterableTable = {
     },
     options: state => id => {
       return state.tables[id].options
-    },
-    legendOptions:state => id => {
-      return state.tables[id].legendContent
     },
     getRequestedPage: state => id => {
       return state.tables[id].requestedPage

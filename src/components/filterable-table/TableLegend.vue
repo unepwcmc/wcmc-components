@@ -124,7 +124,7 @@ export default {
   background-color: white;
   box-shadow: #ababab 2px 2px 2px;
   overflow-y: scroll;
-  padding: rem-calc(34 32);
+  padding: rem-calc(34 38);
   width: 100%;
   height: 100vh;
 
@@ -135,7 +135,6 @@ export default {
 
   @include breakpoint($small) {
     border-radius: 0;
-    padding: rem-calc(34 32);
     width: 60%;
     height: auto;
     max-height: 80vh;
@@ -187,8 +186,10 @@ export default {
 }
 
 .legend-options {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  @include breakpoint($medium) {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .legend-icon {
@@ -196,6 +197,7 @@ export default {
   height: rem-calc(38);
   display: inline-block;
   margin: rem-calc(4);
+  background-size: cover;
 }
 
 .legend-item {

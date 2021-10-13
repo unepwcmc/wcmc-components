@@ -59,7 +59,10 @@ export default {
     tableId: {
       required: true,
       type: Number,
-    }
+    },
+    legends: {
+      type: Array,
+    },
   },
 
   data () {
@@ -182,7 +185,9 @@ export default {
     margin-right: rem-calc(4);
   }
 
-  &__title { margin-top: 0; }
+  &__title {
+    margin-bottom: rem-calc(32);
+  }
 
   &__ul {
     margin-top: rem-calc(6);
