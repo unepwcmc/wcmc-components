@@ -14,7 +14,7 @@
       class="cell__legend" 
       v-if="cell.legend_on"
       >
-        <span class="cell__name">{{ cell.name }}: </span>
+        <span class="cell__title">{{ cell.title }}: </span>
 
         <span
           v-for="(value, index) in cell.value"
@@ -25,7 +25,7 @@
       </div>
 
       <p v-else>
-        <span class="cell__name">{{ cell.name }}: </span>
+        <span class="cell__title">{{ cell.title }}: </span>
         <span v-html="printValue(cell.value)" />
       </p>
     </div>
@@ -212,7 +212,7 @@ export default {
 
     &:first-child { border-left: none; }
 
-    &__name {
+    &__title {
       font-weight: bold; 
       margin-right: rem-calc(6);
 
