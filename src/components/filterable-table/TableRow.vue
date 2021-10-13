@@ -188,11 +188,12 @@ export default {
 
   .legend {
     &__icon {
-      width: rem-calc(38);
-      height: rem-calc(38);
-      display: inline-block;
       margin: rem-calc(4);
+      height: rem-calc(38);
+      width: rem-calc(38);
       background-size: cover;
+
+      display: inline-block;
     }
   }
 
