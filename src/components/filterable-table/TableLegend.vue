@@ -27,6 +27,7 @@
             <div class="legend__row" v-for="(item, index) in legend.options" :key="index">
               <span :class="`legend__icon ${kebabCaseClassName(item)}`"></span>
               <p class="legend__item">{{ item }}</p>
+              {{kebabCaseClassName(item)}}
             </div>
             </div>
           </div>
@@ -187,12 +188,18 @@ export default {
 }
 
 .legend {
+
   &__button {
     border: 1px solid #000;
     display: flex;
-    padding: rem-calc(0 12);
+    padding: rem-calc(1 12);
     align-items: center;
     font-weight: 600;
+    margin-right: rem-calc(10);
+    margin-bottom: rem-calc(10);
+    @include breakpoint($medium) {
+      margin-bottom: 0;
+    }
   }
 
   &__options {
