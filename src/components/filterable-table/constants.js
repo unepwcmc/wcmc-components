@@ -103,6 +103,7 @@ export const DEFAULT_OPTIONS = {
   },
   legend: {
     title: 'Legend',
+    buttonClass: 'legend-icon'
   },
   pagination: {
     buttonBgColor: UNEP_WCMC_BLUE,

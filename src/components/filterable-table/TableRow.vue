@@ -19,7 +19,7 @@
         <span
           v-for="(value, index) in cell.value"
           :key="Math.random() * index"
-          :class="`legend-icon ${kebabCaseClassName(value)}`"
+          :class="`legend__icon ${kebabCaseClassName(value)}`"
         >
         </span>
       </div>
@@ -186,11 +186,13 @@ export default {
     }
   }
 
-  .legend-icon {
-    width: rem-calc(38);
-    height: rem-calc(38);
-    display: inline-block;
-    margin: rem-calc(4);
+  .legend {
+    &__icon {
+      width: rem-calc(38);
+      height: rem-calc(38);
+      display: inline-block;
+      margin: rem-calc(4);
+    }
   }
 
   .cell {

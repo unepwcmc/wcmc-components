@@ -2,10 +2,11 @@
   <div>
     <button
       @click="openLegend(tableId)"
-      :class="button"
+      class="legend__button"
       v-bind="{ disabled: noResults }"
     >
-      {{ config.legend.title.toUpperCase() }}
+      <span :class="`legend__icon ${config.legend.buttonClass}`"></span>
+      <span class="legend__item">{{ config.legend.title.toUpperCase() }}</span>
     </button>
     <div
       :class="['modal-wrapper', { active: isActive }]"
@@ -22,10 +23,10 @@
               <strong>{{ config.legend.title }}</strong>
             </h2>
             <h3 class="modal__item-name">{{ legend.title }}: </h3>
-            <div class="legend-options">
-            <div class="legend-row" v-for="(item, index) in legend.options" :key="index">
-              <span :class="`legend-icon ${kebabCaseClassName(item)}`"></span>
-              <p class="legend-item">{{ item }}</p>
+            <div class="legend__options">
+            <div class="legend__row" v-for="(item, index) in legend.options" :key="index">
+              <span :class="`legend__icon ${kebabCaseClassName(item)}`"></span>
+              <p class="legend__item">{{ item }}</p>
             </div>
             </div>
           </div>
@@ -185,28 +186,38 @@ export default {
   }
 }
 
-.legend-options {
-  display: grid;
-  @include breakpoint($medium) {
-    grid-template-columns: repeat(2, 1fr);
+.legend {
+  &__button {
+    border: 1px solid #000;
+    display: flex;
+    padding: rem-calc(0 12);
+    align-items: center;
+    font-weight: 600;
   }
-}
 
-.legend-icon {
-  width: rem-calc(38);
-  height: rem-calc(38);
-  display: inline-block;
-  margin: rem-calc(4);
-  background-size: cover;
-}
+  &__options {
+    display: grid;
+    @include breakpoint($medium) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 
-.legend-item {
-  padding: rem-calc(0 12);
-}
+  &__icon {
+    width: rem-calc(38);
+    height: rem-calc(38);
+    display: inline-block;
+    margin: rem-calc(4);
+    background-size: cover;
+  }
 
-.legend-row {
-  display: flex;
-  align-items: center;
+  &__item {
+    padding: rem-calc(0 12);
+  }
+
+  &__row {
+    display: flex;
+    align-items: center;
+  }
 }
 
 ::v-deep .svg-cross {

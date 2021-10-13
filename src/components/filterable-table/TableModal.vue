@@ -30,13 +30,32 @@
               v-if="hasMultipleValues(item.value)"
               class="modal__ul"
             >
-              <li v-for="string, index in item.value"
-                :key="Math.random() * index"
-                v-html="printValue(string)"
+              <span 
+                v-if="item.legend_on"
+                class="legend"
               >
-              </li>
+                <li v-for="string, index in item.value"
+                  :key="Math.random() * index"
+                  class="legend__li"
+                >
+                  <span 
+                  :class="`legend__icon ${kebabCaseClassName(string)}`"
+                  ></span>
+                  <p v-html="printValue(string)"></p>
+                </li>
+              </span>
+              <span v-else>
+                <li v-for="string, index in item.value"
+                  :key="Math.random() * index"
+                  v-html="printValue(string)"
+                ></li>
+              </span>
             </ul>
             <template v-else>
+              <span 
+                v-if="item.legend_on"
+                :class="`legend__icon ${kebabCaseClassName(item.value)}`"
+              ></span>             
               {{ item.value }}
             </template>
           </p>
@@ -113,6 +132,10 @@ export default {
 
     printValue(string) {
       return isALink(string) 
+    },
+    
+    kebabCaseClassName (title) {
+      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
   }
 }
@@ -167,7 +190,8 @@ export default {
     cursor: pointer;
     width: rem-calc(50); height: rem-calc(50);
     
-    position: absolute;
+    position: sticky;
+    float: right;
     top: rem-calc(-18);
     right: rem-calc(-16);
 
@@ -192,6 +216,24 @@ export default {
   &__ul {
     margin-top: rem-calc(6);
     padding-left: rem-calc(24);
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  &__li {
+    padding: rem-calc(12);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  &__icon {
+    width: rem-calc(38);
+    height: rem-calc(38);
+    display: inline-block;
+    margin: rem-calc(4);
+    background-size: cover;
   }
 }
 
