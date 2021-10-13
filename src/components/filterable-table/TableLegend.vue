@@ -25,7 +25,7 @@
             <h3 class="modal__item-name">{{ legend.title }}: </h3>
             <div class="legend__options">
               <div class="legend__row" v-for="(item, index) in legend.options" :key="index">
-                <span :class="`legend__icon ${kebabCaseClassName(item)}`"></span>
+                <span :class="`legend__icon ${kebabCaseClassName(item)}`"/>
                 <p class="legend__item">{{ item }}</p>
               </div>
             </div>
