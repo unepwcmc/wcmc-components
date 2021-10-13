@@ -192,6 +192,7 @@ export default {
       height: rem-calc(38);
       display: inline-block;
       margin: rem-calc(4);
+      background-size: cover;
     }
   }
 
