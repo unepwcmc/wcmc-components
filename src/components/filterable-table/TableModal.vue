@@ -28,7 +28,6 @@
             <span class="modal__item-name">{{ item.title }}:</span> 
             <div 
               v-if="hasMultipleValues(item.value)"
-              class="modal__ul"
               :key="index" 
             >
               <ul 
@@ -43,7 +42,10 @@
                   <p v-html="printValue(string)"/>
                 </li>
               </ul>
-              <ul v-else>
+              <ul 
+                v-else
+                class="modal__ul"
+              >
                 <li v-for="string, index in item.value"
                   :key="Math.random() * index"
                   v-html="printValue(string)"
