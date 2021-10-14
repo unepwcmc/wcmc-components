@@ -67,10 +67,10 @@ export default {
   computed: {
     cssVariables() {
       return {
-        "--svg-cross-color": this.config.modal.crossFill,
-        "--close-bg-color": this.config.modal.closeBgColor,
-        "--close-border-radius": this.config.modal.closeBorderRadius,
-        "--wrapper-color": this.config.modal.wrapperColor,
+        "--svg-cross-color": this.config.legend.crossFill,
+        "--close-bg-color": this.config.legend.closeBgColor,
+        "--close-border-radius": this.config.legend.closeBorderRadius,
+        "--wrapper-color": this.config.legend.wrapperColor,
       };
     },
     config() {

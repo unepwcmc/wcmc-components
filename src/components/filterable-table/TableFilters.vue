@@ -68,6 +68,7 @@
     mounted () {
       this.$root.$on('clickDropdown', this.updateDropdowns)
     },
+
     methods: {
       updateDropdowns (name, tableId) {
         if(this.tableId !== tableId) { return false }

@@ -103,7 +103,8 @@ export default {
         '--svg-cross-color': this.config.modal.crossFill,
         '--close-bg-color': this.config.modal.closeBgColor,
         '--close-border-radius': this.config.modal.closeBorderRadius,
-        '--wrapper-color': this.config.modal.wrapperColor
+        '--wrapper-color': this.config.modal.wrapperColor,
+        '--font-family': this.config.fontFamily
       }
     },
     config () {
@@ -162,6 +163,8 @@ export default {
 .modal {
   background-color: white;
   box-shadow: #ababab 2px 2px 2px;
+  font-family: Arial, sans-serif; // IE11
+  font-family: var(--font-family);
   overflow-y: scroll;
   padding: rem-calc(34 32);
   width: 100%; height: 100vh;
