@@ -1,3 +1,8 @@
+### 1.1.0
+
+- new legend components
+- small style fixes
+- default config update
 ### 1.0.5
 
 - CSS and JavaScript Fixes for IE11

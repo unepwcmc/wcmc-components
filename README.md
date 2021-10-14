@@ -24,7 +24,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ## Installing the package into another repo
 ### Install npm package
-- Add `"@unep-wcmc/wcmc-components": "1.0.2"` to your package.json (Or the version you want to use)
+- Add `"@unep-wcmc/wcmc-components": "1.1.0"` to your package.json (Or the version you want to use)
 - Run `yarn config set registry https://registry.npmjs.org/`
 - Run `yarn install`
 - In your new project add `import FilterableTable from '@unep-wcmc/wcmc-components'`
