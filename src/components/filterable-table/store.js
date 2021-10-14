@@ -82,7 +82,7 @@ export const storeFilterableTable = {
     },
     updateOptions (state, obj) {
       state.tables[obj.tableId].options = cloneDeep(obj.options)
-    },
+    },    
     updateModal (state, obj) {
       state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
     },

@@ -20,26 +20,45 @@
           {{ config.modal.title }}
         </h2>
 
-        <template v-for="(item, index) in modalContent">
-          <p 
-            v-if="item.showInModal"
-            :key="index"
+        <template v-for="(item, index) in modalContent" >
+          <div 
+            v-if="item.showInModal"         
+            :key="index" 
           >
             <span class="modal__item-name">{{ item.title }}:</span> 
-            <ul 
+            <div 
               v-if="hasMultipleValues(item.value)"
               class="modal__ul"
+              :key="index" 
             >
-              <li v-for="string, index in item.value"
-                :key="Math.random() * index"
-                v-html="printValue(string)"
+              <ul 
+                v-if="item.legend_on"
+                class="legend"
               >
-              </li>
-            </ul>
+                <li v-for="string, index in item.value"
+                  :key="Math.random() * index"
+                  class="legend__li"
+                >
+                  <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
+                  <p v-html="printValue(string)"/>
+                </li>
+              </ul>
+              <ul v-else>
+                <li v-for="string, index in item.value"
+                  :key="Math.random() * index"
+                  v-html="printValue(string)"
+                />
+              </ul>
+            </div>
             <template v-else>
+              <span 
+                v-if="item.legend_on"
+                :key="index" 
+                :class="`legend__icon ${kebabCaseClassName(item.value)}`"
+              />             
               {{ item.value }}
             </template>
-          </p>
+          </div>
         </template>
       </div>
     </div>
@@ -59,7 +78,10 @@ export default {
     tableId: {
       required: true,
       type: Number,
-    }
+    },
+    legends: {
+      type: Array,
+    },
   },
 
   data () {
@@ -110,6 +132,10 @@ export default {
 
     printValue(string) {
       return isALink(string) 
+    },
+    
+    kebabCaseClassName (title) {
+      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
   }
 }
@@ -164,7 +190,8 @@ export default {
     cursor: pointer;
     width: rem-calc(50); height: rem-calc(50);
     
-    position: absolute;
+    position: sticky;
+    float: right;
     top: rem-calc(-18);
     right: rem-calc(-16);
 
@@ -182,11 +209,34 @@ export default {
     margin-right: rem-calc(4);
   }
 
-  &__title { margin-top: 0; }
+  &__title {
+    margin-bottom: rem-calc(32);
+  }
 
   &__ul {
     margin-top: rem-calc(6);
     padding-left: rem-calc(24);
+  }
+}
+
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  
+  &__li {
+    padding: rem-calc(12);
+
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  &__icon {
+    margin: rem-calc(4);
+    height: rem-calc(38);
+    width: rem-calc(38);
+    background-size: cover;
+
+    display: inline-block;
   }
 }
 

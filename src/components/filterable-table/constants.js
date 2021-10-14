@@ -101,6 +101,10 @@ export const DEFAULT_OPTIONS = {
     crossFill: '#000',
     wrapperColor: 'rgba(0,0,0,.2)'
   },
+  legend: {
+    buttonTitle: 'Legend',
+    buttonClass: 'legend-icon'
+  },
   pagination: {
     buttonBgColor: UNEP_WCMC_BLUE,
     buttonBgColorDisabled: '#ccc',
@@ -143,6 +147,20 @@ export const DUMMY_DATA = {
       "name": "filter-2",
       "options": ["Option 1", "Option 2", "Option 3"],
       "title": "Filter 2",
+      "type": "multiple"
+    }
+  ],
+  "legends": [
+    {
+      "name": "legend-1",
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very long label that needs to be handled"],
+      "title": "What a legend",
+      "type": "multiple"
+    },
+    {
+      "name": "legend-1",
+      "options": ["Option 1", "Option 2", "Option 3"],
+      "title": "Legendary",
       "type": "multiple"
     }
   ],
