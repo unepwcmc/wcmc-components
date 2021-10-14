@@ -63,8 +63,8 @@ export const DEFAULT_OPTIONS = {
       textTransform: 'capitalize'
     },
     filterOptions: {
-      // borderRadius: '0',
-      tickFill: UNEP_WCMC_BLUE
+      tickFill: UNEP_WCMC_BLUE,
+      handleLongLabels: 'truncate',
     },
     trigger: {
       colorBg: '#fff',
@@ -95,6 +95,15 @@ export const DEFAULT_OPTIONS = {
     fontWeight: 'normal'
   },
   modal: {
+    title: 'Optional modal title',
+    closeBgColor: '#fff',
+    closeBorderRadius: '0',
+    crossFill: '#000',
+    wrapperColor: 'rgba(0,0,0,.2)'
+  },
+  legend: {
+    buttonTitle: 'Legend',
+    buttonClass: 'legend-icon',
     title: 'Optional modal title',
     closeBgColor: '#fff',
     closeBorderRadius: '0',
@@ -135,7 +144,7 @@ export const DUMMY_DATA = {
   "filters": [
     {
       "name": "filter-1",
-      "options": ["Option 1", "Option 2", "Option 3"],
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very long label that needs to be handled"],
       "title": "Filter 1",
       "type": "multiple"
     },
@@ -143,6 +152,20 @@ export const DUMMY_DATA = {
       "name": "filter-2",
       "options": ["Option 1", "Option 2", "Option 3"],
       "title": "Filter 2",
+      "type": "multiple"
+    }
+  ],
+  "legends": [
+    {
+      "name": "legend-1",
+      "options": ["Option 1", "Option 2", "Option 3 - this is an example very long label that needs to be handled"],
+      "title": "What a legend",
+      "type": "multiple"
+    },
+    {
+      "name": "legend-1",
+      "options": ["Option 1", "Option 2", "Option 3"],
+      "title": "Legendary",
       "type": "multiple"
     }
   ],
