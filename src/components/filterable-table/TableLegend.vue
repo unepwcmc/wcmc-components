@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="config.legend && legends">
     <button
       @click="openLegend(tableId)"
       class="legend__button"
-      v-bind="{ disabled: noResults }"
     >
-      <span :class="`legend__icon ${config.legend.buttonClass}`"></span>
-      <span class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
+      <span :class="`legend__icon ${config.legend.buttonClass}`"/>
+      <span 
+      class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
     </button>
     <div
       :class="['modal-wrapper', { active: isActive }]"
@@ -97,7 +97,7 @@ export default {
 
     kebabCaseClassName(title) {
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
-    }
+    },
   },
 };
 </script>
