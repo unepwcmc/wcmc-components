@@ -1,6 +1,6 @@
 <template>
   <div :style="cssVariables">
-    <table-filters 
+    <table-filters
       :endpoint-download="endpointDownload"
       :filters="filters"
       :legends="legends"

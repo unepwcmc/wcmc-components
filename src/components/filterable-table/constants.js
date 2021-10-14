@@ -103,7 +103,12 @@ export const DEFAULT_OPTIONS = {
   },
   legend: {
     buttonTitle: 'Legend',
-    buttonClass: 'legend-icon'
+    buttonClass: 'legend-icon',
+    title: 'Optional modal title',
+    closeBgColor: '#fff',
+    closeBorderRadius: '0',
+    crossFill: '#000',
+    wrapperColor: 'rgba(0,0,0,.2)'
   },
   pagination: {
     buttonBgColor: UNEP_WCMC_BLUE,

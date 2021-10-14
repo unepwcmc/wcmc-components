@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div v-if="config.legend && legends">
     <button
       @click="openLegend(tableId)"
       class="legend__button"
-      v-bind="{ disabled: noResults }"
     >
-      <span :class="`legend__icon ${config.legend.buttonClass}`"></span>
-      <span class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
+      <span :class="`legend__icon ${config.legend.buttonClass}`"/>
+      <span 
+      class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
     </button>
     <div
       :class="['modal-wrapper', { active: isActive }]"
@@ -67,10 +67,10 @@ export default {
   computed: {
     cssVariables() {
       return {
-        "--svg-cross-color": this.config.modal.crossFill,
-        "--close-bg-color": this.config.modal.closeBgColor,
-        "--close-border-radius": this.config.modal.closeBorderRadius,
-        "--wrapper-color": this.config.modal.wrapperColor,
+        "--svg-cross-color": this.config.legend.crossFill,
+        "--close-bg-color": this.config.legend.closeBgColor,
+        "--close-border-radius": this.config.legend.closeBorderRadius,
+        "--wrapper-color": this.config.legend.wrapperColor,
       };
     },
     config() {
@@ -97,7 +97,7 @@ export default {
 
     kebabCaseClassName(title) {
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
-    }
+    },
   },
 };
 </script>
