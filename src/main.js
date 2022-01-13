@@ -1,3 +1,4 @@
+import ChartSunburst from './components/chart-sunburst/ChartSunburst.vue'
 import DummyButton from './components/dummy-button/DummyButton.vue'
 import FilterableTable from './components/filterable-table/FilterableTable.vue'
 
@@ -14,13 +15,15 @@ export default {
 
     options.store.registerModule('dummyButton', storeDummyButton)
     options.store.registerModule('filterableTable', storeFilterableTable)
- 
+    
+    Vue.component('chart-sunburst', ChartSunburst)
     Vue.component('dummy-button', DummyButton)
     Vue.component('filterable-table', FilterableTable)
   }
 }
 
 export {
+  ChartSunburst,
   DummyButton,
   FilterableTable
 }
