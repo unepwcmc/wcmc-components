@@ -1,14 +1,19 @@
 <template>
-  <div class="wrapper">
-    <div class="chart__svg" id="chartdiv" />
+  <div class="wrapper" 
+    :style="cssVariables"
+  >
     <button 
+    :style="cssVariables"
       @click="resetChart"
-    >Reset</button>
-    <div class="panel">
-      [
-      {{ selectedContent }}
-      ]
-    </div>
+      class="button"
+    >
+      {{ config.resetButton.text }}
+    </button>
+
+    <div 
+      :id="id"
+      class="chart__svg"  
+    />
   </div>
 </template>
 <script>
@@ -22,23 +27,46 @@ import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 
 export default {
   name: 'ChartSunburst',
+
   props: {
     options: {
       type: Object
+    },
+    data: {
+      type: Object
     }
   },
+
   data () {
     return {
-      config: '',
-      selectedContent: '',
+      config: null,
       container: '',
+      dummyData: DUMMY_DATA,
+      id: '',
       root: null,
       series: null
     }
   },
+
+  created () {
+    this.importPropOptions()
+
+    //create id so multiple charts can be added to a page
+    this.id = `chartdiv-${Math.random(100)*100}`
+  },
+
   mounted () {
     this.chartInit()
   },
+
+  computed: {
+    cssVariables () {
+      return {
+        '--button-font-size': this.config.resetButton.fontSize
+      }
+    }
+  },
+
   methods: {
     chartInit() {
       this.createChart()
@@ -65,7 +93,7 @@ export default {
     //   })
     // },
     createChart () {
-      this.root = am5.Root.new("chartdiv")
+      this.root = am5.Root.new(this.id)
     },
     createSeries () {
       this.root.setThemes([
@@ -83,7 +111,7 @@ export default {
       this.series = this.container.children.push(
         am5hierarchy.Sunburst.new(this.root, {
           downDepth: 1,
-          initialDepth: 0,
+          initialDepth: 1,
           topDepth: 1,
           upDepth: 1,
           valueField: "value",
@@ -116,11 +144,7 @@ myTheme.rule("Label").setAll({
 
 // ])
 
-this.series.get("colors").set("colors", [
-  am5.color(0x11C583),
-  am5.color(0x159BFA),
-  am5.color(0xA83CF5)
-])
+
 
 // this.root.setThemes([
 //   am5themes_Animated.new(this.root),
@@ -130,17 +154,7 @@ this.series.get("colors").set("colors", [
       const data = DUMMY_DATA
 
       this.resetChart()
-
-      
-
-      // let selectedSlice;
-
-      // this.series.slices.template.states.create("highlight", {
-      //   fill: am5.color(0x000000),
-      //   stroke: am5.color(0x297373)
-      // })
-
-      
+      this.setChartColours()
 
       this.series.labels.template.setAll({
         textType: 'circular',
@@ -176,43 +190,43 @@ this.series.get("colors").set("colors", [
 
           console.log('state', node.get('active'))
         })
-        console.log('selectedContent', event.target.dataItem.dataContext.name)
-        // this.selectedContent = event.target
+        
+        const selectedContent = event.target.dataItem.dataContext.id
+        this.$root.$emit('chart-sunburst:update:selected', selectedContent)
       })
       
       this.series.data.setAll([data])
     },
     importPropOptions () {
-      // const obj = {
-      //   options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
-      // }
-
       this.config = typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
-
-      // this.$store.dispatch('filterableTable/updateOptions', obj)
     },
     resetChart () {
-      this.series.set("selectedDataItem", this.series.dataItems[0])
+      this.series.set('selectedDataItem', this.series.dataItems[0])
+    },
+    setChartColours () {
+      let colours = []
+      
+      this.config.chart.colours.forEach(colour => {
+        colours.push(am5.color(colour))
+      })
+
+      this.series.get("colors").set("colors", colours)
     },
     getSeries() {
       // console.log('node', this.series)
-      
     }
   }
 }
 </script>
 <style lang="scss" scoped>
 .chart__svg {
-  font-family: 'icomoon';
-  width: 50vw;
-  height: 50vh;
+  width: 100vw;
+  height: 100vh;
 }
 
-.icomoon {
-  font-family: 'icomoon';
-}
-
-.panel {
-  width: 20%;
+.button {
+  background: none;
+  border: none;
+  font-size: var(--button-font-size);
 }
 </style>
