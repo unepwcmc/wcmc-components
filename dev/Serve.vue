@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <ChartSunburst />
+    <ChartSunburst
+      
+    />
     <p>
       <!-- <dummy-button /> -->
     </p>
