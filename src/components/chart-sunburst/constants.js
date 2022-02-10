@@ -16,54 +16,64 @@ export const DUMMY_DATA = {
   [
     {
       id: "parent-1",
-      color: "#11C583",
-      selectedColor: "#000",
+      color: "#159BFA",
       name: "Parent 1",
       children: [
       {
         id: "child-1",
-        color: "#22C583",
+        color: "#159BFA",
         name: "Child 1",
         value: 1
       },
       {
         id: "child-2",
-        color: "#22C583",
+        color: "#159BFA",
         name: "Child 2",
-        value: 1
-      },
-      {
-        id: "child-3",
-        color: "#22C583",
-        name: "Child 3",
         value: 1
       },
       ]
     },
     {
       id: "parent-2",
+      color: "#A83CF5",
       name: "Parent 2",
       children: [
       {
+        id: "child-3",
+        color: "#159BFA",
+        name: "Child 3",
+        value: 1
+      },
+      {
         id: "child-4",
+        color: "#A83CF5",
         name: "Child 4",
-        value: 1
-      },
-      {
-        id: "child-5",
-        name: "Child 5",
-        value: 1
-      },
-      {
-        id: "child-6",
-        name: "Child 6",
         value: 1
       },
       ]
     },
     {
       id: "parent-3",
+      color: "#11C583",
       name: "Parent 3",
+      children: [
+      {
+        id: "child-5",
+        color: "#A83CF5",
+        name: "Child 5",
+        value: 1
+      },
+      {
+        id: "child-6",
+        color: "#A83CF5",
+        name: "Child 6",
+        value: 1
+      },
+      ]
+    },
+    {
+      id: "parent-4",
+      name: "Parent 4",
       children: [
       {
         id: "child-7",

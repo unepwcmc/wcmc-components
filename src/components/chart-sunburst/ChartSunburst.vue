@@ -39,6 +39,7 @@ export default {
 
   data () {
     return {
+      chartDataSeries: null,
       config: null,
       container: '',
       dummyData: DUMMY_DATA,
@@ -50,6 +51,7 @@ export default {
 
   created () {
     this.importPropOptions()
+    this.importData()
 
     //create id so multiple charts can be added to a page
     this.id = `chartdiv-${Math.random(100)*100}`
@@ -71,67 +73,102 @@ export default {
     chartInit() {
       this.createChart()
       this.createSeries()
-      
-      // this.addEventHandlers()
+      this.setLabels()
+      this.setSliceOptions()
+      if(this.config.chart.hideRoot) { this.setRootSliceToHidden() }
+      this.addEventHandlers()
+      this.createSeries()
+      this.resetChart()
     },
-    // addEventHandlers () {
-    //   this.chart.nodes.template.events.on("click", ev => {
-    //     var data = ev.target.dataItem.dataContext;
-    //     console.log("Clicked on a column", ev.target)
-    //     console.log("Clicked on a column", data)
-
-    //     this.container.children.push(am5.Label.new(this.root, {
-    //       text: "YO",
-    //       textAlign: "center",
-    //       x: am5.p50,
-    //       y: am5.p50,
-    //       centerX: am5.p50,
-    //       centerY: am5.p50,
-    //       fontSize: 500,
-    //       fontWeight: "500",
-    //       fill: am5.color(0x385d63)
-    //     }))
-    //   })
-    // },
+    addEventHandlers () {
+      this.chart.nodes.template.events.on("click", event => {
+        const selectedNodeId = event.target.uid
+        
+        this.updateSelectedSlice(event, selectedNodeId)
+        this.preventUpwardTravel(event, selectedNodeId)
+      })
+    },
     createChart () {
       this.root = am5.Root.new(this.id)
-    },
-    createSeries () {
+
       this.root.setThemes([
         am5themes_Animated.new(this.root)
-      ]);
+      ])
 
-      this.container = this.root.container.children.push(
-        am5.Container.new(this.root, {
-          width: am5.percent(100),
-          height: am5.percent(100),
-          layout: this.root.verticalLayout
-        })
-      );
+      // this.container = this.root.container.children.push(
+      //   am5.Container.new(this.root, {
+      //     width: am5.percent(99),
+      //     height: am5.percent(99),
+      //     layout: this.root.verticalLayout
+      //   })
+      // )
 
-      this.chart = this.container.children.push(
+      this.chart = this.root.container.children.push(
         am5hierarchy.Sunburst.new(this.root, {
-          downDepth: 1,
-          initialDepth: 0,
-          topDepth: 1,
-          upDepth: 1,
+          // downDepth: 1,
+          // initialDepth: 0,
+          // topDepth: 1,
+          // upDepth: 0,
           valueField: "value",
           categoryField: "name",
           childDataField: "children",
-          // colorDataField: "color",
-          innerRadius: am5.percent(30)
+          // innerRadius: am5.percent(30),
+          // radius: am5.percent(99)
         })
       )
-
-      const myTheme = am5.Theme.new(this.root);
-
-      myTheme.rule("Label").setAll({
-        fill: am5.color(0xFF0000),
-        fontSize: "1.5em"
+    },
+    createSeries () {
+      this.chart.data.setAll([this.chartDataSeries])    
+    },
+    importPropOptions () {
+      this.config = typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
+    },
+    importData () {
+      this.chartDataSeries = typeof(this.data) == 'object' ? this.data : DUMMY_DATA
+    },
+    preventUpwardTravel (event) {
+      const item = event.target.dataItem,
+        depth = item.get('depth')
+      
+      if(depth <= 1) {
+        event.target.set('cursorOverStyle', 'not-allowed')
+        event.target.set('toggleKey', 'none')
+        
+        // console.log('need to disable', )
+        // console.log('H node', event.target.get('active'))
+        
+        // item.set('disabled', true)
+      } else {
+        // item.set('disabled', false)
+      }
+    },
+    resetChart () {
+      this.chart.setAll({
+        initialDepth: 1,
+        innerRadius: am5.percent(20),
+        radius: am5.percent(98),
+        selectedDataItem: this.chart.dataItems[0],
       })
 
-      const data = DUMMY_DATA
-
+      this.chart.nodes.values.forEach(node => {
+        const depth = node.dataItem.get('depth')
+        if(depth == 0) {
+          console.log('0', depth)
+          node.setAll({
+            downDepth: 0,
+            initialDepth: 1,
+            topDepth: 1
+          })
+        } else {
+          node.setAll({
+            downDepth: 1,
+            initialDepth: 0,
+            topDepth: 1
+          })
+        }
+      })
+    },
+    setLabels () {
       this.chart.labels.template.setAll({
         textType: 'circular',
         oversizedBehavior: 'wrap',
@@ -141,115 +178,49 @@ export default {
         x: 0,
         y: 0
       })
-
-      this.chart.slices.template.setAll({
-        fillOpacity: 1,
-        interactive: false
-      })
-
-      // this.chart.slices.template.adapters.add('fill', (fill, target) => {
-      //   const isSelected = target.dataItem._settings.selected,
-      //     dataContext = target.dataItem.dataContext
-        
-      //   if(isSelected) {
-      //       return am5.color(this.config.chart.selectedColor)
-      //   } else {
-      //     if('color' in dataContext){
-      //       return am5.color(dataContext.color)
-      //     } else {
-      //       return fill
-      //     }
-      //   }
-      // })
-
-      // this.chart.slices.template.states.create("active", {
-      //   fill: am5.color(this.config.chart.selectedColor),
-      //   stroke: am5.color(this.config.chart.selectedColor)
-      // })
-      
-      if(this.config.chart.hideRoot === true) {
-        this.setRootSliceToHidden()
-      }
-
-      this.chart.nodes.template.setAll({
-        setStateOnChildren: true
-      })
-    
-      this.chart.nodes.template.events.on("click", event => {
-        const selectedNodeId = event.target.uid
-        
-        this.chart.nodes.each(node => {
-          const isSelected = selectedNodeId == node.uid,
-            slice = node.dataItem._settings.slice
-
-          let settings
-          
-          if(isSelected){
-            settings = {
-              fill: am5.color(this.config.chart.selectedColor),
-              fillOpacity: 1
-            }
-          } else {
-            const dataContext = node.dataItem.dataContext
-
-            if('color' in dataContext){
-              settings = {
-                fill: am5.color(dataContext.color)
-              }
-            } else {
-              console.log(node)
-              settings = {
-                fill: am5.color(this.config.chart.defaultColor)
-              }
-            }
-          }
-
-          slice.setAll(settings)
-        })
-        
-        const selectedContent = event.target.dataItem.dataContext.id
-        this.$root.$emit('chart-sunburst:update:selected', selectedContent)
-      })
-
-      this.chart.data.setAll([data])    
-    },
-    importPropOptions () {
-      this.config = typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
-    },
-    resetChart () {
-      console.log('resetChart', this.chart.dataItems)
-      
-      this.chart.setAll({
-        'selectedDataItem': this.chart.dataItems[0]
-      })
-
-
-
-// am5hierarchy.Sunburst.new(this.root, {
-//   downDepth: 1,
-//   initialDepth: 1,
-//   topDepth: 1,
-//   upDepth: 1,
-//   valueField: "value",
-//   categoryField: "name",
-//   childDataField: "children",
-//   innerRadius: am5.percent(30)
-// })
-
-    },
-    setChartColors () {
-      let colors = []
-      
-      this.config.chart.colors.forEach(color => {
-        colors.push(am5.color(color))
-      })
-
-      this.chart.get("colors").set("colors", colors)
     },
     setRootSliceToHidden () {
       this.chart.nodes.template.adapters.add('forceHidden', (forceHidden, target) => {
         return target.dataItem.get("depth") == 0 ? true: false;
       })
+    },
+    setSliceOptions () {
+      this.chart.slices.template.setAll({
+        fillOpacity: 1,
+        interactive: false
+      })
+    },
+    updateSelectedSlice(event, selectedNodeId) {
+      this.chart.nodes.each(node => {
+        const isSelected = selectedNodeId == node.uid,
+          slice = node.dataItem._settings.slice
+
+        let settings
+        
+        if(isSelected){
+          settings = {
+            fill: am5.color(this.config.chart.selectedColor),
+            fillOpacity: 1
+          }
+        } else {
+          const dataContext = node.dataItem.dataContext
+
+          if('color' in dataContext){
+            settings = {
+              fill: am5.color(dataContext.color)
+            }
+          } else {
+            settings = {
+              fill: am5.color(this.config.chart.defaultColor)
+            }
+          }
+        }
+
+        slice.setAll(settings)
+      })
+      
+      const selectedContent = event.target.dataItem.dataContext.id
+      this.$root.$emit('chart-sunburst:update:selected', selectedContent)
     }
   }
 }
