@@ -82,10 +82,10 @@ export default {
     },
     addEventHandlers () {
       this.chart.nodes.template.events.on("click", event => {
-        const selectedNodeId = event.target.uid
+        const selectedNodeId = event.target.uid,
+          selectedDataContextId = event.target.dataItem.dataContext.id
         
-        this.updateSelectedSlice(event, selectedNodeId)
-        this.preventUpwardTravel(event, selectedNodeId)
+        this.updateSelectedSlice(selectedDataContextId, selectedNodeId)
       })
     },
     createChart () {
@@ -95,25 +95,11 @@ export default {
         am5themes_Animated.new(this.root)
       ])
 
-      // this.container = this.root.container.children.push(
-      //   am5.Container.new(this.root, {
-      //     width: am5.percent(99),
-      //     height: am5.percent(99),
-      //     layout: this.root.verticalLayout
-      //   })
-      // )
-
       this.chart = this.root.container.children.push(
         am5hierarchy.Sunburst.new(this.root, {
-          // downDepth: 1,
-          // initialDepth: 0,
-          // topDepth: 1,
-          // upDepth: 0,
           valueField: "value",
           categoryField: "name",
           childDataField: "children",
-          // innerRadius: am5.percent(30),
-          // radius: am5.percent(99)
         })
       )
     },
@@ -126,23 +112,9 @@ export default {
     importData () {
       this.chartDataSeries = typeof(this.data) == 'object' ? this.data : DUMMY_DATA
     },
-    preventUpwardTravel (event) {
-      const item = event.target.dataItem,
-        depth = item.get('depth')
-      
-      if(depth <= 1) {
-        event.target.set('cursorOverStyle', 'not-allowed')
-        event.target.set('toggleKey', 'none')
-        
-        // console.log('need to disable', )
-        // console.log('H node', event.target.get('active'))
-        
-        // item.set('disabled', true)
-      } else {
-        // item.set('disabled', false)
-      }
-    },
     resetChart () {
+      this.updateSelectedSlice(this.data.id, 0)
+
       this.chart.setAll({
         initialDepth: 1,
         innerRadius: am5.percent(20),
@@ -153,7 +125,6 @@ export default {
       this.chart.nodes.values.forEach(node => {
         const depth = node.dataItem.get('depth')
         if(depth == 0) {
-          console.log('0', depth)
           node.setAll({
             downDepth: 0,
             initialDepth: 1,
@@ -186,11 +157,10 @@ export default {
     },
     setSliceOptions () {
       this.chart.slices.template.setAll({
-        fillOpacity: 1,
-        interactive: false
+        fillOpacity: 1
       })
     },
-    updateSelectedSlice(event, selectedNodeId) {
+    updateSelectedSlice(id, selectedNodeId) {
       this.chart.nodes.each(node => {
         const isSelected = selectedNodeId == node.uid,
           slice = node.dataItem._settings.slice
@@ -219,8 +189,7 @@ export default {
         slice.setAll(settings)
       })
       
-      const selectedContent = event.target.dataItem.dataContext.id
-      this.$root.$emit('chart-sunburst:update:selected', selectedContent)
+      this.$root.$emit('chart-sunburst:update:selected', id)
     }
   }
 }

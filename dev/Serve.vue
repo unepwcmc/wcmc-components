@@ -35,6 +35,7 @@ export default {
   data (){
     return {
       data: {
+        id: 'home',
         children: [
           {
             id: "parent-1",

@@ -11,6 +11,7 @@ export const DEFAULT_OPTIONS = {
 }
 
 export const DUMMY_DATA = {
+  id: "hierarchy",
   name: "Hierarchy",
   children: 
   [
