@@ -71,10 +71,11 @@ export default {
     chartInit() {
       this.createChart()
       this.createSeries()
+      
       // this.addEventHandlers()
     },
     // addEventHandlers () {
-    //   this.series.nodes.template.events.on("click", ev => {
+    //   this.chart.nodes.template.events.on("click", ev => {
     //     var data = ev.target.dataItem.dataContext;
     //     console.log("Clicked on a column", ev.target)
     //     console.log("Clicked on a column", data)
@@ -108,55 +109,30 @@ export default {
         })
       );
 
-      this.series = this.container.children.push(
+      this.chart = this.container.children.push(
         am5hierarchy.Sunburst.new(this.root, {
           downDepth: 1,
-          initialDepth: 1,
+          initialDepth: 0,
           topDepth: 1,
           upDepth: 1,
           valueField: "value",
           categoryField: "name",
           childDataField: "children",
+          // colorDataField: "color",
           innerRadius: am5.percent(30)
         })
-      );
+      )
 
-const myTheme = am5.Theme.new(this.root);
+      const myTheme = am5.Theme.new(this.root);
 
-myTheme.rule("Label").setAll({
-  fill: am5.color(0xFF0000),
-  fontSize: "1.5em"
-})
-
-// myTheme.rule("Slice").setAll({
-//   fill: am5.color(0x11C583),
-//   colors: [  am5.color(0x11C583),
-//   am5.color(0xbb9f06)],
-//   fontSize: "1.5em"
-// })
-
-
-
-// this.root.am5themes_Animated.rule("ColorSet").set("colors",  [
-//   am5.color(0x11C583),
-//   am5.color(0xbb9f06)
-// ])
-
-// ])
-
-
-
-// this.root.setThemes([
-//   am5themes_Animated.new(this.root),
-//   myTheme
-// ])
+      myTheme.rule("Label").setAll({
+        fill: am5.color(0xFF0000),
+        fontSize: "1.5em"
+      })
 
       const data = DUMMY_DATA
 
-      this.resetChart()
-      this.setChartColours()
-
-      this.series.labels.template.setAll({
+      this.chart.labels.template.setAll({
         textType: 'circular',
         oversizedBehavior: 'wrap',
         setStateOnChildren: 'true',
@@ -166,54 +142,114 @@ myTheme.rule("Label").setAll({
         y: 0
       })
 
-
-      this.series.slices.template.setAll({
+      this.chart.slices.template.setAll({
+        fillOpacity: 1,
         interactive: false
       })
 
-      this.series.slices.template.states.create("active", {
-        fill: am5.color(0x000000),
-        stroke: am5.color(0x297373)
-      })
+      // this.chart.slices.template.adapters.add('fill', (fill, target) => {
+      //   const isSelected = target.dataItem._settings.selected,
+      //     dataContext = target.dataItem.dataContext
+        
+      //   if(isSelected) {
+      //       return am5.color(this.config.chart.selectedColor)
+      //   } else {
+      //     if('color' in dataContext){
+      //       return am5.color(dataContext.color)
+      //     } else {
+      //       return fill
+      //     }
+      //   }
+      // })
 
-      this.series.nodes.template.setAll({
+      // this.chart.slices.template.states.create("active", {
+      //   fill: am5.color(this.config.chart.selectedColor),
+      //   stroke: am5.color(this.config.chart.selectedColor)
+      // })
+      
+      if(this.config.chart.hideRoot === true) {
+        this.setRootSliceToHidden()
+      }
+
+      this.chart.nodes.template.setAll({
         setStateOnChildren: true
       })
     
-      this.series.nodes.template.events.on("click", event => {
-        const selectedNode = event.target
+      this.chart.nodes.template.events.on("click", event => {
+        const selectedNodeId = event.target.uid
+        
+        this.chart.nodes.each(node => {
+          const isSelected = selectedNodeId == node.uid,
+            slice = node.dataItem._settings.slice
 
-        this.series.nodes.each(node => {
-          const isSelected = selectedNode.uid == node.uid
+          let settings
           
-          node.set('active', isSelected)
+          if(isSelected){
+            settings = {
+              fill: am5.color(this.config.chart.selectedColor),
+              fillOpacity: 1
+            }
+          } else {
+            const dataContext = node.dataItem.dataContext
 
-          console.log('state', node.get('active'))
+            if('color' in dataContext){
+              settings = {
+                fill: am5.color(dataContext.color)
+              }
+            } else {
+              console.log(node)
+              settings = {
+                fill: am5.color(this.config.chart.defaultColor)
+              }
+            }
+          }
+
+          slice.setAll(settings)
         })
         
         const selectedContent = event.target.dataItem.dataContext.id
         this.$root.$emit('chart-sunburst:update:selected', selectedContent)
       })
-      
-      this.series.data.setAll([data])
+
+      this.chart.data.setAll([data])    
     },
     importPropOptions () {
       this.config = typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
     },
     resetChart () {
-      this.series.set('selectedDataItem', this.series.dataItems[0])
-    },
-    setChartColours () {
-      let colours = []
+      console.log('resetChart', this.chart.dataItems)
       
-      this.config.chart.colours.forEach(colour => {
-        colours.push(am5.color(colour))
+      this.chart.setAll({
+        'selectedDataItem': this.chart.dataItems[0]
       })
 
-      this.series.get("colors").set("colors", colours)
+
+
+// am5hierarchy.Sunburst.new(this.root, {
+//   downDepth: 1,
+//   initialDepth: 1,
+//   topDepth: 1,
+//   upDepth: 1,
+//   valueField: "value",
+//   categoryField: "name",
+//   childDataField: "children",
+//   innerRadius: am5.percent(30)
+// })
+
     },
-    getSeries() {
-      // console.log('node', this.series)
+    setChartColors () {
+      let colors = []
+      
+      this.config.chart.colors.forEach(color => {
+        colors.push(am5.color(color))
+      })
+
+      this.chart.get("colors").set("colors", colors)
+    },
+    setRootSliceToHidden () {
+      this.chart.nodes.template.adapters.add('forceHidden', (forceHidden, target) => {
+        return target.dataItem.get("depth") == 0 ? true: false;
+      })
     }
   }
 }

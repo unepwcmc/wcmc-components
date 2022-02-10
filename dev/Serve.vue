@@ -3,7 +3,7 @@
     <ChartSunburst 
       :options="{
         chart: {
-          colours: ['#11C583', '#159BFA', '#A83CF5']
+          hideRoot: true
         },
         resetButton: {
           fontSize: '14px',

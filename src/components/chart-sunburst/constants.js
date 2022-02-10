@@ -1,10 +1,8 @@
 export const DEFAULT_OPTIONS = {
   chart: {
-    colours: [
-      '#095256',
-      '#087f8c',
-      '#5aaa95'
-    ]
+    defaultColor: '#565656',
+    hideRoot: false,
+    selectedColor: '#012C4B'
   },
   resetButton: {
     fontSize: '16px',
@@ -18,20 +16,25 @@ export const DUMMY_DATA = {
   [
     {
       id: "parent-1",
+      color: "#11C583",
+      selectedColor: "#000",
       name: "Parent 1",
       children: [
       {
         id: "child-1",
+        color: "#22C583",
         name: "Child 1",
         value: 1
       },
       {
         id: "child-2",
+        color: "#22C583",
         name: "Child 2",
         value: 1
       },
       {
         id: "child-3",
+        color: "#22C583",
         name: "Child 3",
         value: 1
       },
