@@ -28,6 +28,7 @@ export default {
     heading: {
       type: Object
     },
+
     tableId: {
       required: true,
       type: Number,
@@ -49,9 +50,11 @@ export default {
     hasOptions () {
       return this.heading.options != undefined || this.heading.name != undefined
     },
+
     hasTooltip () {
       return 'tooltip' in this.heading
     },
+
     options () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
