@@ -8,7 +8,7 @@
 
       <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
-      <div v-if="hasOptions" class="sorting" @click="sort()">
+      <div class="sorting" @click="applySort()">
         <span alt="Sort results" class="sort--ascending"></span>
         <span alt="Sort results" class="sort--descending"></span>
       </div>
@@ -54,12 +54,22 @@ export default {
     },
     options () {
       return this.$store.getters['filterableTable/options'](this.tableId)
+    },
+    sortObj () {
+      return { 
+        tableId: this.tableId, 
+        sortObj: { 
+          column: this.heading.field, 
+          ascending: true 
+        }
+      }
     }
   },
 
   methods: {
-    sort () {
-      this.$root.$emit('sort', this.heading.name)
+    applySort () {
+      this.$store.dispatch('filterableTable/updateSelectedSort', this.sortObj)
+      this.$root.$emit('getNewItems')
     }
   }
 }

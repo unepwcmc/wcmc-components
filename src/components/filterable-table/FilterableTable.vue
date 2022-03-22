@@ -194,7 +194,8 @@ export default {
       let data = {
         filters: this.selectedFilterOptions,
         items_per_page: this.itemsPerPage,
-        requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id)
+        requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id),
+        sort: this.$store.getters['filterableTable/getSelectedSort'](this.id)
       }
 
       setAxiosHeaders(axios)

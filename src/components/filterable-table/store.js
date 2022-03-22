@@ -2,11 +2,11 @@ import { cloneDeep } from 'lodash'
 
 const DEFAULT_STATE = {
   options: {},
-    totalItemsOnCurrentPage: 0,
-    requestedPage: 1,
-    selectedFilterOptions: [], // an array containing an object for each filter that has an array of selected options
-    modalContent: {},
-    sortDirection: ''
+  totalItemsOnCurrentPage: 0,
+  requestedPage: 1,
+  selectedFilterOptions: [], // an array containing an object for each filter that has an array of selected options
+  selectedSort: { column: null, ascending: true }, // column:string (to equal the name of one of the table's columns), ascending:boolean
+  modalContent: {},
 }
 
 export const storeFilterableTable = {
@@ -29,6 +29,9 @@ export const storeFilterableTable = {
     },
     getSelectedFilterOptions: state => id => {
       return state.tables[id].selectedFilterOptions
+    },
+    getSelectedSort: state => id => {
+      return state.tables[id].selectedSort
     }
   },
 
@@ -41,6 +44,10 @@ export const storeFilterableTable = {
       commit('updateRequestedPage', {
         tableId: obj.tableId, 
         requestedPage: obj.requestedPage
+      })
+      commit('updateSelectedSort', {
+        tableId: obj.tableId,
+        sortObj: obj.selectedSort
       })
     },
     createNewTable ({ commit }, id) {
@@ -58,6 +65,9 @@ export const storeFilterableTable = {
     },
     updateRequestedPage ({ commit }, obj) {
       commit('updateRequestedPage', obj)
+    },
+    updateSelectedSort ( { commit }, obj) {
+      commit('updateSelectedSort', obj)
     }
   },
   
@@ -82,7 +92,7 @@ export const storeFilterableTable = {
     },
     updateOptions (state, obj) {
       state.tables[obj.tableId].options = cloneDeep(obj.options)
-    },    
+    },
     updateModal (state, obj) {
       state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
     },
@@ -92,8 +102,8 @@ export const storeFilterableTable = {
     updateTotalItemsOnCurrentPage (state, total) {
       state.totalItemsOnCurrentPage = total
     },
-    updateSortDirection (state, direction) {
-      state.sortDirection = direction
+    updateSelectedSort (state, { tableId, sortObj }) {
+      state.tables[tableId].selectedSort = cloneDeep(sortObj)
     }
   }
 }
