@@ -47,7 +47,7 @@ export const storeFilterableTable = {
       })
       commit('updateSelectedSort', {
         tableId: obj.tableId,
-        sortObj: obj.selectedSort
+        sortObj: obj.sortObj
       })
     },
     createNewTable ({ commit }, id) {
