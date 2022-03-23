@@ -4,7 +4,9 @@
     :style="cssVariables" 
   >
     <template v-if="heading">
-      <span class="title">{{ heading.title }}</span>
+      <span class="title">
+        {{ heading.title }}
+      </span>
 
       <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
