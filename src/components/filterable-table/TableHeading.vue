@@ -66,33 +66,36 @@ export default {
     hasTooltip () {
       return "tooltip" in this.heading;
     },
-
-    isColumnCurrentlySorted () {
-      return this.currentSort.column == this.heading.field;
-    },
-
-    sortingPayload () {
-      return {
-        tableId: this.tableId,
-        sortObj: {
-          column: this.heading.field,
-          ascending: this.isNewSortAscending
-        },
-      };
-    },
-    
-    isNewSortAscending () {
-      if (this.isColumnCurrentlySorted) { return !this.currentSort(this.tableId).ascending }
-
-      return true
-    }
   },
 
   methods: {
     applySort () {
-      this.$store.dispatch("filterableTable/updateSelectedSort", this.sortingPayload);
-      this.$root.$emit("getNewItems");
+
+      this.$store.dispatch("filterableTable/updateSelectedSort", this.buildSortingPayload())
+      this.$root.$emit("getNewItems")
     },
+
+    buildSortingPayload () {
+      return {
+        tableId: this.tableId,
+        sortObj: {
+          column: this.heading.field,
+          ascending: this.isNewSortAscending()
+        }
+      }
+    },
+
+    isNewSortAscending () {
+      if (this.isColumnCurrentlySorted()) {
+        return !this.currentSort(this.tableId).ascending
+      } else {
+        return true
+      }
+    },
+
+    isColumnCurrentlySorted () {
+      return this.currentSort(this.tableId).column == this.heading.field;
+    }
   },
 };
 </script>
