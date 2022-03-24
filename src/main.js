@@ -4,6 +4,8 @@ import FilterableTable from './components/filterable-table/FilterableTable.vue'
 import { storeDummyButton } from './components/dummy-button/store.js'
 import { storeFilterableTable } from './components/filterable-table/store.js'
 
+import PortalVue from 'portal-vue'
+
 // TODO make this DRY
 
 export default {
@@ -14,6 +16,8 @@ export default {
 
     options.store.registerModule('dummyButton', storeDummyButton)
     options.store.registerModule('filterableTable', storeFilterableTable)
+
+    Vue.use(PortalVue)
  
     Vue.component('dummy-button', DummyButton)
     Vue.component('filterable-table', FilterableTable)
