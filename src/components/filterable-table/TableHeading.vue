@@ -1,8 +1,5 @@
 <template>
-  <div 
-    class="cell flex flex-h-center"
-    :style="cssVariables" 
-  >
+  <div class="cell flex flex-h-center" :style="cssVariables">
     <template v-if="heading">
       <span class="title">
         {{ heading.title }}
@@ -10,26 +7,31 @@
 
       <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
-      <div class="sorting">
-        <div @click="applySort(ascending = true)">
-          <slot name="ascending-sort" />
-        </div>
-
-        <div @click="applySort(ascending = false)">
-          <slot name="descending-sort" />
-        </div>
+      <div class="sorting-toggle" @click="applySort()">
+        <portal-target name="sort-icon">
+          <!-- Default sort icon -->
+          <svg-sort-icon class="sort-icon"/>
+        </portal-target>
       </div>
     </template>
   </div>
 </template>
 
 <script>
-import TableTooltip from './TableTooltip.vue'
+import { createNamespacedHelpers } from 'vuex'
+
+import TableTooltip from "./TableTooltip.vue";
+import SvgSortIcon from "./svgs/SvgSortIcon.vue";
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
-  name: 'TableHeading',
+  name: "TableHeading",
 
-  components: { TableTooltip },
+  components: {
+    TableTooltip,
+    SvgSortIcon
+  },
 
   props: {
     heading: {
@@ -38,54 +40,61 @@ export default {
 
     tableId: {
       required: true,
-      type: Number,
-    }
+      type: Number
+    },
   },
 
   computed: {
+    ...mapGetters({
+      currentSort: 'getSelectedSort',
+      options: 'options'
+    }),
+
     cssVariables () {
+      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.options(this.tableId).headings
+
       return {
-        '--bg-color': this.options.headings.bgColor,
-        '--border-color': this.options.headings.borderColor,
-        '--border-style': this.options.headings.borderStyle,
-        '--border-width': this.options.headings.borderWidth,
-        '--font-family': this.options.headings.fontFamily,
-        '--font-weight': this.options.headings.fontWeight
-      }
-    },
-    // only show the sort buttons if the title has a heading
-    hasOptions () {
-      return this.heading.options != undefined || this.heading.name != undefined
+        "--bg-color": bgColor,
+        "--border-color": borderColor,
+        "--border-style": borderStyle,
+        "--border-width": borderWidth,
+        "--font-family": fontFamily,
+        "--font-weight": fontWeight,
+      };
     },
 
     hasTooltip () {
-      return 'tooltip' in this.heading
+      return "tooltip" in this.heading;
     },
 
-    options () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    }
-  },
-
-  methods: {
-    applySort (ascending) {
-      const payload = this.buildPayload(ascending)
-
-      this.$store.dispatch('filterableTable/updateSelectedSort', payload)
-      this.$root.$emit('getNewItems')
+    isColumnCurrentlySorted () {
+      return this.currentSort.column == this.heading.field;
     },
 
-    buildPayload (ascending) {
+    sortingPayload () {
       return {
         tableId: this.tableId,
         sortObj: {
           column: this.heading.field,
-          ascending
-        }
-      }
+          ascending: this.isNewSortAscending
+        },
+      };
+    },
+    
+    isNewSortAscending () {
+      if (this.isColumnCurrentlySorted) { return !this.currentSort(this.tableId).ascending }
+
+      return true
     }
-  }
-}
+  },
+
+  methods: {
+    applySort () {
+      this.$store.dispatch("filterableTable/updateSelectedSort", this.sortingPayload);
+      this.$root.$emit("getNewItems");
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
@@ -113,16 +122,17 @@ export default {
     display: flex;
   }
 
-  &:first-child { border-left: none; }
-}
-
-.sort {
-  &--ascending {
-
-  }
-
-  &--descending {
-    
+  &:first-child {
+    border-left: none;
   }
 }
+
+.sorting-toggle {
+  margin-left: rem-calc(5);
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
+
 </style>

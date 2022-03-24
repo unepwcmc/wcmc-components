@@ -13,19 +13,7 @@
         :heading="heading"
         :tableId="tableId"
         :style="`grid-column: ${n+1}`"
-      >
-        <template #ascending-sort >
-          <span>
-            SORT ASC
-          </span>
-        </template>
-
-        <template #descending-sort >
-          <span>
-            SORT DES
-          </span>
-        </template>
-      </table-heading>
+      />
       
       <!-- empty heading for 'more content' button -->
       <table-heading

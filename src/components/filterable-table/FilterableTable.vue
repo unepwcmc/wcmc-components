@@ -1,5 +1,9 @@
 <template>
   <div :style="cssVariables">
+    <portal to="sort-icon">
+      <slot name="sort-icon" />
+    </portal>
+
     <table-filters
       :endpoint-download="endpointDownload"
       :filters="filters"
