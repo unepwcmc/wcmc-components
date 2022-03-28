@@ -9,8 +9,7 @@
 
       <div class="sorting-toggle" @click="applySort()">
         <portal-target name="sort-icon">
-          <!-- Default sort icon -->
-          <svg-sort-icon class="sort-icon"/>
+          <svg-sort-icon class="sort-icon"/> <!-- Default sort icon -->
         </portal-target>
       </div>
     </template>
@@ -23,7 +22,7 @@ import { createNamespacedHelpers } from 'vuex'
 import TableTooltip from "./TableTooltip.vue";
 import SvgSortIcon from "./svgs/SvgSortIcon.vue";
 
-const { mapGetters } = createNamespacedHelpers('filterableTable')
+const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "TableHeading",
@@ -69,9 +68,12 @@ export default {
   },
 
   methods: {
-    applySort () {
+    ...mapActions([
+      'updateSelectedSort'
+    ]),
 
-      this.$store.dispatch("filterableTable/updateSelectedSort", this.buildSortingPayload())
+    applySort () {
+      this.updateSelectedSort(this.buildSortingPayload())
       this.$root.$emit("getNewItems")
     },
 
