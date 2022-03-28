@@ -19,8 +19,8 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 
-import TableTooltip from "./TableTooltip.vue";
-import SvgSortIcon from "./svgs/SvgSortIcon.vue";
+import TableTooltip from "./TableTooltip.vue"
+import SvgSortIcon from "./svgs/SvgSortIcon.vue"
 
 const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
@@ -40,7 +40,7 @@ export default {
     tableId: {
       required: true,
       type: Number
-    },
+    }
   },
 
   computed: {
@@ -59,11 +59,11 @@ export default {
         "--border-width": borderWidth,
         "--font-family": fontFamily,
         "--font-weight": fontWeight,
-      };
+      }
     },
 
     hasTooltip () {
-      return "tooltip" in this.heading;
+      return "tooltip" in this.heading
     },
   },
 
@@ -96,10 +96,10 @@ export default {
     },
 
     isColumnCurrentlySorted () {
-      return this.currentSort(this.tableId).column == this.heading.field;
+      return this.currentSort(this.tableId).column == this.heading.field
     }
-  },
-};
+  }
+}
 </script>
 
 <style lang="scss" scoped>
