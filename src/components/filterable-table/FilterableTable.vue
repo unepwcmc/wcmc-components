@@ -30,7 +30,7 @@
       </template>
       <template v-else>
         <div class="table-body__placeholder">
-          {{ config.text.noResultsMessage }}
+          {{ noResultsMessage }}
         </div>
       </template>
     </div>
@@ -53,20 +53,20 @@
 
 <script>
 import axios from 'axios'
-import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
-
-import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 
 import { merge } from 'lodash'
+import { createNamespacedHelpers } from 'vuex'
+
+import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
+import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
-
 import TableModal from './TableModal.vue'
 import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
 
-import { mapState } from 'vuex'
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'FilterableTable',
@@ -83,22 +83,28 @@ export default {
     attributes: {
       type: Array,
     },
+
     endpoint: {
       type: String
     },
+
     endpointDownload: {
       type: String
     },
+
     filterArray: {
       type: Array
     },
+
     legendArray: {
       type: Array
     },
+
     itemsPerPage: {
       default: 10,
       type: Number
     },
+
     options: {
       type: Object
     }
@@ -113,7 +119,6 @@ export default {
       legends: [],
       id: '',
       items: [],
-      noResultsMessage: '',
       totalColumns: 0,
       totalItems: 5,
       totalPages: 3
@@ -121,36 +126,40 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      tableCount: state => state.tableCount
+    }),
+
+    ...mapGetters({
+      config: 'options',
+      requestedPage: 'getRequestedPage',
+      selectedFilterOptions: 'getSelectedFilterOptions',
+      selectedSort: 'getSelectedSort'
+    }),
+
     cssVariables () {
       return {
-        '--font-family': this.config.fontFamily
+        '--font-family': this.config(this.id).fontFamily
       }
     },
-    ...mapState({
-      tableCount: state => state.filterableTable.tableCount
-    }),
-    config () {
-      return this.$store.getters['filterableTable/options'](this.id)
-    },
+
     hasItems () {
       return this.items.length > 0
     },
-    requestedPage () {
-      return this.$store.getters['filterableTable/getRequestedPage'](this.id)
-    },
-    selectedFilterOptions () {
-      return this.$store.getters['filterableTable/getSelectedFilterOptions'](this.id)
+
+    noResultsMessage () {
+      return this.config(this.id).text.noResultsMessage
     }
   },
 
   created () {
     this.id = this.tableCount + 1
-    this.$store.dispatch('filterableTable/createNewTable', this.id)
+    this.createNewTable(this.id)
     this.importUserOptions()
   },
 
   mounted() {
-    if(this.endpoint == undefined) {
+    if (this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
       this.legends = this.dummyData.legends
@@ -174,6 +183,12 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'createNewTable',
+      'setFilterOptions',
+      'updateOptions'
+    ]),
+
     createSelectedFilterOptions () {
       // create an empty array for each filter
       const array = this.filters.map(filter => {
@@ -191,15 +206,15 @@ export default {
         filterOptions: array
       }
 
-      this.$store.dispatch('filterableTable/setFilterOptions', obj)
+      this.selectedFilterOptions(this.id, obj)
     },
 
     getNewItems () {
       let data = {
-        filters: this.selectedFilterOptions,
+        filters: this.selectedFilterOptions(this.id),
         items_per_page: this.itemsPerPage,
-        requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id),
-        sort: this.$store.getters['filterableTable/getSelectedSort'](this.id)
+        requested_page: this.requestedPage(this.id),
+        sort: this.selectedSort(this.id)
       }
 
       setAxiosHeaders(axios)
@@ -212,20 +227,23 @@ export default {
         console.log(error)
       })
     },
+
     getTotalTableColumns () {
       //Add an additional column for the "View more" button
-      if(this.headings.length > 0) {
+      if (this.headings.length > 0) {
         this.totalColumns = this.headings.length + 1
       }
     },
+
     importUserOptions () {
       const obj = {
         tableId: this.id,
         options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
       }
 
-      this.$store.dispatch('filterableTable/updateOptions', obj)
+      this.updateOptions(obj)
     },
+
     updateProperties (data) {
       this.currentPage = data.current_page
       this.itemsPerPage = data.per_page
