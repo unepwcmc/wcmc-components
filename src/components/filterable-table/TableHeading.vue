@@ -61,7 +61,7 @@ export default {
         '--border-style': borderStyle,
         '--border-width': borderWidth,
         '--font-family': fontFamily,
-        '--font-weight': fontWeight,
+        '--font-weight': fontWeight
       }
     },
 
