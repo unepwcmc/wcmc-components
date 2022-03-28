@@ -7,15 +7,9 @@
     <filterable-table
       endpoint-download="/"
     >
-    <!-- 
-      An example of how you might pass a named template for the sort icon into the FilterableTable:
-      
-      <template #sort-icon>
-        <span>
-          I'm the sorting icon now!
-        </span>
-      </template>
-    -->
+ <!-- <template #sort-icon>
+        <span>This element is used as the sorting icon now!</span>
+      </template> -->
     </filterable-table>
   </div>
 </template>
