@@ -1,5 +1,8 @@
 <template>
-  <div class="cell flex flex-h-center" :style="cssVariables">
+  <div 
+    class="cell flex flex-h-center"
+    :style="cssVariables"
+  >
     <template v-if="heading">
       <span class="title">
         {{ heading.title }}
@@ -19,13 +22,13 @@
 <script>
 import { createNamespacedHelpers } from 'vuex'
 
-import TableTooltip from "./TableTooltip.vue"
-import SvgSortIcon from "./svgs/SvgSortIcon.vue"
+import TableTooltip from './TableTooltip.vue'
+import SvgSortIcon from './svgs/SvgSortIcon.vue'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
-  name: "TableHeading",
+  name: 'TableHeading',
 
   components: {
     TableTooltip,
@@ -53,17 +56,17 @@ export default {
       const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.options(this.tableId).headings
 
       return {
-        "--bg-color": bgColor,
-        "--border-color": borderColor,
-        "--border-style": borderStyle,
-        "--border-width": borderWidth,
-        "--font-family": fontFamily,
-        "--font-weight": fontWeight,
+        '--bg-color': bgColor,
+        '--border-color': borderColor,
+        '--border-style': borderStyle,
+        '--border-width': borderWidth,
+        '--font-family': fontFamily,
+        '--font-weight': fontWeight,
       }
     },
 
     hasTooltip () {
-      return "tooltip" in this.heading
+      return 'tooltip' in this.heading
     },
   },
 
@@ -74,7 +77,7 @@ export default {
 
     applySort () {
       this.updateSelectedSort(this.buildSortingPayload())
-      this.$root.$emit("getNewItems")
+      this.$root.$emit('getNewItems')
     },
 
     buildSortingPayload () {
@@ -102,7 +105,7 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .cell {
   background-color: #000000; // IE11
   background-color: var(--bg-color);
