@@ -21,15 +21,19 @@ export const storeFilterableTable = {
     modalContent: state => id => {
       return state.tables[id].modalContent
     },
+
     options: state => id => {
       return state.tables[id].options
     },
+
     getRequestedPage: state => id => {
       return state.tables[id].requestedPage
     },
+
     getSelectedFilterOptions: state => id => {
       return state.tables[id].selectedFilterOptions
     },
+
     getSelectedSort: state => id => {
       return state.tables[id].selectedSort
     }
@@ -50,22 +54,28 @@ export const storeFilterableTable = {
         sortObj: obj.sortObj
       })
     },
+
     createNewTable ({ commit }, id) {
       commit('createNewTable', id)
       commit('incrementTableCount')
     },
+
     setFilterOptions ({ commit }, obj) {
       commit('setFilterOptions', obj)
     },
+
     updateModal ({ commit }, obj) {
       commit('updateModal', obj)
     },
+
     updateOptions ({ commit }, options) {
       commit('updateOptions', options)
     },
+
     updateRequestedPage ({ commit }, obj) {
       commit('updateRequestedPage', obj)
     },
+
     updateSelectedSort ( { commit }, obj) {
       commit('updateSelectedSort', obj)
     }
@@ -75,12 +85,15 @@ export const storeFilterableTable = {
     createNewTable (state, id) {
       state.tables[id] = cloneDeep(DEFAULT_STATE)
     },
+
     incrementTableCount (state) {
       state.tableCount = state.tableCount + 1
     },
+
     setFilterOptions (state, obj) {
       state.tables[obj.tableId].selectedFilterOptions = cloneDeep(obj.filterOptions)
     },
+
     updateFilterOptions (state, obj) {
       state.tables[obj.tableId].selectedFilterOptions.map(filter => {
         if(filter.name == obj.newOptions.name) {
@@ -90,18 +103,23 @@ export const storeFilterableTable = {
         return filter
       })
     },
+
     updateOptions (state, obj) {
       state.tables[obj.tableId].options = cloneDeep(obj.options)
     },
+
     updateModal (state, obj) {
       state.tables[obj.tableId].modalContent = cloneDeep(obj.content)
     },
+
     updateRequestedPage (state, obj) {
       state.tables[obj.tableId].requestedPage = cloneDeep(obj.requestedPage)
     },
+
     updateTotalItemsOnCurrentPage (state, total) {
       state.totalItemsOnCurrentPage = total
     },
+
     updateSelectedSort (state, { tableId, sortObj }) {
       state.tables[tableId].selectedSort = cloneDeep(sortObj)
     }
