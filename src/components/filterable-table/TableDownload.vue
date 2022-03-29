@@ -4,9 +4,9 @@
     :class="['button', { 'button--disabled' : noResults }]"
     :style="cssVariables"
     title="Download CSV"
-    v-bind="{ 'disabled' : noResults }">
-    {{ config.download.text }}
-  </button>
+    v-bind="{ 'disabled' : noResults }"
+    v-text="config.download.text"
+  />
 </template>
 
 <script>

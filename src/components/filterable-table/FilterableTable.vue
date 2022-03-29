@@ -29,9 +29,10 @@
         />
       </template>
       <template v-else>
-        <div class="table-body__placeholder">
-          {{ noResultsMessage }}
-        </div>
+        <div 
+          class="table-body__placeholder"
+          v-text="noResultsMessage" 
+        />
       </template>
     </div>
 

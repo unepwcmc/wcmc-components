@@ -14,7 +14,10 @@
       class="cell__legend" 
       v-if="cell.legend_on"
       >
-        <span class="cell__title">{{ cell.title }}: </span>
+        <span
+          class="cell__title"
+          v-text="cell.title"
+        />
 
         <span
           v-for="(value, index) in cell.value"
@@ -25,7 +28,11 @@
       </div>
 
       <p v-else>
-        <span class="cell__title">{{ cell.title }}: </span>
+        <span
+          class="cell__title"
+          v-text="cell.title"
+        />
+
         <span v-html="printValue(cell.value)" />
       </p>
     </div>
@@ -70,10 +77,12 @@ export default {
       required: true,
       type: Object,
     },
+
     tableId: {
       required: true,
       type: Number,
     },
+
     totalColumns: {
       required: true,
       type: Number,
@@ -95,12 +104,15 @@ export default {
         '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
+
     projectTitle () {
       return this.trim(this.item.title)
     },
+
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
+
     columns () {
       return this.item.cells.filter(cell => cell.showInTable == true)
     }
@@ -108,7 +120,7 @@ export default {
 
   methods: {
     assessmentUrl (url) {
-      return url.includes('http') ? `<a href="${url}" title="View assessment" target="_blank">Link</a>` :  url
+      return url.includes('http') ? `<a href="${url}" title="View assessment" target="_blank">Link</a>` : url
     },
 
     openModal () {
