@@ -4,10 +4,16 @@
       @click="openLegend(tableId)"
       class="legend__button"
     >
-      <span :class="`legend__icon ${config.legend.buttonClass}`"/>
       <span 
-      class="legend__item">{{ config.legend.buttonTitle.toUpperCase() }}</span>
+        :class="`legend__icon ${config.legend.buttonClass}`"
+      />
+
+      <span 
+        class="legend__item"
+        v-text="config.legend.buttonTitle.toUpperCase()"
+      />
     </button>
+
     <div
       :class="['modal-wrapper', { active: isActive }]"
       @click.stop.self="closeModal()"
@@ -15,18 +21,38 @@
     >
       <div class="modal">
         <div class="modal__content">
-          <button class="modal__close" @click="closeModal()">
+          <button 
+            class="modal__close"
+            @click="closeModal()"
+          >
             <svg-cross class="modal__close-svg" />
           </button>
-          <div v-for="legend in legends" :key="legend.title">
+
+          <div 
+            v-for="legend in legends"
+            :key="legend.title"
+          >
             <h2 class="modal__title">
-              <strong>{{ config.legend.title }}</strong>
+              <strong v-text="config.legend.title" />
             </h2>
-            <h3 class="modal__item-name">{{ legend.title }}: </h3>
+
+            <h3
+              class="modal__item-name"
+              v-text="legend.title"
+            />
+            
             <div class="legend__options">
-              <div class="legend__row" v-for="(item, index) in legend.options" :key="index">
-                <span :class="`legend__icon ${kebabCaseClassName(item)}`"/>
-                <p class="legend__item">{{ item }}</p>
+              <div 
+                class="legend__row"
+                v-for="(item, index) in legend.options" 
+                :key="index"
+              >
+                <span :class="`legend__icon ${kebabCaseClassName(item)}`" />
+
+                <p
+                  class="legend__item"
+                  v-text="item"
+                />
               </div>
             </div>
           </div>
@@ -49,6 +75,7 @@ export default {
       required: true,
       type: Number,
     },
+
     legends: {
       type: Array,
     },
@@ -73,6 +100,7 @@ export default {
         "--wrapper-color": this.config.legend.wrapperColor,
       };
     },
+
     config() {
       return this.$store.getters["filterableTable/options"](this.tableId);
     },
