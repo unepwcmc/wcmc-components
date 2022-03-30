@@ -13,7 +13,7 @@
 
       <div class="sorting-toggle" @click="applySort()">
         <portal-target name="sort-icon">
-          <svg-sort-icon class="sort-icon"/> <!-- Default sort icon -->
+          <svg-sort-icon class="sort-icon" width="10.305" height="12.305" currentColor="#fff"/> <!-- Default sort icon -->
         </portal-target>
       </div>
     </template>
