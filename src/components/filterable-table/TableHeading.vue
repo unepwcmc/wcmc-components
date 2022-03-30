@@ -92,11 +92,10 @@ export default {
     },
 
     isNewSortAscending () {
-      if (this.isColumnCurrentlySorted()) {
-        return !this.currentSort(this.tableId).ascending
-      } else {
-        return true
-      }
+      const columnIsNotSorted = !this.isColumnCurrentlySorted()
+      const currentSortIsDescending = this.currentSort(this.tableId).ascending
+
+      return columnIsNotSorted || currentSortIsDescending
     },
 
     isColumnCurrentlySorted () {
