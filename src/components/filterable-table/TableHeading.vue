@@ -104,7 +104,7 @@ export default {
     },
 
     isColumnCurrentlySorted () {
-      return this.currentSort(this.tableId).column == this.heading.field
+      return this.currentSort(this.tableId).column === this.heading.field
     }
   }
 }
