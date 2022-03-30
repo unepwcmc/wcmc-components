@@ -11,7 +11,11 @@
 
       <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
-      <div class="sorting-toggle" @click="applySort()">
+      <div
+        v-if="tableIsSortable(this.tableId)"
+        class="sorting-toggle"
+        @click="sortColumn()"
+      >
         <portal-target name="sort-icon">
           <svg-sort-icon class="sort-icon" width="10.305" height="12.305" currentColor="#fff"/> <!-- Default sort icon -->
         </portal-target>
@@ -50,6 +54,7 @@ export default {
   computed: {
     ...mapGetters({
       currentSort: 'getSelectedSort',
+      tableIsSortable: 'isSortable',
       options: 'options'
     }),
 
@@ -76,7 +81,7 @@ export default {
       'updateSelectedSort'
     ]),
 
-    applySort () {
+    sortColumn () {
       this.updateSelectedSort(this.buildSortingPayload())
       this.$root.$emit('getNewItems')
     },

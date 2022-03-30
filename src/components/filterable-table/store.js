@@ -29,6 +29,10 @@ export const storeFilterableTable = {
       return state.tables[id].options
     },
 
+    isSortable: (_state, getters) => id => {
+      return getters.options(id).sortable
+    },
+
     getRequestedPage: state => id => {
       return state.tables[id].requestedPage
     },

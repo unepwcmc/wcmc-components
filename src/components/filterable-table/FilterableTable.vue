@@ -133,6 +133,7 @@ export default {
 
     ...mapGetters({
       config: 'options',
+      isSortable: 'isSortable',
       requestedPage: 'getRequestedPage',
       selectedFilterOptions: 'getSelectedFilterOptions',
       selectedSort: 'getSelectedSort'
@@ -215,7 +216,10 @@ export default {
         filters: this.selectedFilterOptions(this.id),
         items_per_page: this.itemsPerPage,
         requested_page: this.requestedPage(this.id),
-        sort: this.selectedSort(this.id)
+      }
+
+      if (this.isSortable(this.id)) {
+        data += { ...data, sort: this.selectedSort(this.id) }
       }
 
       setAxiosHeaders(axios)

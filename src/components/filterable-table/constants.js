@@ -128,6 +128,7 @@ export const DEFAULT_OPTIONS = {
     buttonHoverColor: UNEP_WCMC_BLUE,
     buttonHoverColorArrow: '#fff',
   },
+  sortable: false, // for a sortable table, pass :options="{sortable: true}" to FilterableTable
   text: {
     noResultsMessage: 'There are no items to display.'
   }
