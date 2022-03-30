@@ -1,12 +1,15 @@
 import { cloneDeep } from 'lodash'
 
 const DEFAULT_STATE = {
+  modalContent: {},
   options: {},
-  totalItemsOnCurrentPage: 0,
   requestedPage: 1,
   selectedFilterOptions: [], // an array containing an object for each filter that has an array of selected options
-  selectedSort: { column: null, ascending: true }, // column:string (to equal the name of one of the table's columns), ascending:boolean
-  modalContent: {},
+  selectedSort: {
+    column: null, // column:string (the name of one of the table's columns)
+    ascending: true // ascending:boolean
+  },
+  totalItemsOnCurrentPage: 0,
 }
 
 export const storeFilterableTable = {
