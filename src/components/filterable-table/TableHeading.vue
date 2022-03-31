@@ -12,9 +12,9 @@
       <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
 
       <div
-        v-if="tableIsSortable(this.tableId)"
+        v-if="tableIsSortable"
         class="sorting-toggle"
-        @click="sortColumn()"
+        @click="sortColumn"
       >
         <portal-target name="sort-icon">
           <svg-sort-icon class="sort-icon" width="10.305" height="12.305" currentColor="#fff"/> <!-- Default sort icon -->
@@ -30,7 +30,7 @@ import { createNamespacedHelpers } from 'vuex'
 import TableTooltip from './TableTooltip.vue'
 import SvgSortIcon from './svgs/SvgSortIcon.vue'
 
-const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
+const { mapState, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'TableHeading',
@@ -52,14 +52,24 @@ export default {
   },
 
   computed: {
-    ...mapGetters({
-      currentSort: 'getSelectedSort',
-      tableIsSortable: 'isSortable',
-      options: 'options'
+    ...mapState({
+      tables (state) { 
+        return state.tables
+      },
     }),
 
+    table () { return this.tables[this.tableId] },
+
+    options () { return this.table.options },
+
+    currentSort () { return this.table.selectedSort },
+
+    headings () { return this.options.headings },
+
+    tableIsSortable () { return this.options.sortable },
+
     cssVariables () {
-      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.options(this.tableId).headings
+      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.headings
 
       return {
         '--bg-color': bgColor,
@@ -71,8 +81,22 @@ export default {
       }
     },
 
-    hasTooltip () {
-      return 'tooltip' in this.heading
+    hasTooltip () { return 'tooltip' in this.heading },
+
+    columnUnsorted () { return this.currentSort.column !== this.heading.field },
+
+    currentSortIsDescending () { return !this.currentSort.ascending },
+
+    isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
+
+    sortingPayload () {
+      return {
+        tableId: this.tableId,
+        sortObj: {
+          column: this.heading.field,
+          ascending: this.isNewSortAscending
+        }
+      }
     },
   },
 
@@ -82,30 +106,9 @@ export default {
     ]),
 
     sortColumn () {
-      this.updateSelectedSort(this.buildSortingPayload())
+      this.updateSelectedSort(this.sortingPayload)
       this.$root.$emit('getNewItems')
     },
-
-    buildSortingPayload () {
-      return {
-        tableId: this.tableId,
-        sortObj: {
-          column: this.heading.field,
-          ascending: this.isNewSortAscending()
-        }
-      }
-    },
-
-    isNewSortAscending () {
-      const columnIsNotSorted = !this.isColumnCurrentlySorted()
-      const currentSortIsDescending = this.currentSort(this.tableId).ascending
-
-      return columnIsNotSorted || currentSortIsDescending
-    },
-
-    isColumnCurrentlySorted () {
-      return this.currentSort(this.tableId).column === this.heading.field
-    }
   }
 }
 </script>
