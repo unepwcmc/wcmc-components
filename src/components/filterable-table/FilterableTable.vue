@@ -212,14 +212,14 @@ export default {
     },
 
     getNewItems () {
-      let data = {
+      const data = {
         filters: this.selectedFilterOptions(this.id),
         items_per_page: this.itemsPerPage,
         requested_page: this.requestedPage(this.id),
       }
 
       if (this.isSortable(this.id)) {
-        data += { ...data, sort: this.selectedSort(this.id) }
+        data.sort = this.selectedSort(this.id)
       }
 
       setAxiosHeaders(axios)
