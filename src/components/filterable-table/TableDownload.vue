@@ -14,6 +14,10 @@
 import axios from 'axios'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
+import { createNamespacedHelpers } from 'vuex'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
+
 export default {
   name: 'TableDownload',
 
@@ -35,9 +39,10 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['options']),
     
     config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
+      return this.options(this.tableId)
     },
 
     cssVariables () {
