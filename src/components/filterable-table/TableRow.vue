@@ -65,6 +65,9 @@
 import SvgArrow from './svgs/SvgArrow.vue'
 import { isALink } from '../../helpers/helpers-url.js'
 import mixinColumns from './mixins/mixin-columns'
+import { createNamespacedHelpers } from 'vuex'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "row",
@@ -91,6 +94,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['options']),
+
     cssVariablesAndStyles () {
       return {
         'grid-template-columns'     : this.gridColumnsCss,
@@ -111,7 +116,7 @@ export default {
     },
 
     config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
+      return this.options(this.tableId)
     },
 
     columns () {
@@ -121,7 +126,9 @@ export default {
 
   methods: {
     assessmentUrl (url) {
-      return url.includes('http') ? `<a href="${url}" title="View assessment" target="_blank">Link</a>` : url
+      const linkMarkdown = `<a href="${url}" title="View assessment" target="_blank">Link</a>`
+
+      return url.includes('http') ? linkMarkdown : url
     },
 
     openModal () {
