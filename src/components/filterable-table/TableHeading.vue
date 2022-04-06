@@ -58,17 +58,10 @@ export default {
       },
     }),
 
-    table () { return this.tables[this.tableId] },
-
-    options () { return this.table.options },
-
-    currentSort () { return this.table.selectedSort },
-
-    headings () { return this.options.headings },
-
-    tableIsSortable () { return this.options.sortable },
+    columnUnsorted () { return this.currentSort.column !== this.heading.field },
 
     cssVariables () {
+
       const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.headings
 
       return {
@@ -81,15 +74,20 @@ export default {
       }
     },
 
-    hasTooltip () { return 'tooltip' in this.heading },
-
-    columnUnsorted () { return this.currentSort.column !== this.heading.field },
+    currentSort () { return this.table.selectedSort },
 
     currentSortIsDescending () { return !this.currentSort.ascending },
 
+    hasTooltip () { return 'tooltip' in this.heading },
+
+    headings () { return this.options.headings },
+
     isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
 
+    options () { return this.table.options },
+
     sortingPayload () {
+
       return {
         tableId: this.tableId,
         sortObj: {
@@ -98,6 +96,10 @@ export default {
         }
       }
     },
+
+    table () { return this.tables[this.tableId] },
+
+    tableIsSortable () { return this.options.sortable },
   },
 
   methods: {
