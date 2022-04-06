@@ -115,7 +115,7 @@ export default {
     },
 
     columns () {
-      return this.item.cells.filter(cell => cell.showInTable == true)
+      return this.item.cells.filter(cell => cell.showInTable === true)
     }
   },
 
