@@ -1,6 +1,10 @@
 <template>
   <div>
-    <button class="button" @click="increment">{{ text }}</button>
+    <button 
+      class="button"
+      @click="increment"
+      v-text="text"
+    />
   </div>
 </template>
 <script>

@@ -8,7 +8,7 @@
       :style="cssVariables"
     >
       <table-heading 
-        v-for="(heading, n) in headings" 
+        v-for="heading, n in headings" 
         :key="heading._uid"
         :heading="heading"
         :tableId="tableId"

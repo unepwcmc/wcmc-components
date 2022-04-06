@@ -6,12 +6,20 @@
       v-model="isSelected" 
       class="checkbox"
     />
+
     <svg-tick
       v-show="isSelected"
       class="icon-tick" 
       :style="cssVariables"
     />
-    <label :for="optionId" :title="option" class="label" :class="labelClasses">{{ option }}</label>
+
+    <label 
+      :for="optionId"
+      :title="option"
+      class="label"
+      :class="labelClasses"
+      v-text="option"
+    />
   </li>
 </template>
 
@@ -27,6 +35,7 @@ export default {
     option: {
       required: true
     },
+
     tableId: {
       required: true,
       type: Number,
@@ -45,6 +54,7 @@ export default {
         '--svg-tick-color': this.config.filters.filterOptions.tickFill
       }
     },
+
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
@@ -57,6 +67,7 @@ export default {
     labelClasses () {
       return this.config.filters.filterOptions.handleLongLabels
     },
+
     optionId () {
       return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
     }

@@ -16,16 +16,19 @@
         <h2 
           v-if="config.modal.title"
           class="modal__title"
-        >
-          {{ config.modal.title }}
-        </h2>
+          v-text="config.modal.title"
+        />
 
-        <template v-for="(item, index) in modalContent" >
+        <template v-for="item, index in modalContent" >
           <div 
-            v-if="item.showInModal"         
+            v-if="item.showInModal"
             :key="index" 
           >
-            <span class="modal__item-name">{{ item.title }}:</span> 
+            <span
+              class="modal__item-name"
+              v-text="item.title"
+            />
+
             <div 
               v-if="hasMultipleValues(item.value)"
               :key="index" 
@@ -39,26 +42,30 @@
                   class="legend__li"
                 >
                   <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
+
                   <p v-html="printValue(string)"/>
                 </li>
               </ul>
+
               <ul 
                 v-else
                 class="modal__ul"
               >
-                <li v-for="string, index in item.value"
+                <li 
+                  v-for="string, index in item.value"
                   :key="Math.random() * index"
                   v-html="printValue(string)"
                 />
               </ul>
             </div>
+
             <template v-else>
-              <span 
+              <span
                 v-if="item.legend_on"
                 :key="index" 
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
-              />             
-              {{ item.value }}
+                v-text="item.value"
+              />
             </template>
           </div>
         </template>
@@ -81,6 +88,7 @@ export default {
       required: true,
       type: Number,
     },
+
     legends: {
       type: Array,
     },
@@ -107,6 +115,7 @@ export default {
         '--font-family': this.config.fontFamily
       }
     },
+
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     }
@@ -118,7 +127,7 @@ export default {
 
   methods: {
     openModal (tableId) {
-      if(this.tableId !== tableId) { return false }
+      if (this.tableId !== tableId) { return false }
 
       this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
 

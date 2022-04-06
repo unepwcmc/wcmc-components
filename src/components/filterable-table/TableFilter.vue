@@ -10,8 +10,14 @@
       :class="{ 'active' : isOpen , 'has-selected' : hasSelected }"
       :style="cssVariables"
     >
-      {{ title }} 
-      <span v-show="hasSelected" class="option-total">{{ totalSelectedOptions }}</span>
+      {{ title }}
+
+      <span 
+        v-show="hasSelected"
+        class="option-total"
+        v-text="totalSelectedOptions"
+      />
+
       <svg-chevron class="trigger__icon" />
     </p>
     
@@ -23,14 +29,27 @@
           :option="option"
           :selected="false"
           :tableId="tableId"
-        >
-        </table-filter-option>
+        />
       </ul>
 
       <div class="buttons">
-        <button @click="clear()" class="button--clear">Clear</button>
-        <button @click="cancel()" class="button--cancel">Cancel</button>
-        <button @click="apply()" class="button--apply">Apply</button>
+        <button
+          @click="clear()"
+          class="button--clear"
+          v-text="'Clear'"
+        />
+
+        <button
+          @click="cancel()"
+          class="button--cancel"
+          v-text="'Cancel'"
+        />
+
+        <button
+          @click="apply()"
+          class="button--apply"
+          v-text="'Apply'"
+        />
       </div>
     </div>
   </div>

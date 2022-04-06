@@ -1,71 +1,121 @@
 <template>
   <div 
     class="cell flex flex-h-center"
-    :style="cssVariables" 
+    :style="cssVariables"
   >
     <template v-if="heading">
-      <span class="title">{{ heading.title }}</span>
+      <span 
+        class="title"
+        v-text="heading.title"
+      />
 
-      <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
+      <table-tooltip v-if="hasTooltip" :text="heading.tooltip" />
 
-      <div v-if="hasOptions" class="sorting" @click="sort()">
-        <span alt="Sort results" class="sort--ascending"></span>
-        <span alt="Sort results" class="sort--descending"></span>
+      <div
+        v-if="tableIsSortable"
+        class="sorting-toggle"
+        @click="sortColumn"
+      >
+        <portal-target name="sort-icon">
+          <svg-sort-icon class="sort-icon--default" /> <!-- Default sort icon -->
+        </portal-target>
       </div>
     </template>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+
 import TableTooltip from './TableTooltip.vue'
+import SvgSortIcon from './svgs/SvgSortIcon.vue'
+
+const { mapState, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'TableHeading',
 
-  components: { TableTooltip },
+  components: {
+    TableTooltip,
+    SvgSortIcon
+  },
 
   props: {
     heading: {
       type: Object
     },
+
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     }
   },
 
   computed: {
+    ...mapState({
+      tables (state) { 
+        return state.tables
+      },
+    }),
+
+    columnUnsorted () { return this.currentSort.column !== this.heading.field },
+
     cssVariables () {
+
+      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.headings
+
       return {
-        '--bg-color': this.options.headings.bgColor,
-        '--border-color': this.options.headings.borderColor,
-        '--border-style': this.options.headings.borderStyle,
-        '--border-width': this.options.headings.borderWidth,
-        '--font-family': this.options.headings.fontFamily,
-        '--font-weight': this.options.headings.fontWeight
+        '--bg-color': bgColor,
+        '--border-color': borderColor,
+        '--border-style': borderStyle,
+        '--border-width': borderWidth,
+        '--font-family': fontFamily,
+        '--font-weight': fontWeight
       }
     },
-    // only show the sort buttons if the title has a heading
-    hasOptions () {
-      return this.heading.options != undefined || this.heading.name != undefined
+
+    currentSort () { return this.table.selectedSort },
+
+    currentSortIsDescending () { return !this.currentSort.ascending },
+
+    hasTooltip () { return 'tooltip' in this.heading },
+
+    headings () { return this.options.headings },
+
+    isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
+
+    options () { return this.table.options },
+
+    sortingPayload () {
+
+      return {
+        tableId: this.tableId,
+        sortObj: {
+          column: this.heading.field,
+          ascending: this.isNewSortAscending
+        }
+      }
     },
-    hasTooltip () {
-      return 'tooltip' in this.heading
-    },
-    options () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    }
+
+    table () { return this.tables[this.tableId] },
+
+    tableIsSortable () { return this.options.sortable },
   },
 
   methods: {
-    sort () {
-      this.$root.$emit('sort', this.heading.name)
-    }
+    ...mapActions([
+      'updateSelectedSort'
+    ]),
+
+    sortColumn () {
+      this.updateSelectedSort(this.sortingPayload)
+      this.$root.$emit('getNewItems')
+    },
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang='scss' scoped>
 .cell {
   background-color: #000000; // IE11
   background-color: var(--bg-color);
@@ -90,16 +140,22 @@ export default {
     display: flex;
   }
 
-  &:first-child { border-left: none; }
-}
-
-.sort {
-  &--ascending {
-
-  }
-
-  &--descending {
-    
+  &:first-child {
+    border-left: none;
   }
 }
+
+.sorting-toggle {
+  margin-left: rem-calc(5);
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.sort-icon--default {
+  color: #fff;
+  width: rem-calc(10.3); height: rem-calc(10.3);
+}
+
 </style>

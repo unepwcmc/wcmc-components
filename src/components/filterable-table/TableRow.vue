@@ -5,7 +5,7 @@
   >
     
     <div
-      v-for="(cell, index) in columns"
+      v-for="cell, index in columns"
       :key="Math.random() * index"
       class="cell"
       :style="`grid-column: ${index + 1}`"
@@ -14,18 +14,26 @@
       class="cell__legend" 
       v-if="cell.legend_on"
       >
-        <span class="cell__title">{{ cell.title }}: </span>
+        <span
+          class="cell__title"
+          v-text="cell.title"
+        />
 
         <span
-          v-for="(value, index) in cell.value"
+          v-for="value, index in cell.value"
+          class="legend__icon"
+          :class="kebabCaseClassName(value)"
           :key="Math.random() * index"
-          :class="`legend__icon ${kebabCaseClassName(value)}`"
         >
         </span>
       </div>
 
       <p v-else>
-        <span class="cell__title">{{ cell.title }}: </span>
+        <span
+          class="cell__title"
+          v-text="cell.title"
+        />
+
         <span v-html="printValue(cell.value)" />
       </p>
     </div>
@@ -57,6 +65,9 @@
 import SvgArrow from './svgs/SvgArrow.vue'
 import { isALink } from '../../helpers/helpers-url.js'
 import mixinColumns from './mixins/mixin-columns'
+import { createNamespacedHelpers } from 'vuex'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "row",
@@ -70,10 +81,12 @@ export default {
       required: true,
       type: Object,
     },
+
     tableId: {
       required: true,
       type: Number,
     },
+
     totalColumns: {
       required: true,
       type: Number,
@@ -81,6 +94,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['options']),
+
     cssVariablesAndStyles () {
       return {
         'grid-template-columns'     : this.gridColumnsCss,
@@ -95,20 +110,25 @@ export default {
         '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
+
     projectTitle () {
       return this.trim(this.item.title)
     },
+
     config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
+      return this.options(this.tableId)
     },
+
     columns () {
-      return this.item.cells.filter(cell => cell.showInTable == true)
+      return this.item.cells.filter(cell => cell.showInTable === true)
     }
   },
 
   methods: {
     assessmentUrl (url) {
-      return url.includes('http') ? `<a href="${url}" title="View assessment" target="_blank">Link</a>` :  url
+      const linkMarkdown = `<a href="${url}" title="View assessment" target="_blank">Link</a>`
+
+      return url.includes('http') ? linkMarkdown : url
     },
 
     openModal () {
