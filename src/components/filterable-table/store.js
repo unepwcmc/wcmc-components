@@ -53,10 +53,12 @@ export const storeFilterableTable = {
         tableId: obj.tableId, 
         newOptions: obj.newOptions 
       })
+
       commit('updateRequestedPage', {
         tableId: obj.tableId, 
         requestedPage: obj.requestedPage
       })
+
       commit('updateSelectedSort', {
         tableId: obj.tableId,
         sortObj: obj.sortObj
