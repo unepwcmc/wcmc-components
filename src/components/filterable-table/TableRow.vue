@@ -24,7 +24,6 @@
           class="legend__icon"
           :class="kebabCaseClassName(value)"
           :key="Math.random() * index"
-          :class="`legend__icon ${kebabCaseClassName(value)}`"
         >
         </span>
       </div>
