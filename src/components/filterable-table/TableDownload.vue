@@ -1,7 +1,8 @@
 <template>
   <button
+    class='button'
+    :class="{ 'button--disabled' : noResults }"
     @click="download"
-    :class="['button', { 'button--disabled' : noResults }]"
     :style="cssVariables"
     title="Download CSV"
     v-bind="{ 'disabled' : noResults }"
@@ -21,10 +22,12 @@ export default {
       required: true,
       type: String
     },
+
     tableId: {
       required: true,
       type: Number
     },
+
     totalItems: {
       required: true,
       type: Number
@@ -32,9 +35,11 @@ export default {
   },
 
   computed: {
+    
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
+
     cssVariables () {
       return {
         '--bg-color'          : this.config.download.bgColor,
@@ -50,9 +55,11 @@ export default {
         '--padding-right'     : this.config.download.paddingRight
       }
     },
+
     noResults () {
       return this.totalItems == 0
     },
+
     selectedFilterOptions () {
       return this.$store.getters['filterableTable/getSelectedFilterOptions'](this.tableId)
     }
@@ -62,7 +69,7 @@ export default {
     download () {
       setAxiosHeaders(axios, 'download')
 
-      let data = {
+      const data = {
         filters: this.selectedFilterOptions
       }
 
@@ -74,7 +81,7 @@ export default {
         }
 
       axios.post(this.endpoint, data, config)
-        .then((response) => {
+        .then(response => {
           // content-disposition looks something like: 'attachment; filename="the_file_name_here.csv"
           // so splitting the string by 'filename=" will leave us with ['attachemnt;', 'the_file_name_here.csv"']
           // we then get the last item and split it further by the the remaining '"' to ensure anything after that is gone.
@@ -82,7 +89,7 @@ export default {
           const filename = response.headers['content-disposition'].split('filename="')[1].split('"')[0]
 
           this.createBlob(filename, response.data)
-          //TODO Add GA tracking
+          // TODO Add GA tracking
           // this.$ga.event('Button', 'click', 'PAME - CSV download')
         })
         .catch(function (error) {
