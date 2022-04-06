@@ -11,8 +11,8 @@
       :style="`grid-column: ${index + 1}`"
     >
       <div 
-      class="cell__legend" 
-      v-if="cell.legend_on"
+        class="cell__legend"
+        v-if="cell.legend_on"
       >
         <span
           class="cell__title"
@@ -24,8 +24,7 @@
           class="legend__icon"
           :class="kebabCaseClassName(value)"
           :key="Math.random() * index"
-        >
-        </span>
+        />
       </div>
 
       <p v-else>
