@@ -234,7 +234,7 @@ export default {
     },
 
     getTotalTableColumns () {
-      //Add an additional column for the "View more" button
+      // Add an additional column for the "View more" button
       if (this.headings.length > 0) {
         this.totalColumns = this.headings.length + 1
       }
