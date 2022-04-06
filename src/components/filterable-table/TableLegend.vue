@@ -5,7 +5,8 @@
       class="legend__button"
     >
       <span 
-        :class="`legend__icon ${config.legend.buttonClass}`"
+        class="legend__icon"
+        :class="config.legend.buttonClass"
       />
 
       <span 
