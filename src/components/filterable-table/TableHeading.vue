@@ -9,7 +9,7 @@
         v-text="heading.title"
       />
 
-      <table-tooltip v-if="hasTooltip" :text="heading.tooltip"></table-tooltip>
+      <table-tooltip v-if="hasTooltip" :text="heading.tooltip" />
 
       <div
         v-if="tableIsSortable"
@@ -17,7 +17,7 @@
         @click="sortColumn"
       >
         <portal-target name="sort-icon">
-          <svg-sort-icon class="sort-icon" width="10.305" height="12.305" currentColor="#fff"/> <!-- Default sort icon -->
+          <svg-sort-icon class="sort-icon--default" /> <!-- Default sort icon -->
         </portal-target>
       </div>
     </template>
@@ -149,6 +149,11 @@ export default {
   &:hover {
     cursor: pointer;
   }
+}
+
+.sort-icon--default {
+  color: #fff;
+  width: rem-calc(10.3); height: rem-calc(10.3);
 }
 
 </style>
