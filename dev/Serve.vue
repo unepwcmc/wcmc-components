@@ -11,7 +11,7 @@
       <template #sort-icon>
         <span>This element is used as the sorting icon now!</span>
       </template>
-     -->
+    -->
     </filterable-table>
   </div>
 </template>
