@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import Vue from 'vue'
+import { set as vueSet } from 'vue'
 
 const DEFAULT_STATE = {
   modalContent: {},
@@ -93,7 +93,7 @@ export const storeFilterableTable = {
   
   mutations: {
     createNewTable (state, id) {
-      Vue.set(state.tables, id, cloneDeep(DEFAULT_STATE)) // Vue.set ensures reactivity of new table
+      vueSet(state.tables, id, cloneDeep(DEFAULT_STATE)) // Vue.set ensures reactivity of new table
     },
 
     incrementTableCount (state) {
