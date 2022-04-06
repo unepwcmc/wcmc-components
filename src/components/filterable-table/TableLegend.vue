@@ -16,15 +16,16 @@
     </button>
 
     <div
-      :class="['modal-wrapper', { active: isActive }]"
-      @click.stop.self="closeModal()"
+      class="modal-wrapper"
+      :class="{ active: isActive }"
+      @click.stop.self="closeModal"
       :style="cssVariables"
     >
       <div class="modal">
         <div class="modal__content">
           <button 
             class="modal__close"
-            @click="closeModal()"
+            @click="closeModal"
           >
             <svg-cross class="modal__close-svg" />
           </button>
@@ -48,7 +49,10 @@
                 v-for="(item, index) in legend.options" 
                 :key="index"
               >
-                <span :class="`legend__icon ${kebabCaseClassName(item)}`" />
+                <span 
+                  class="legend__icon"
+                  :class="kebabCaseClassName(item)"
+                />
 
                 <p
                   class="legend__item"
