@@ -106,7 +106,7 @@ export const storeFilterableTable = {
 
     updateFilterOptions (state, obj) {
       state.tables[obj.tableId].selectedFilterOptions.map(filter => {
-        if(filter.name == obj.newOptions.name) {
+        if (filter.name == obj.newOptions.name) {
           filter.options = obj.newOptions.options
         }
 
