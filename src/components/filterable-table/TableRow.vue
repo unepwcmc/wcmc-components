@@ -5,7 +5,7 @@
   >
     
     <div
-      v-for="(cell, index) in columns"
+      v-for="cell, index in columns"
       :key="Math.random() * index"
       class="cell"
       :style="`grid-column: ${index + 1}`"
@@ -20,7 +20,9 @@
         />
 
         <span
-          v-for="(value, index) in cell.value"
+          v-for="value, index in cell.value"
+          class="legend__icon"
+          :class="kebabCaseClassName(value)"
           :key="Math.random() * index"
           :class="`legend__icon ${kebabCaseClassName(value)}`"
         >

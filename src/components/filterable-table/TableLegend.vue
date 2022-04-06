@@ -46,7 +46,7 @@
             <div class="legend__options">
               <div 
                 class="legend__row"
-                v-for="(item, index) in legend.options" 
+                v-for="item, index in legend.options" 
                 :key="index"
               >
                 <span 

@@ -19,7 +19,7 @@
           v-text="config.modal.title"
         />
 
-        <template v-for="(item, index) in modalContent" >
+        <template v-for="item, index in modalContent" >
           <div 
             v-if="item.showInModal"
             :key="index" 
