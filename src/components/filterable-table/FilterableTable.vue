@@ -114,16 +114,16 @@ export default {
 
   data () {
     return {
-      headings: [],
       currentPage: 1,
       dummyData: DUMMY_DATA,
       filters: [],
-      legends: [],
+      headings: [],
       id: '',
       items: [],
+      legends: [],
       totalColumns: 0,
       totalItems: 5,
-      totalPages: 3
+      totalPages: 3,
     }
   },
 
@@ -257,6 +257,10 @@ export default {
       this.totalPages = data.total_pages
       this.items = data.items
     },
+  },
+
+  beforeDestroy () {
+    this.$root.$off('openModal', this.onOpenModal)
   }
 }
 </script>

@@ -1,14 +1,15 @@
 <template>
   <div
+    v-if="config"
     :class="['modal-wrapper', { 'active' : isActive }]"
-    @click.stop.self="closeModal()"
+    @click.stop.self="closeModal"
     :style="cssVariables"
   >
     <div class="modal">
       <div class="modal__content">
         <button
           class="modal__close"
-          @click="closeModal()"
+          @click="closeModal"
         >
           <svg-cross class="modal__close-svg" />
         </button>
@@ -67,6 +68,7 @@
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
                 v-text="item.value"
               />
+              <span v-else v-text="item.value" />
             </template>
           </div>
         </template>
@@ -98,11 +100,12 @@ export default {
   data () {
     return {
       isActive: false,
+      config: undefined,
+      modalContent: {},
       modalOffset: 0,
       styleObject: {
         top: 0
       },
-      modalContent: {}
     }
   },
 
@@ -116,10 +119,6 @@ export default {
         '--font-family': this.config.fontFamily
       }
     },
-
-    config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    }
   },
 
   mounted () {
@@ -129,6 +128,8 @@ export default {
   methods: {
     openModal ({ tableId }) {
       if (this.tableId !== tableId) { return false }
+
+      this.config = this.$store.getters['filterableTable/options'](this.tableId)
 
       this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
 

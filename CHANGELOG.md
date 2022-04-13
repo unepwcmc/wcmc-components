@@ -1,9 +1,11 @@
 ### 2.0.0
 
-- Feature (breaking change):
-  - Modify the openModal event to include in payload cell, rowIndex and original tableId so the signature changes in the parameters from (tableId) to ({ cell, rowIndex, tableId }).
-- Formatting:
-  - Use Vetur to format the TableRow and TableModal components.
+- Fix: fix item.value not displayed due to legend_on not having v-else.
+- Breaking change:
+  - $root.$on.openModal no longer emits tableId
+  - $root.$on.openModal emits an object with { row, rowIndex, tableId, tableColumns }
+  - Extract { tableId } in listeners of openModel to fix.
+
 ### 1.2.1
 
 - Hotfix: Correct broken import
