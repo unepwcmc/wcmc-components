@@ -54,7 +54,7 @@
       <button
         v-else
         class="button"
-        @click="openModal({ cell, cellIndex })"
+        @click="openModal"
       >
         <svg-arrow class="button__svg" />
       </button>
@@ -137,7 +137,7 @@ export default {
       return url.includes('http') ? linkMarkdown : url
     },
 
-    openModal ({ cell, cellIndex }) {
+    openModal () {
       const obj = {
         tableId: this.tableId,
         content: this.item.cells
@@ -146,8 +146,6 @@ export default {
       this.$store.dispatch('filterableTable/updateModal', obj)
 
       const payload = {
-        cell,
-        cellIndex,
         row: this.item,
         rowIndex: this.itemIndex,
         tableId: this.tableId,
