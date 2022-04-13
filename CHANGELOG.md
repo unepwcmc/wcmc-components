@@ -1,3 +1,9 @@
+### 2.0.0
+
+- Feature (breaking change):
+  - Modify the openModal event to include in payload cell, rowIndex and original tableId so the signature changes in the parameters from (tableId) to ({ cell, rowIndex, tableId }).
+- Formatting:
+  - Use Vetur to format the TableRow and TableModal components.
 ### 1.2.1
 
 - Hotfix: Correct broken import
