@@ -5,10 +5,10 @@
   >
 
     <div
-      v-for="(cell, rowIndex) in columns"
-      :key="Math.random() * rowIndex"
+      v-for="(cell, cellIndex) in columns"
+      :key="Math.random() * cellIndex"
       class="cell"
-      :style="`grid-column: ${rowIndex + 1}`"
+      :style="`grid-column: ${cellIndex + 1}`"
     >
       <div
         class="cell__legend"
@@ -27,37 +27,38 @@
         />
       </div>
 
-      <div v-else>
+      <span v-else>
         <span
           class="cell__title"
           v-text="cell.title"
         />
 
         <span v-html="printValue(cell.value)" />
-      </div>
+      </span>
 
-      <div
-        class="cell"
-        :style="`grid-column: ${totalColumns}`"
-      >
-        <a
-          v-if="item.pageUrl"
-          class="button"
-          :href="item.pageUrl"
-        >
-          <svg-arrow class="button__svg" />
-        </a>
 
-        <button
-          v-else
-          class="button"
-          @click="openModal({ cell, rowIndex })"
-        >
-          <svg-arrow class="button__svg" />
-        </button>
-      </div>
     </div>
 
+    <span
+      class="cell"
+      :style="`grid-column: ${totalColumns}`"
+    >
+      <a
+        v-if="item.pageUrl"
+        class="button"
+        :href="item.pageUrl"
+      >
+        <svg-arrow class="button__svg" />
+      </a>
+
+      <button
+        v-else
+        class="button"
+        @click="openModal({ cell, cellIndex })"
+      >
+        <svg-arrow class="button__svg" />
+      </button>
+    </span>
   </div>
 </template>
 
@@ -80,6 +81,11 @@ export default {
     item: {
       required: true,
       type: Object,
+    },
+
+    itemIndex: {
+      required: true,
+      type: Number,
     },
 
     tableId: {
@@ -131,7 +137,7 @@ export default {
       return url.includes('http') ? linkMarkdown : url
     },
 
-    openModal ({ cell, rowIndex }) {
+    openModal ({ cell, cellIndex }) {
       const obj = {
         tableId: this.tableId,
         content: this.item.cells
@@ -141,8 +147,11 @@ export default {
 
       const payload = {
         cell,
-        rowIndex,
+        cellIndex,
+        row: this.item,
+        rowIndex: this.itemIndex,
         tableId: this.tableId,
+        totalColumns: this.totalColumns
       }
 
       this.$root.$emit('openModal', payload)
