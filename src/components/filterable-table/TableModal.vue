@@ -184,8 +184,7 @@ export default {
   font-family: var(--font-family);
   overflow-y: scroll;
   padding: rem-calc(34 32);
-  width: 100%;
-  height: 100vh;
+  width: 100%; height: 100vh;
 
   position: fixed;
   top: 0;
