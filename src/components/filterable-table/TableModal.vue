@@ -194,8 +194,7 @@ export default {
   @include breakpoint($small) {
     border-radius: 0;
     padding: rem-calc(34 32);
-    width: 60%;
-    height: auto;
+    width: 60%; height: auto;
     max-height: 80vh;
 
     top: 50%;
