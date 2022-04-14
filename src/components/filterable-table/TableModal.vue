@@ -43,7 +43,10 @@
                   :key="Math.random() * valueIndex"
                   class="legend__li"
                 >
-                  <span :class="`legend__icon ${kebabCaseClassName(string)}`" />
+                  <span
+                    class="legend__icon"
+                    :class="kebabCaseClassName(string)"
+                  />
 
                   <p v-html="printValue(string)" />
                 </li>
