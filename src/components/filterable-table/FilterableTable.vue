@@ -161,7 +161,7 @@ export default {
     this.importUserOptions()
   },
 
-  mounted() {
+  mounted () {
     if (this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters

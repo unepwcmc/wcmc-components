@@ -71,6 +71,7 @@
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
                 v-text="item.value"
               />
+
               <span v-else v-text="item.value" />
             </template>
           </div>
