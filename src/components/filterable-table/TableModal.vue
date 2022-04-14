@@ -210,8 +210,7 @@ export default {
     border-radius: 0; // IE11
     border-radius: var(--close-border-radius);
     cursor: pointer;
-    width: rem-calc(50);
-    height: rem-calc(50);
+    width: rem-calc(50); height: rem-calc(50);
 
     position: sticky;
     float: right;
