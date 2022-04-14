@@ -219,8 +219,7 @@ export default {
     right: rem-calc(-16);
 
     &-svg {
-      width: rem-calc(20);
-      height: rem-calc(20);
+      width: rem-calc(20); height: rem-calc(20);
     }
   }
 
