@@ -209,7 +209,7 @@ export default {
         filterOptions: array
       }
 
-      this.selectedFilterOptions(this.id, obj)
+      this.setFilterOptions(obj)
     },
 
     getNewItems () {
@@ -218,7 +218,6 @@ export default {
         items_per_page: this.itemsPerPage,
         requested_page: this.requestedPage(this.id),
       }
-
       if (this.isSortable(this.id)) {
         data.sort = this.selectedSort(this.id)
       }
