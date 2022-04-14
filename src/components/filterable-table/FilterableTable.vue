@@ -21,7 +21,7 @@
     </div>
     <div class="table-body">
       <template v-if="hasItems">
-        <table-row v-for="(item, itemIndex) in items"
+        <table-row v-for="item, itemIndex in items"
           :key="item._uid"
           :item="item" 
           :item-index="itemIndex"

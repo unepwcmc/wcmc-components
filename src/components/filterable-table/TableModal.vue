@@ -20,7 +20,7 @@
           v-text="config.modal.title"
         />
 
-        <template v-for="(item, modalContentIndex) in modalContent">
+        <template v-for="item, modalContentIndex in modalContent">
           <div
             v-if="item.showInModal"
             :key="modalContentIndex"
@@ -39,7 +39,7 @@
                 class="legend"
               >
                 <li
-                  v-for="(string, valueIndex) in item.value"
+                  v-for="string, valueIndex in item.value"
                   :key="Math.random() * valueIndex"
                   class="legend__li"
                 >
@@ -54,7 +54,7 @@
                 class="modal__ul"
               >
                 <li
-                  v-for="(string, valueIndex) in item.value"
+                  v-for="string, valueIndex in item.value"
                   :key="Math.random() * valueIndex"
                   v-html="printValue(string)"
                 />
