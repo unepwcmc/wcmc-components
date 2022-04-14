@@ -1,7 +1,8 @@
 <template>
   <div
+    class="modal-wrapper"
+    :class="{'active': isActive}"
     v-if="config"
-    :class="['modal-wrapper', { 'active' : isActive }]"
     @click.stop.self="closeModal"
     :style="cssVariables"
   >
@@ -68,7 +69,8 @@
               <span
                 v-if="item.legend_on"
                 :key="modalContentIndex"
-                :class="`legend__icon ${kebabCaseClassName(item.value)}`"
+                class="legend__icon"
+                :class="kebabCaseClassName(item.value)"
                 v-text="item.value"
               />
 
