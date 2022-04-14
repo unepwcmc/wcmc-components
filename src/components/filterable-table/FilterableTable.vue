@@ -241,9 +241,11 @@ export default {
     },
 
     importUserOptions () {
+      const default_options = DEFAULT_OPTIONS
+      delete default_options.columns // remove default columns widths which was messing the vertical alignment
       const obj = {
         tableId: this.id,
-        options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
+        options: typeof(this.options) == 'object' ? merge({}, default_options, this.options) : DEFAULT_OPTIONS
       }
 
       this.updateOptions(obj)
