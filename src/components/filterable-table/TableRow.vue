@@ -260,6 +260,7 @@ export default {
   &__legend {
     display: flex;
     align-items: center;
+
     @include breakpoint($medium) {
       display: block;
     }
