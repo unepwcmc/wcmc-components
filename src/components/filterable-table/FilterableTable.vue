@@ -60,7 +60,7 @@ import { createNamespacedHelpers } from 'vuex'
 
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
-
+import { merge } from 'lodash'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
@@ -242,14 +242,16 @@ export default {
     importUserOptions () {
       const providedOptions = typeof(this.options) == 'object' ? this.options : {}
 
+      const defaultOptionsWithoutColumns = JSON.parse(JSON.stringify(DEFAULT_OPTIONS));
+      delete defaultOptionsWithoutColumns.columns // remove default columns widths which was messing the vertical alignment
+
+      const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns') ? defaultOptionsWithoutColumns : DEFAULT_OPTIONS
+
+      const options = { ...merge(providedOptions, defaultOptionsToMerge) }
       const obj = {
         tableId: this.id,
-        options: {
-          ...DEFAULT_OPTIONS,
-          ...providedOptions
-        }
+        options
       }
-
       this.updateOptions(obj)
     },
 
