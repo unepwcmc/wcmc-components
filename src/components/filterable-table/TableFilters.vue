@@ -9,11 +9,13 @@
       :title="filter.title" 
       :type="filter.type" 
     />
+
     <table-legend 
       class="filter__button-download"
       :tableId="tableId"
       :legends="legends"
     />
+
     <table-download 
       v-if="endpointDownload"
       class="filter__button-download"  

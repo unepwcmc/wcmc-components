@@ -34,19 +34,19 @@
 
       <div class="buttons">
         <button
-          @click="clear()"
+          @click="clear"
           class="button--clear"
           v-text="'Clear'"
         />
 
         <button
-          @click="cancel()"
+          @click="cancel"
           class="button--cancel"
           v-text="'Cancel'"
         />
 
         <button
-          @click="apply()"
+          @click="apply"
           class="button--apply"
           v-text="'Apply'"
         />

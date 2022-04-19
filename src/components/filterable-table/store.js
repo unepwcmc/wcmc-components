@@ -1,5 +1,5 @@
 import { cloneDeep } from 'lodash'
-import { set as vueSet } from 'vue'
+import Vue from 'vue'
 
 const DEFAULT_STATE = {
   modalContent: {},
@@ -15,7 +15,7 @@ const DEFAULT_STATE = {
 
 export const storeFilterableTable = {
   namespaced: true,
-  
+
   state: {
     tableCount: 0,
     tables: {}
@@ -49,13 +49,13 @@ export const storeFilterableTable = {
 
   actions: {
     applyNewFilterOptions ({ commit }, obj) {
-      commit('updateFilterOptions', { 
-        tableId: obj.tableId, 
-        newOptions: obj.newOptions 
+      commit('updateFilterOptions', {
+        tableId: obj.tableId,
+        newOptions: obj.newOptions
       })
 
       commit('updateRequestedPage', {
-        tableId: obj.tableId, 
+        tableId: obj.tableId,
         requestedPage: obj.requestedPage
       })
 
@@ -86,14 +86,14 @@ export const storeFilterableTable = {
       commit('updateRequestedPage', obj)
     },
 
-    updateSelectedSort ( { commit }, obj) {
+    updateSelectedSort ({ commit }, obj) {
       commit('updateSelectedSort', obj)
     }
   },
-  
+
   mutations: {
     createNewTable (state, id) {
-      vueSet(state.tables, id, cloneDeep(DEFAULT_STATE)) // Vue.set ensures reactivity of new table
+      Vue.set(state.tables, id, cloneDeep(DEFAULT_STATE)) // Vue.set ensures reactivity of new table
     },
 
     incrementTableCount (state) {

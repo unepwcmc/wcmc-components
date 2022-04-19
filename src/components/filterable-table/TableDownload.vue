@@ -5,7 +5,7 @@
     @click="download"
     :style="cssVariables"
     title="Download CSV"
-    v-bind="{ 'disabled' : noResults }"
+    v-bind="{ disabled: noResults }"
     v-text="config.download.text"
   />
 </template>
