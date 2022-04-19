@@ -235,6 +235,7 @@ export default {
 
   &__options {
     display: grid;
+
     @include breakpoint($medium) {
       grid-template-columns: repeat(2, 1fr);
     }
