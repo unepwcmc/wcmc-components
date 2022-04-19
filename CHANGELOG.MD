@@ -1,11 +1,3 @@
-### 2.0.0
-
-- Fix: fix item.value not displayed due to legend_on not having v-else.
-- Breaking change:
-  - $root.$on.openModal no longer emits tableId
-  - $root.$on.openModal emits an object with { row, rowIndex, tableId, tableColumns }
-  - Extract { tableId } in listeners of openModel to fix.
-
 ### 1.2.1
 
 - Hotfix: Correct broken import
