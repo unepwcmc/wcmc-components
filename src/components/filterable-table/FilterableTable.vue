@@ -247,7 +247,7 @@ export default {
 
       const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns') ? defaultOptionsWithoutColumns : DEFAULT_OPTIONS
 
-      const options = { ...merge(providedOptions, defaultOptionsToMerge) }
+      const options = merge(defaultOptionsToMerge, providedOptions)
       const obj = {
         tableId: this.id,
         options
