@@ -1,3 +1,7 @@
+### 2.0.1
+
+- Fix: Switch order of merged options to ensure options entered via prop take precedence
+
 ### 2.0.0
 
 - Fix: fix item.value not displayed due to legend_on not having v-else.
