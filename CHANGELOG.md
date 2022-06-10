@@ -1,5 +1,9 @@
 ### 2.0.1
 
+- Feat: Allow customisable link icons using slots and portals
+
+### 2.0.1
+
 - Fix: Switch order of merged options to ensure options entered via prop take precedence
 
 ### 2.0.0
