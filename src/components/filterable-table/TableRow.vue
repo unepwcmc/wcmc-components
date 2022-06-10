@@ -48,7 +48,9 @@
         class="button"
         :href="item.pageUrl"
       >
-        <svg-arrow class="button__svg" />
+        <portal-target name="row-link-icon">
+          <svg-arrow class="button__svg" />
+        </portal-target>
       </a>
 
       <button
@@ -56,7 +58,9 @@
         class="button"
         @click="openModal"
       >
-        <svg-arrow class="button__svg" />
+        <portal-target name="row-link-icon">
+          <svg-arrow class="button__svg" />
+        </portal-target>
       </button>
     </span>
   </div>
