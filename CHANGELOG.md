@@ -1,5 +1,8 @@
 ### 2.0.1
 
+- Fix: Use getters in TableHeading and TableFilter components to properly read the state of the store
+### 2.0.1
+
 - Fix: Switch order of merged options to ensure options entered via prop take precedence
 
 ### 2.0.0
