@@ -3,6 +3,10 @@
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
+    
+    <portal to="row-link-icon">
+      <slot name="row-link-icon" />
+    </portal>
 
     <table-filters
       :endpoint-download="endpointDownload"

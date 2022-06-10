@@ -11,6 +11,10 @@
       <template #sort-icon>
         <span>This element is used as the sorting icon now!</span>
       </template>
+      
+      <template #row-link-icon>
+        <span>This element is used as the row link icon now!</span>
+      </template>
     -->
     </filterable-table>
   </div>
