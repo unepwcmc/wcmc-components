@@ -1,3 +1,7 @@
+### 2.1.1
+
+- Chore: run build and build-lib, update version in package.json
+
 ### 2.1.0
 
 - Fix: Use getters in TableHeading and TableFilter components to properly read the state of the store
