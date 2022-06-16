@@ -9,7 +9,10 @@
         v-text="heading.title"
       />
 
-      <table-tooltip v-if="hasTooltip" :text="heading.tooltip" />
+      <table-tooltip 
+        v-if="hasTooltip" 
+        :text="heading.tooltip"
+      />
 
       <div
         v-if="tableIsSortable"
@@ -30,7 +33,7 @@ import { createNamespacedHelpers } from 'vuex'
 import TableTooltip from './TableTooltip.vue'
 import SvgSortIcon from './svgs/SvgSortIcon.vue'
 
-const { mapState, mapActions } = createNamespacedHelpers('filterableTable')
+const { mapGetters, mapState, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'TableHeading',
@@ -52,13 +55,15 @@ export default {
   },
 
   computed: {
+    ...mapGetters([
+      'getSelectedSort'
+    ]),
+
     ...mapState({
       tables (state) { 
         return state.tables
       },
     }),
-
-    columnUnsorted () { return this.currentSort.column !== this.heading.field },
 
     cssVariables () {
 
@@ -74,28 +79,11 @@ export default {
       }
     },
 
-    currentSort () { return this.table.selectedSort },
-
-    currentSortIsDescending () { return !this.currentSort.ascending },
-
     hasTooltip () { return 'tooltip' in this.heading },
 
     headings () { return this.options.headings },
 
-    isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
-
     options () { return this.table.options },
-
-    sortingPayload () {
-
-      return {
-        tableId: this.tableId,
-        sortObj: {
-          column: this.heading.field,
-          ascending: this.isNewSortAscending
-        }
-      }
-    },
 
     table () { return this.tables[this.tableId] },
 
@@ -107,8 +95,20 @@ export default {
       'updateSelectedSort'
     ]),
 
+    isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
+
     sortColumn () {
-      this.updateSelectedSort(this.sortingPayload)
+      const currentSort = this.getSelectedSort(this.tableId)
+      const isNewSortAscending = currentSort.column !== this.heading.field || !currentSort.ascending
+      const sortingPayload = {
+        tableId: this.tableId,
+        sortObj: {
+          column: this.heading.field,
+          ascending: isNewSortAscending
+        }
+      }
+
+      this.updateSelectedSort(sortingPayload)
       this.$root.$emit('getNewItems')
     },
   }

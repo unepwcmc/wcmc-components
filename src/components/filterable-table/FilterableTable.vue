@@ -3,6 +3,10 @@
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
+    
+    <portal to="row-link-icon">
+      <slot name="row-link-icon" />
+    </portal>
 
     <table-filters
       :endpoint-download="endpointDownload"
@@ -241,9 +245,17 @@ export default {
     },
 
     importUserOptions () {
+      const providedOptions = typeof(this.options) == 'object' ? this.options : {}
+
+      const defaultOptionsWithoutColumns = JSON.parse(JSON.stringify(DEFAULT_OPTIONS));
+      delete defaultOptionsWithoutColumns.columns // remove default columns widths which was messing the vertical alignment
+
+      const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns') ? defaultOptionsWithoutColumns : DEFAULT_OPTIONS
+
+      const options = merge(defaultOptionsToMerge, providedOptions)
       const obj = {
         tableId: this.id,
-        options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
+        options
       }
 
       this.updateOptions(obj)

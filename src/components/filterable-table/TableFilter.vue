@@ -56,8 +56,10 @@
 </template>
 
 <script>
-  import TableFilterOption from './TableFilterOption.vue'
-  import SvgChevron from './svgs/SvgChevron.vue'
+import TableFilterOption from './TableFilterOption.vue'
+import SvgChevron from './svgs/SvgChevron.vue'
+import { createNamespacedHelpers } from 'vuex'
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
   export default {
     name: 'TableFilter',
@@ -96,6 +98,10 @@
     },
 
     computed: {
+      ...mapGetters([
+        'getSelectedSort'
+      ]),
+
       cssVariables () {
         return {
           '--color-bg'                : this.config.trigger.colorBg,
@@ -240,9 +246,10 @@
             name: this.name,
             options: this.activeOptions
           },
+          sortObj: this.getSelectedSort(this.tableId),
           requestedPage: 1
         }
-        
+
         this.$store.dispatch('filterableTable/applyNewFilterOptions', obj)
         this.$root.$emit('getNewItems')
 

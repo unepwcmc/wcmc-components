@@ -1,3 +1,24 @@
+### 2.1.1
+
+- Chore: run build and build-lib, update version in package.json
+
+### 2.1.0
+
+- Fix: Use getters in TableHeading and TableFilter components to properly read the state of the store
+- Feat: Allow customisable link icons using slots and portals
+
+### 2.0.1
+
+- Fix: Switch order of merged options to ensure options entered via prop take precedence
+
+### 2.0.0
+
+- Fix: fix item.value not displayed due to legend_on not having v-else.
+- Breaking change:
+  - $root.$on.openModal no longer emits tableId
+  - $root.$on.openModal emits an object with { row, rowIndex, tableId, tableColumns }
+  - Extract { tableId } in listeners of openModel to fix.
+
 ### 1.2.1
 
 - Hotfix: Correct broken import
