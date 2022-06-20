@@ -168,9 +168,10 @@ export default {
         })
 
         output = strings.join(', ')
+      return output
       }
 
-      return output
+      return isALink(value)
     },
 
     trim (phrase) {
