@@ -188,7 +188,7 @@ export default {
       let optionsListToDisplay = [];
       if (this.config.optionToPinAtTheTop) {
         this.config.optionToPinAtTheTop.forEach((filter) => {
-          if (filter.filterName === this.title) {
+          if (filter.filterName === this.title.trim()) {
             const optionsWithoutPinnedOption = this.options.filter(
               (option) => option !== filter.option
             );
