@@ -25,13 +25,14 @@
           <div
             v-if="item.showInModal"
             :key="modalContentIndex"
+            class="modal__item"
           >
             <span
               class="modal__item-name"
-              v-text="item.title"
+              v-text="item.title + ':'"
             />
 
-            <div
+            <span
               v-if="hasMultipleValues(item.value)"
               :key="modalContentIndex"
             >
@@ -54,7 +55,7 @@
               </ul>
 
               <ul
-                v-else
+                v-else-if="displayBullet"
                 class="modal__ul"
               >
                 <li
@@ -63,7 +64,8 @@
                   v-html="printValue(string)"
                 />
               </ul>
-            </div>
+              <span v-else>{{ item.value.join("; ") }}</span>
+            </span>
 
             <template v-else>
               <span
@@ -125,6 +127,8 @@ export default {
         '--font-family': this.config.fontFamily
       }
     },
+
+    displayBullet () { return this.config.modal.bulletDisplay },
   },
 
   mounted () {
@@ -226,6 +230,10 @@ export default {
     &-svg {
       width: rem-calc(20); height: rem-calc(20);
     }
+  }
+
+  &__item {
+    margin-bottom: rem-calc(10);
   }
 
   &__content {
