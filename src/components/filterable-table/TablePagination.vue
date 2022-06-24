@@ -19,7 +19,6 @@
         <svg-chevron class="button__svg" />
       </button>
 
-
       <button
         v-bind="{ 'disabled' : !nextIsActive }"
         @click="changePage(nextIsActive, 'next')"
@@ -181,6 +180,9 @@ $buttons: ('next', 'previous', '');
       width: rem-calc(12); height: rem-calc(22);
     }
 
+    .button__page {
+      width: rem-calc(12); height: rem-calc(22); margin-right: rem-calc(10);
+    }
     &.disabled { 
       background-color: #ccc; // IE11 
       background-color: var(--button-bg-color-disabled); 

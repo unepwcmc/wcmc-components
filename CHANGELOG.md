@@ -1,8 +1,13 @@
+### 2.2.2
+
+- Fix: Remove page buttons (numbers) from pagination
+
 ### 2.2.1
-  - Feature:
-    - Allow the modal to display a list in a bulletpoint style or inline style, implemented via a key in the existing `options` prop: `modal.bulletDisplay`, which can be set to true to have bulletpoint style or false to have inline style (with words separated by a semi-colon)
-    - Make URLs hyperlinks, styled in blue
-    - Give the option to pin one filter option to the top of any filter, implemented via a key in the existing `options` prop: `filters.optionToPinAtTheTop`, which can be set to an array of objects containing the name of the filter and the option itself, like this => `[{filterName: nameOfFilter, option: nameOfOption},...,{filterName: nameOfFilter, option: nameOfOption}]`
+
+- Feature:
+  - Allow the modal to display a list in a bulletpoint style or inline style, implemented via a key in the existing `options` prop: `modal.bulletDisplay`, which can be set to true to have bulletpoint style or false to have inline style (with words separated by a semi-colon)
+  - Make URLs hyperlinks, styled in blue
+  - Give the option to pin one filter option to the top of any filter, implemented via a key in the existing `options` prop: `filters.optionToPinAtTheTop`, which can be set to an array of objects containing the name of the filter and the option itself, like this => `[{filterName: nameOfFilter, option: nameOfOption},...,{filterName: nameOfFilter, option: nameOfOption}]`
 
 ### 2.2.0
 
