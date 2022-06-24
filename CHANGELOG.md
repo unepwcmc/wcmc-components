@@ -1,3 +1,10 @@
+### 2.2.0
+
+- Feature:
+  - Allow the "more content" column (the rightmost column where users can either open a modal or be redirected to a URL) to be disabled
+  - Implemented via a key in the existing `options` prop: `hideMoreContentColumn`, which can be set to true to remove the column entirely
+  - Provide example usage comment in Serve.vue
+
 ### 2.1.2
 
 - Chore: run build and build-lib, update version in package.json
