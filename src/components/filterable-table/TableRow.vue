@@ -40,6 +40,7 @@
     </div>
 
     <span
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       class="cell"
       :style="`grid-column: ${totalColumns}`"
     >
@@ -104,7 +105,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['options']),
+    ...mapGetters([
+      'options',
+      'isMoreContentColumnDisplayed'
+    ]),
 
     cssVariablesAndStyles () {
       return {
