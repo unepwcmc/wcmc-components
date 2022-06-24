@@ -4,7 +4,7 @@ export const DEFAULT_OPTIONS = {
   columns: {
     widths: ['1fr', '1fr', '300px', '1fr', '1fr', '100px'] // widths.length = attributes.length + 1
   },
-  hideMoreContentColumn: true,
+  hideMoreContentColumn: false,
   download: {
     bgColor: '#aaa',
     bgColorHover: UNEP_WCMC_BLUE,
