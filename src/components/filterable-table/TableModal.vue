@@ -76,7 +76,7 @@
                 v-text="item.value"
               />
 
-              <span v-else v-text="item.value" />
+              <span v-else v-html="printValue(item.value)" />
             </template>
           </div>
         </template>
