@@ -182,7 +182,7 @@ export const DUMMY_DATA = {
   ],
   items: [
     {
-      pageUrl: false,
+      pageUrl: 'http://google.com',
       cells: [
         {
           name: 'attribute_1',
@@ -237,7 +237,7 @@ export const DUMMY_DATA = {
       ]
     },
     {
-      pageUrl: false,
+      pageUrl: '',
       cells: [
         {
           name: 'attribute_1',
@@ -291,7 +291,7 @@ export const DUMMY_DATA = {
       ]
     },
     {
-      pageUrl: false,
+      pageUrl: '',
       cells: [
         {
           name: 'attribute_1',
