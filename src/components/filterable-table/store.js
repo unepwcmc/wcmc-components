@@ -44,7 +44,11 @@ export const storeFilterableTable = {
 
     getSelectedSort: state => id => {
       return state.tables[id].selectedSort
-    }
+    },
+    
+    isMoreContentColumnDisplayed: state => id => {
+      return !state.tables[id].options.hideMoreContentColumn
+    },
   },
 
   actions: {

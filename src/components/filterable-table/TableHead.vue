@@ -17,6 +17,7 @@
       
       <!-- empty heading for 'more content' button -->
       <table-heading
+        v-if="this.isMoreContentColumnDisplayed(this.tableId)"
         :tableId="tableId"
         :style="`grid-column: ${totalColumns}`"
       />
@@ -25,9 +26,11 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
 import TableHeading from './TableHeading.vue'
-
 import mixinColumns from './mixins/mixin-columns'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'TableHead',
@@ -41,10 +44,12 @@ export default {
       required: true,
       type: Array
     },
+
     tableId: {
       required: true,
       type: Number,
     },
+
     totalColumns: {
       required: true,
       type: Number,
@@ -59,6 +64,8 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['isMoreContentColumnDisplayed']),
+
     cssVariables () {
       return {
         'grid-template-columns': this.gridColumnsCss,

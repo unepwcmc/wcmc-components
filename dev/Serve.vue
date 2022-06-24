@@ -6,6 +6,9 @@
     
     <filterable-table
       endpoint-download="/"
+      :options="{ 
+        hideMoreContentColumn: true
+      }"
     >
     <!-- 
       <template #sort-icon>
