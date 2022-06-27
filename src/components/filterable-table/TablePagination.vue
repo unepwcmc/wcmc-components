@@ -19,6 +19,14 @@
         <svg-chevron class="button__svg" />
       </button>
 
+      <div v-if="config.pagination.pageNumbers">
+        <div v-for="(page, pageIndex) in pages" :key="pageIndex">
+          <button>
+            {{page}}
+          </button>
+        </div>
+      </div>
+
       <button
         v-bind="{ 'disabled' : !nextIsActive }"
         @click="changePage(nextIsActive, 'next')"
@@ -113,6 +121,10 @@ export default {
     haveResults () {
       return this.totalItems > 0
       // return false
+    },
+
+    pages () {
+      return [1, 2, 3, 4, 5]
     }
   },
 
