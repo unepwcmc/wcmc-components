@@ -1,13 +1,18 @@
 <template>
-  <div class="pagination" :style="cssVariables">
-    <div v-show="haveResults" class="pagination__content">
+  <div 
+    class="pagination"
+    :style="cssVariables"
+  >
+    <div 
+      v-show="haveResults"
+      class="pagination__content"
+    >
       <span class="pagination__numbers">
-        {{ config.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of
-        {{ totalItems }} {{ config.pagination.textItems }}
+        {{ config.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ config.pagination.textItems }}
       </span>
 
       <button
-        v-bind="{ disabled: !previousIsActive }"
+        v-bind="{ 'disabled' : !previousIsActive }"
         @click="goToEnd('first')"
         :class="[
           'button--previous button__margin',
@@ -21,10 +26,7 @@
       <button
         v-bind="{ disabled: !previousIsActive }"
         @click="changePage(previousIsActive, 'previous')"
-        :class="[
-          'button--previous button__margin',
-          { disabled: !previousIsActive },
-        ]"
+        :class="['button--previous button__margin', { 'disabled' : !previousIsActive }]"
       >
         <svg-chevron class="button__svg" />
       </button>
@@ -42,9 +44,9 @@
       </div>
 
       <button
-        v-bind="{ disabled: !nextIsActive }"
+        v-bind="{ 'disabled' : !nextIsActive }"
         @click="changePage(nextIsActive, 'next')"
-        :class="['button--next button__margin', { disabled: !nextIsActive }]"
+        :class="['button--next button__margin', { 'disabled' : !nextIsActive }]"
       >
         <svg-chevron class="button__svg" />
       </button>
@@ -59,14 +61,17 @@
       </button>
     </div>
 
-    <p v-show="!haveResults" class="pagination__message">
+    <p 
+      v-show="!haveResults"
+      class="pagination__message"
+    >
       There are no evaluations matching the selected filters options.
     </p>
   </div>
 </template>
 
 <script>
-import SvgChevron from "./svgs/SvgChevron.vue";
+import SvgChevron from './svgs/SvgChevron.vue'
 
 export default {
   name: "TablePagination",
@@ -76,70 +81,69 @@ export default {
   props: {
     currentPage: {
       required: true,
-      type: Number,
+      type: Number
     },
     itemsPerPage: {
       required: true,
-      type: Number,
+      type: Number
     },
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     },
     totalItems: {
       required: true,
-      type: Number,
+      type: Number
     },
     totalPages: {
       required: true,
-      type: Number,
-    },
+      type: Number
+    }
   },
 
   computed: {
-    config() {
-      return this.$store.getters["filterableTable/options"](this.tableId);
+    config () {
+      return this.$store.getters['filterableTable/options'](this.tableId)
     },
-    cssVariables() {
+    cssVariables () {
       return {
-        "--svg-chevron-fill": this.config.pagination.chevronFill,
-        "--button-bg-color": this.config.pagination.buttonBgColor,
-        "--button-bg-color-disabled":
-          this.config.pagination.buttonBgColorDisabled,
-        "--button-border-radius": this.config.pagination.buttonBorderRadius,
-      };
+        '--svg-chevron-fill'        : this.config.pagination.chevronFill,
+        '--button-bg-color'         : this.config.pagination.buttonBgColor,
+        '--button-bg-color-disabled': this.config.pagination.buttonBgColorDisabled,
+        '--button-border-radius'    : this.config.pagination.buttonBorderRadius,
+      }
     },
-    nextIsActive() {
-      return this.currentPage < this.totalPages;
+    nextIsActive () {
+      return  this.currentPage < this.totalPages
     },
-    previousIsActive() {
-      return this.currentPage > 1;
+    previousIsActive () {
+      return this.currentPage > 1
     },
-    firstItem() {
-      let first;
+    firstItem () {
+      let first
 
       if (this.totalItems == 0) {
-        first = 0;
+        first = 0
       } else if (this.totalItems < this.itemsPerPage) {
-        first = 1;
+        first = 1
       } else {
-        first = this.itemsPerPage * (this.currentPage - 1) + 1;
+        first = this.itemsPerPage * (this.currentPage - 1) + 1
       }
 
-      return first;
+      return first
     },
 
-    lastItem() {
-      let lastItem = this.itemsPerPage * this.currentPage;
+    lastItem () {
+      let lastItem = this.itemsPerPage * this.currentPage
 
       if (lastItem > this.totalItems) {
-        lastItem = this.totalItems;
+        lastItem = this.totalItems
       }
 
-      return lastItem;
+      return lastItem
     },
-    haveResults() {
-      return this.totalItems > 0;
+    haveResults () {
+      return this.totalItems > 0
     },
 
     pages() {
@@ -179,16 +183,15 @@ export default {
     changePage(isActive, direction) {
       // only change the page if the button is active
       if (isActive) {
-        const newPage =
-          direction == "next" ? this.currentPage + 1 : this.currentPage - 1;
+        const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
 
-        const obj = {
+        const obj = { 
           tableId: this.tableId,
-          requestedPage: newPage,
-        };
+          requestedPage: newPage 
+        }
 
-        this.$store.dispatch("filterableTable/updateRequestedPage", obj);
-        this.$emit("updated:page");
+        this.$store.dispatch('filterableTable/updateRequestedPage', obj)
+        this.$emit('updated:page')
       }
     },
 
@@ -243,39 +246,35 @@ export default {
   }
 }
 
-$buttons: ("next", "previous", "page", "");
+$buttons: ('next', 'previous', 'page', '');
 
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
     @include button-basic;
-    background-color: #009fe3; // IE11
+    background-color: #009FE3; // IE11
     background-color: var(--button-bg-color);
     border-radius: 0; // IE11
     border-radius: var(--button-border-radius);
     padding: 0;
-    width: 50px;
-    height: 50px;
+    width: 50px; height: 50px;
 
-    @if nth($buttons, $i) == "previous" {
-      margin: rem-calc(0 6 0 10);
+    @if nth($buttons, $i) == 'previous' {
+      margin: rem-calc(0 6 0 10); 
 
-      .button__svg {
-        transform: rotateY(180deg);
-      }
+      .button__svg { transform: rotateY(180deg);}
     }
     .button__svg {
-      width: rem-calc(12);
-      height: rem-calc(22);
+      width: rem-calc(12); height: rem-calc(22);
     }
 
-    @if nth($buttons, $i) == "page" {
+    @if nth($buttons, $i) == 'page' {
       color: #fff;
       font-size: rem-calc(22);
     }
 
-    &.disabled {
-      background-color: #ccc; // IE11
-      background-color: var(--button-bg-color-disabled);
+    &.disabled { 
+      background-color: #ccc; // IE11 
+      background-color: var(--button-bg-color-disabled); 
       cursor: disabled;
     }
   }
