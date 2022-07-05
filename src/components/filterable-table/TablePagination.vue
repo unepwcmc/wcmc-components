@@ -105,6 +105,7 @@ export default {
     config () {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
+
     cssVariables () {
       return {
         '--svg-chevron-fill'        : this.config.pagination.chevronFill,
@@ -113,12 +114,15 @@ export default {
         '--button-border-radius'    : this.config.pagination.buttonBorderRadius,
       }
     },
+
     nextIsActive () {
       return  this.currentPage < this.totalPages
     },
+
     previousIsActive () {
       return this.currentPage > 1
     },
+
     firstItem () {
       let first
 
@@ -142,6 +146,7 @@ export default {
 
       return lastItem
     },
+
     haveResults () {
       return this.totalItems > 0
     },
@@ -180,7 +185,7 @@ export default {
   },
 
   methods: {
-    changePage(isActive, direction) {
+    changePage (isActive, direction) {
       // only change the page if the button is active
       if (isActive) {
         const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
