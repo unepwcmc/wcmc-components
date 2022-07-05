@@ -152,22 +152,22 @@ export default {
     },
 
     pages() {
-      let pages = [];
       const numberOfPageButtons =
         this.config.pagination.numberOfPageButtonsToShow;
+      const halfPagination = Math.round(numberOfPageButtons / 2)
+      let pages = []
+      let firstPageOnPagination
+      let lastPageOnPagination
 
-      let firstPageOnPagination;
-      let lastPageOnPagination;
-
-      if (this.currentPage - Math.round(numberOfPageButtons / 2) >= 0) {
+      if (this.currentPage - halfPagination >= 0) {
         if (
-          this.currentPage + Math.round(numberOfPageButtons / 2) <=
+          this.currentPage + halfPagination <=
           this.totalPages
         ) {
           firstPageOnPagination =
-            this.currentPage - Math.round(numberOfPageButtons / 2) + 1;
+            this.currentPage - halfPagination + 1;
           lastPageOnPagination =
-            this.currentPage + Math.round(numberOfPageButtons / 2) - 1;
+            this.currentPage + halfPagination - 1;
         } else {
           firstPageOnPagination = this.totalPages - numberOfPageButtons + 1;
           lastPageOnPagination = this.totalPages;
