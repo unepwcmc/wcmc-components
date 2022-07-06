@@ -68,6 +68,9 @@
 
 <script>
 import SvgChevron from './svgs/SvgChevron.vue'
+import { createNamespacedHelpers } from 'vuex'
+
+const { mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "TablePagination",
@@ -147,7 +150,7 @@ export default {
       return this.totalItems > 0
     },
 
-    pages() {
+    pages () {
       const numberOfPageButtons =
         this.config.pagination.numberOfPageButtonsToShow;
       const halfPagination = Math.round(numberOfPageButtons / 2)
@@ -181,6 +184,10 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'updateRequestedPage'
+    ]),
+
     changePage (isActive, direction) {
       // only change the page if the button is active
       if (isActive) {
@@ -191,7 +198,7 @@ export default {
           requestedPage: newPage 
         }
 
-        this.$store.dispatch('filterableTable/updateRequestedPage', obj)
+        this.updateRequestedPage(obj)
         this.$emit('updated:page')
       }
     },
@@ -201,7 +208,7 @@ export default {
         tableId: this.tableId,
         requestedPage: page,
       };
-      this.$store.dispatch("filterableTable/updateRequestedPage", obj)
+      this.updateRequestedPage(obj)
       this.$emit("updated:page")
     },
 
@@ -210,7 +217,7 @@ export default {
         tableId: this.tableId,
         requestedPage: (end === 'first' ? 1 : this.totalPages)
       }
-      this.$store.dispatch("filterableTable/updateRequestedPage", obj)
+      this.updateRequestedPage(obj)
       this.$emit("updated:page")
     },
   },
