@@ -161,16 +161,16 @@ export default {
           this.totalPages
         ) {
           firstPageOnPagination =
-            this.currentPage - halfPagination + 1;
+            this.currentPage - halfPagination + 1
           lastPageOnPagination =
-            this.currentPage + halfPagination - 1;
+            this.currentPage + halfPagination - 1
         } else {
-          firstPageOnPagination = this.totalPages - numberOfPageButtons + 1;
-          lastPageOnPagination = this.totalPages;
+          firstPageOnPagination = this.totalPages - numberOfPageButtons + 1
+          lastPageOnPagination = this.totalPages
         }
       } else {
         firstPageOnPagination = 1;
-        lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons;
+        lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons
       }
 
       for (let i = firstPageOnPagination; i <= lastPageOnPagination; i++) {
@@ -201,8 +201,8 @@ export default {
         tableId: this.tableId,
         requestedPage: page,
       };
-      this.$store.dispatch("filterableTable/updateRequestedPage", obj);
-      this.$emit("updated:page");
+      this.$store.dispatch("filterableTable/updateRequestedPage", obj)
+      this.$emit("updated:page")
     },
 
     goToEnd(end) {
@@ -216,8 +216,8 @@ export default {
               tableId: this.tableId,
               requestedPage: this.totalPages,
             };
-      this.$store.dispatch("filterableTable/updateRequestedPage", obj);
-      this.$emit("updated:page");
+      this.$store.dispatch("filterableTable/updateRequestedPage", obj)
+      this.$emit("updated:page")
     },
   },
 };
