@@ -34,9 +34,8 @@
             class="button--page button__margin"
             :class="{ 'button__page--selected': currentPage === page }"
             @click="goToPage(page)"
-          >
-            {{ page }}
-          </button>
+            v-text="page"
+          />
         </div>
       </div>
 
