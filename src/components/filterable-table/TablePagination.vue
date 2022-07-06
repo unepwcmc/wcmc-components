@@ -8,7 +8,7 @@
       class="pagination__content"
     >
       <span class="pagination__numbers">
-        {{ config.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ config.pagination.textItems }}
+        {{ options.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ options.pagination.textItems }}
       </span>
 
       <button
@@ -30,7 +30,7 @@
 
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
         <button
-          v-if="config.pagination.pageNumbers"
+          v-if="options.pagination.pageNumbers"
           class="button--page button__margin"
           :class="{ 'button__page--selected': currentPage === page }"
           @click="goToPage(page)"
@@ -69,7 +69,7 @@
 import SvgChevron from './svgs/SvgChevron.vue'
 import { createNamespacedHelpers } from 'vuex'
 
-const { mapActions } = createNamespacedHelpers('filterableTable')
+const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "TablePagination",
@@ -81,18 +81,22 @@ export default {
       required: true,
       type: Number
     },
+
     itemsPerPage: {
       required: true,
       type: Number
     },
+
     tableId: {
       required: true,
       type: Number
     },
+
     totalItems: {
       required: true,
       type: Number
     },
+
     totalPages: {
       required: true,
       type: Number
@@ -100,16 +104,16 @@ export default {
   },
 
   computed: {
-    config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    },
+    ...mapGetters([
+      'options'
+    ]),
 
     cssVariables () {
       return {
-        '--svg-chevron-fill'        : this.config.pagination.chevronFill,
-        '--button-bg-color'         : this.config.pagination.buttonBgColor,
-        '--button-bg-color-disabled': this.config.pagination.buttonBgColorDisabled,
-        '--button-border-radius'    : this.config.pagination.buttonBorderRadius,
+        '--svg-chevron-fill'        : this.options.pagination.chevronFill,
+        '--button-bg-color'         : this.options.pagination.buttonBgColor,
+        '--button-bg-color-disabled': this.options.pagination.buttonBgColorDisabled,
+        '--button-border-radius'    : this.options.pagination.buttonBorderRadius,
       }
     },
 
@@ -151,7 +155,7 @@ export default {
 
     pages () {
       const numberOfPageButtons =
-        this.config.pagination.numberOfPageButtonsToShow;
+        this.options.pagination.numberOfPageButtonsToShow
       const halfPagination = Math.round(numberOfPageButtons / 2)
       let pages = []
       let firstPageOnPagination
