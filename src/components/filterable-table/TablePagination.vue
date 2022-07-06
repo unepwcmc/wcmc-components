@@ -68,6 +68,7 @@
 <script>
 import SvgChevron from './svgs/SvgChevron.vue'
 import { createNamespacedHelpers } from 'vuex'
+import { range } from 'lodash'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
@@ -128,7 +129,7 @@ export default {
     firstItem () {
       let first
 
-      if (this.totalItems == 0) {
+      if (this.totalItems === 0) {
         first = 0
       } else if (this.totalItems < this.itemsPerPage) {
         first = 1
@@ -154,35 +155,27 @@ export default {
     },
 
     pages () {
-      const numberOfPageButtons =
-        this.options.pagination.numberOfPageButtonsToShow
+      const numberOfPageButtons = this.options.pagination.numberOfPageButtonsToShow
       const halfPagination = Math.round(numberOfPageButtons / 2)
-      let pages = []
-      let firstPageOnPagination
-      let lastPageOnPagination
+      let firstPageOnPagination, lastPageOnPagination
 
-      if (this.currentPage - halfPagination >= 0) {
-        if (
-          this.currentPage + halfPagination <=
-          this.totalPages
-        ) {
-          firstPageOnPagination =
-            this.currentPage - halfPagination + 1
-          lastPageOnPagination =
-            this.currentPage + halfPagination - 1
-        } else {
-          firstPageOnPagination = this.totalPages - numberOfPageButtons + 1
-          lastPageOnPagination = this.totalPages
-        }
-      } else {
-        firstPageOnPagination = 1;
-        lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons
+      switch (this.currentPage - halfPagination >= 0) { //check if the current page is beyond half the range of the pagination from the start (i.e. if numberOfPageButtons is 8, this checks if the current page is at least page 4)
+        case true:
+          if (this.currentPage + halfPagination <= this.totalPages) { //check if the current page is below half the range of the pagination from the last page (i.e. if totalPages is 27 and numberOfPageButtons is 8, this checks if the current page is not above page 23)
+            firstPageOnPagination = this.currentPage - halfPagination + 1
+            lastPageOnPagination = this.currentPage + halfPagination - 1
+          } else {
+            firstPageOnPagination = this.totalPages - numberOfPageButtons + 1
+            lastPageOnPagination = this.totalPages
+          }
+          break
+        case false:
+          firstPageOnPagination = 1
+          lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons
+          break
       }
 
-      for (let i = firstPageOnPagination; i <= lastPageOnPagination; i++) {
-        pages.push(i);
-      }
-      return pages;
+    return range(firstPageOnPagination, lastPageOnPagination + 1)
     },
   },
 
@@ -266,7 +259,7 @@ $buttons: ('next', 'previous', 'page', '');
     @if nth($buttons, $i) == 'previous' {
       margin: rem-calc(0 6 0 10); 
 
-      .button__svg { transform: rotateY(180deg);}
+      .button__svg { transform: rotateY(180deg); }
     }
     .button__svg {
       width: rem-calc(12); height: rem-calc(22);
