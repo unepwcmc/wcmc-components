@@ -174,7 +174,7 @@ export default {
         }
       } else {
         firstPageOnPagination = 1;
-        lastPageOnPagination = numberOfPageButtons;
+        lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons;
       }
 
       for (let i = firstPageOnPagination; i <= lastPageOnPagination; i++) {
