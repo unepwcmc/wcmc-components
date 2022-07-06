@@ -206,16 +206,10 @@ export default {
     },
 
     goToEnd(end) {
-      const obj =
-        end === "first"
-          ? {
-              tableId: this.tableId,
-              requestedPage: 1,
-            }
-          : {
-              tableId: this.tableId,
-              requestedPage: this.totalPages,
-            };
+      const obj = {
+        tableId: this.tableId,
+        requestedPage: (end === 'first' ? 1 : this.totalPages)
+      }
       this.$store.dispatch("filterableTable/updateRequestedPage", obj)
       this.$emit("updated:page")
     },
