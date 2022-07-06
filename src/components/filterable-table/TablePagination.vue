@@ -29,14 +29,13 @@
       </button>
 
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
-        <div v-if="config.pagination.pageNumbers">
-          <button
-            class="button--page button__margin"
-            :class="{ 'button__page--selected': currentPage === page }"
-            @click="goToPage(page)"
-            v-text="page"
-          />
-        </div>
+        <button
+          v-if="config.pagination.pageNumbers"
+          class="button--page button__margin"
+          :class="{ 'button__page--selected': currentPage === page }"
+          @click="goToPage(page)"
+          v-text="page"
+        />
       </div>
 
       <button
@@ -203,7 +202,7 @@ export default {
       }
     },
 
-    goToPage(page) {
+    goToPage (page) {
       const obj = {
         tableId: this.tableId,
         requestedPage: page,
@@ -212,7 +211,7 @@ export default {
       this.$emit("updated:page")
     },
 
-    goToEnd(end) {
+    goToEnd (end) {
       const obj = {
         tableId: this.tableId,
         requestedPage: (end === 'first' ? 1 : this.totalPages)
