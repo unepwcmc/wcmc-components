@@ -12,21 +12,18 @@
       </span>
 
       <button
-        v-bind="{ 'disabled' : !previousIsActive }"
+        class="button--previous button__margin"
+        :class="{ 'disabled': !previousIsActive }"
         @click="goToEnd('first')"
-        :class="[
-          'button--previous button__margin',
-          { disabled: !previousIsActive },
-        ]"
       >
         <svg-chevron class="button__svg" />
         <svg-chevron class="button__svg" />
       </button>
 
       <button
-        v-bind="{ disabled: !previousIsActive }"
+        class="button--previous button__margin"
+        :class="{ 'disabled': !previousIsActive }"
         @click="changePage(previousIsActive, 'previous')"
-        :class="['button--previous button__margin', { 'disabled' : !previousIsActive }]"
       >
         <svg-chevron class="button__svg" />
       </button>
@@ -34,9 +31,9 @@
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
         <div v-if="config.pagination.pageNumbers">
           <button
-            @click="goToPage(page)"
             class="button--page button__margin"
             :class="{ 'button__page--selected': currentPage === page }"
+            @click="goToPage(page)"
           >
             {{ page }}
           </button>
@@ -44,17 +41,17 @@
       </div>
 
       <button
-        v-bind="{ 'disabled' : !nextIsActive }"
+        class="button--next button__margin"
+        :class="{ 'disabled' : !nextIsActive }"
         @click="changePage(nextIsActive, 'next')"
-        :class="['button--next button__margin', { 'disabled' : !nextIsActive }]"
       >
         <svg-chevron class="button__svg" />
       </button>
 
       <button
-        v-bind="{ disabled: !nextIsActive }"
+        class="button--next"
+        :class="{ 'disabled': !nextIsActive }"
         @click="goToEnd('last')"
-        :class="['button--next', { disabled: !nextIsActive }]"
       >
         <svg-chevron class="button__svg" />
         <svg-chevron class="button__svg" />
