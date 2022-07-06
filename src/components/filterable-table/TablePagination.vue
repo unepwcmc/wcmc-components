@@ -8,7 +8,7 @@
       class="pagination__content"
     >
       <span class="pagination__numbers">
-        {{ options.pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ options.pagination.textItems }}
+        {{ options(tableId).pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ options(tableId).pagination.textItems }}
       </span>
 
       <button
@@ -29,8 +29,7 @@
       </button>
 
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
-        <button
-          v-if="options.pagination.pageNumbers"
+        <button v-if="showPageNumbers"
           class="button--page button__margin"
           :class="{ 'button__page--selected': currentPage === page }"
           @click="goToPage(page)"
@@ -105,16 +104,14 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'options'
-    ]),
+    ...mapGetters({ options: 'options' }),
 
     cssVariables () {
       return {
-        '--svg-chevron-fill'        : this.options.pagination.chevronFill,
-        '--button-bg-color'         : this.options.pagination.buttonBgColor,
-        '--button-bg-color-disabled': this.options.pagination.buttonBgColorDisabled,
-        '--button-border-radius'    : this.options.pagination.buttonBorderRadius,
+        '--svg-chevron-fill'        : this.options(this.tableId).pagination.chevronFill,
+        '--button-bg-color'         : this.options(this.tableId).pagination.buttonBgColor,
+        '--button-bg-color-disabled': this.options(this.tableId).pagination.buttonBgColorDisabled,
+        '--button-border-radius'    : this.options(this.tableId).pagination.buttonBorderRadius,
       }
     },
 
@@ -154,8 +151,12 @@ export default {
       return this.totalItems > 0
     },
 
+    showPageNumbers () {
+      return this.options(this.tableId).pagination.pageNumbers
+    },
+
     pages () {
-      const numberOfPageButtons = this.options.pagination.numberOfPageButtonsToShow
+      const numberOfPageButtons = this.options(this.tableId).pagination.numberOfPageButtonsToShow
       const halfPagination = Math.round(numberOfPageButtons / 2)
       let firstPageOnPagination, lastPageOnPagination
 
@@ -180,9 +181,7 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'updateRequestedPage'
-    ]),
+    ...mapActions({ updateRequestedPage: 'updateRequestedPage' }),
 
     changePage (isActive, direction) {
       // only change the page if the button is active
