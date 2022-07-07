@@ -157,20 +157,23 @@ export default {
 
     pages () {
       const numberOfPageButtons = this.options(this.tableId).pagination.numberOfPageButtonsToShow
-      const halfPagination = Math.round(numberOfPageButtons / 2)
+      const halfPagination = Math.round(numberOfPageButtons / 2) // halfPagination is used to have the current page in the middle of the pagination
+      const firstPageOfLastPaginationSet = this.totalPages - numberOfPageButtons + 1
       let firstPageOnPagination, lastPageOnPagination
+      let indexOfFirstPageOfPagination = this.currentPage - halfPagination
+      let indexOfLastPageOfPagination = this.currentPage + halfPagination
 
-      switch (this.currentPage - halfPagination >= 0) { //check if the current page is beyond half the range of the pagination from the start (i.e. if numberOfPageButtons is 8, this checks if the current page is at least page 4)
-        case true:
-          if (this.currentPage + halfPagination <= this.totalPages) { //check if the current page is below half the range of the pagination from the last page (i.e. if totalPages is 27 and numberOfPageButtons is 8, this checks if the current page is not above page 23)
-            firstPageOnPagination = this.currentPage - halfPagination + 1
-            lastPageOnPagination = this.currentPage + halfPagination - 1
-          } else {
-            firstPageOnPagination = this.totalPages - numberOfPageButtons + 1
+      switch (indexOfFirstPageOfPagination >= 0) { // check if the current page is NOT too close to the first page
+        case true: // the current page is NOT too close to the first page
+          if (indexOfLastPageOfPagination <= this.totalPages) { // check that the current page is NOT too close to last page (totalPages)
+            firstPageOnPagination = indexOfFirstPageOfPagination + 1
+            lastPageOnPagination = indexOfLastPageOfPagination - 1
+          } else { // the current page IS too close to the last page
+            firstPageOnPagination = firstPageOfLastPaginationSet
             lastPageOnPagination = this.totalPages
           }
           break
-        case false:
+        case false: // the current page IS too close to the first page
           firstPageOnPagination = 1
           lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons
           break
