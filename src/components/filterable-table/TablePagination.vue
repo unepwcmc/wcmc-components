@@ -156,30 +156,31 @@ export default {
     },
 
     pages () {
-      const numberOfPageButtons = this.options(this.tableId).pagination.numberOfPageButtonsToShow
-      const halfPagination = Math.round(numberOfPageButtons / 2) // halfPagination is used to have the current page in the middle of the pagination
-      const firstPageOfLastPaginationSet = this.totalPages - numberOfPageButtons + 1
-      let firstPageOnPagination, lastPageOnPagination
-      let indexOfFirstPageOfPagination = this.currentPage - halfPagination
-      let indexOfLastPageOfPagination = this.currentPage + halfPagination
+      const { numberOfPageButtonsToShow: numberOfPageButtons } = this.options(this.tableId)
 
-      switch (indexOfFirstPageOfPagination >= 0) { // check if the current page is NOT too close to the first page
-        case true: // the current page is NOT too close to the first page
-          if (indexOfLastPageOfPagination <= this.totalPages) { // check that the current page is NOT too close to last page (totalPages)
-            firstPageOnPagination = indexOfFirstPageOfPagination + 1
-            lastPageOnPagination = indexOfLastPageOfPagination - 1
-          } else { // the current page IS too close to the last page
-            firstPageOnPagination = firstPageOfLastPaginationSet
-            lastPageOnPagination = this.totalPages
-          }
+      let firstPageButton
+      let lastPageButton
+
+      // paginationRadius is the number of pages to have either side of the this.currentPage, where possible 
+      const paginationRadius = Math.round(numberOfPageButtons / 2)
+      const isFirstPageVisible = this.currentPage - paginationRadius >= 0
+      const isLastPageVisible = this.currentPage + paginationRadius < this.totalPages
+
+      switch (true) {
+        case isFirstPageVisible:
+          firstPageButton = 1
+          lastPageButton = Math.min(this.totalPages, numberOfPageButtons)
           break
-        case false: // the current page IS too close to the first page
-          firstPageOnPagination = 1
-          lastPageOnPagination = this.totalPages < numberOfPageButtons ? this.totalPages : numberOfPageButtons
+        case isLastPageVisible:
+          lastPageButton = this.totalPages
+          firstPageButton = this.totalPages - numberOfPageButtons + 1
           break
+        default:
+          firstPageButton = this.currentPage - paginationRadius + 1
+          lastPageButton = this.currentPage + paginationRadius - 1
       }
 
-    return range(firstPageOnPagination, lastPageOnPagination + 1)
+      return range(firstPageButton, lastPageButton + 1)
     },
   },
 
