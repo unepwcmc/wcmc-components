@@ -29,7 +29,7 @@
       </button>
 
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
-        <button v-if="showPageNumbers"
+        <button v-if="numberOfPageButtons"
           class="button--page button__margin"
           :class="{ 'button__page--selected': currentPage === page }"
           @click="goToPage(page)"
@@ -151,29 +151,27 @@ export default {
       return this.totalItems > 0
     },
 
-    showPageNumbers () {
-      return this.options(this.tableId).pagination.pageNumbers
+    numberOfPageButtons () {
+      return this.options(this.tableId).pagination.numberOfPageButtonsToShow
     },
 
     pages () {
-      const { numberOfPageButtonsToShow: numberOfPageButtons } = this.options(this.tableId)
-
       let firstPageButton
       let lastPageButton
 
       // paginationRadius is the number of pages to have either side of the this.currentPage, where possible 
-      const paginationRadius = Math.round(numberOfPageButtons / 2)
+      const paginationRadius = Math.round(this.numberOfPageButtons / 2)
       const isFirstPageVisible = this.currentPage - paginationRadius >= 0
       const isLastPageVisible = this.currentPage + paginationRadius < this.totalPages
 
-      switch (true) {
+      switch (false) {
         case isFirstPageVisible:
           firstPageButton = 1
-          lastPageButton = Math.min(this.totalPages, numberOfPageButtons)
+          lastPageButton = Math.min(this.totalPages, this.numberOfPageButtons)
           break
         case isLastPageVisible:
           lastPageButton = this.totalPages
-          firstPageButton = this.totalPages - numberOfPageButtons + 1
+          firstPageButton = this.totalPages - this.numberOfPageButtons + 1
           break
         default:
           firstPageButton = this.currentPage - paginationRadius + 1
