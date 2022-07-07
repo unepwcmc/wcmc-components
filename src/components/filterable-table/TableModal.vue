@@ -19,17 +19,18 @@
           v-text="config.modal.title"
         />
 
-        <template v-for="item, index in modalContent" >
+        <template v-for="item, modalContentIndex in modalContent" >
           <div 
             v-if="item.showInModal"
-            :key="index" 
+            :key="modalContentIndex"
+            class="modal__item"
           >
             <span
               class="modal__item-name"
-              v-text="item.title"
+              v-text="item.title + ':'"
             />
 
-            <div 
+            <span
               v-if="hasMultipleValues(item.value)"
               :key="index" 
             >
@@ -47,8 +48,8 @@
                 </li>
               </ul>
 
-              <ul 
-                v-else
+              <ul
+                v-else-if="displayBullet"
                 class="modal__ul"
               >
                 <li 
@@ -57,7 +58,8 @@
                   v-html="printValue(string)"
                 />
               </ul>
-            </div>
+              <span v-else>{{ item.value.join("; ") }}</span>
+            </span>
 
             <template v-else>
               <span
@@ -66,6 +68,8 @@
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
                 v-text="item.value"
               />
+
+              <span v-else v-html="printValue(item.value)" />
             </template>
           </div>
         </template>
@@ -116,9 +120,7 @@ export default {
       }
     },
 
-    config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    }
+    displayBullet () { return this.config.modal.bulletDisplay },
   },
 
   mounted () {
@@ -212,6 +214,10 @@ export default {
     &-svg {
       width: rem-calc(20); height: rem-calc(20);
     }
+  }
+
+  &__item {
+    margin-bottom: rem-calc(10);
   }
 
   &__content {

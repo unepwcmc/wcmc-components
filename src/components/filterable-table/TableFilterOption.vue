@@ -94,6 +94,7 @@ $sm-label-max-width: 80vw !default;
 }
 
 .checkbox {
+  z-index: 10;
   border: solid rem-calc(1) $checkbox-border-color;
   cursor: pointer;
   margin: 0;

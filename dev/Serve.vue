@@ -8,6 +8,13 @@
       endpoint-download="/"
     >
     <!-- 
+      Example of an options prop that would disable the "show more content" column for the whole table
+      :options="{ 
+        hideMoreContentColumn: true
+      }"
+    -->
+
+    <!-- 
       <template #sort-icon>
         <span>This element is used as the sorting icon now!</span>
       </template>

@@ -1,16 +1,16 @@
 <template>
-  <div 
+  <div
     class="row"
     :style="cssVariablesAndStyles"
   >
-    
+
     <div
-      v-for="cell, index in columns"
-      :key="Math.random() * index"
+      v-for="cell, cellIndex in columns"
+      :key="Math.random() * cellIndex"
       class="cell"
-      :style="`grid-column: ${index + 1}`"
+      :style="`grid-column: ${cellIndex + 1}`"
     >
-      <div 
+      <div
         class="cell__legend"
         v-if="cell.legend_on"
       >
@@ -20,28 +20,31 @@
         />
 
         <span
-          v-for="value, index in cell.value"
+          v-for="value, valueIndex in cell.value"
           class="legend__icon"
           :class="kebabCaseClassName(value)"
-          :key="Math.random() * index"
+          :key="Math.random() * valueIndex"
         />
       </div>
 
-      <p v-else>
+      <span v-else>
         <span
           class="cell__title"
           v-text="cell.title"
         />
 
         <span v-html="printValue(cell.value)" />
-      </p>
+      </span>
+
+
     </div>
-    
-    <p
+
+    <span
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       class="cell"
       :style="`grid-column: ${totalColumns}`"
     >
-      <a 
+      <a
         v-if="item.pageUrl"
         class="button"
         :href="item.pageUrl"
@@ -51,8 +54,8 @@
         </portal-target>
       </a>
 
-      <button 
-        v-else 
+      <button
+        v-else
         class="button"
         @click="openModal"
       >
@@ -60,7 +63,7 @@
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
-    </p>
+    </span>
   </div>
 </template>
 
@@ -97,7 +100,10 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['options']),
+    ...mapGetters([
+      'options',
+      'isMoreContentColumnDisplayed'
+    ]),
 
     cssVariablesAndStyles () {
       return {
@@ -154,9 +160,10 @@ export default {
         })
 
         output = strings.join(', ')
+      return output
       }
 
-      return output
+      return isALink(value)
     },
 
     trim (phrase) {

@@ -140,7 +140,8 @@ export default {
       isSortable: 'isSortable',
       requestedPage: 'getRequestedPage',
       selectedFilterOptions: 'getSelectedFilterOptions',
-      selectedSort: 'getSelectedSort'
+      selectedSort: 'getSelectedSort',
+      isMoreContentColumnDisplayed: 'isMoreContentColumnDisplayed'
     }),
 
     cssVariables () {
@@ -238,9 +239,12 @@ export default {
     },
 
     getTotalTableColumns () {
-      // Add an additional column for the "View more" button
-      if (this.headings.length > 0) {
+      if (this.headings.length < 1) { return }
+
+      if (this.isMoreContentColumnDisplayed(this.id)) {
         this.totalColumns = this.headings.length + 1
+      } else {
+        this.totalColumns = this.headings.length
       }
     },
 
