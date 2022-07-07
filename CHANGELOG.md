@@ -1,3 +1,8 @@
+### 2.2.3
+
+- Added:
+  - Page buttons in the pagination component, implemented via a key in the existing `options` prop: `pagination.numberOfPageButtonsToShow`, which can be set to any odd number. If this key doesn't exist, the pagination will only display the arrows buttons.
+
 ### 2.2.2
 
 - Fix: Remove page buttons (numbers) from pagination
