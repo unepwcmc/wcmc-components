@@ -112,6 +112,7 @@ export default {
         '--button-bg-color'         : this.options(this.tableId).pagination.buttonBgColor,
         '--button-bg-color-disabled': this.options(this.tableId).pagination.buttonBgColorDisabled,
         '--button-border-radius'    : this.options(this.tableId).pagination.buttonBorderRadius,
+        '--button-bg-color-selected'    : this.options(this.tableId).pagination.pageSelectedBgColor,
       }
     },
 
@@ -279,7 +280,7 @@ $buttons: ('next', 'previous', 'page', '');
   }
 
   .button__page--selected {
-    color: #8c8e8f;
+    background-color: var(--button-bg-color-selected);
   }
 
   .button__margin {

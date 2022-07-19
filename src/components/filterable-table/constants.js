@@ -1,4 +1,5 @@
 const UNEP_WCMC_BLUE = '#009FE3'
+const UNEP_WCMC_BLUE_DARK = '#006A98'
 
 export const DEFAULT_OPTIONS = {
   columns: {
@@ -118,7 +119,8 @@ export const DEFAULT_OPTIONS = {
     buttonBorderRadius: '0',
     chevronFill: '#fff',
     textTitle: '',
-    textItems: ''
+    textItems: '',
+    pageSelectedBgColor: UNEP_WCMC_BLUE_DARK
   },
   rows: {
     bgColor1: '#ffffff',
