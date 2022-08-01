@@ -15,7 +15,7 @@
       />
 
       <div
-        v-if="tableIsSortable"
+        v-if="columnIsSortable"
         class="sorting-toggle"
         @click="sortColumn"
       >
@@ -88,6 +88,12 @@ export default {
     table () { return this.tables[this.tableId] },
 
     tableIsSortable () { return this.options.sortable },
+
+    columnIsSortable () { 
+      return this.heading.sortable === null ? this.tableIsSortable : this.heading.sortable
+    }
+
+
   },
 
   methods: {
