@@ -90,8 +90,10 @@ export default {
     tableIsSortable () { return this.options.sortable },
 
     columnIsSortable () { 
-      return this.tableIsSortable ? !this.heading.isNotSortable : this.heading.isSortable
+      return this.heading.sortable === null ? this.tableIsSortable : this.heading.sortable
     }
+
+
   },
 
   methods: {
