@@ -1,3 +1,9 @@
+### 2.2.4
+
+- Fix: add .node-version and .tool-version files
+
+  - Page buttons in the pagination component, implemented via a key in the existing `options` prop: `pagination.numberOfPageButtonsToShow`, which can be set to any odd number. If this key doesn't exist, the pagination will only display the arrows buttons.
+
 ### 2.2.3
 
 - Added:
