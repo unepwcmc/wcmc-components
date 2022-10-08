@@ -3,45 +3,15 @@
     class="row"
     :style="cssVariablesAndStyles"
   >
-
-    <div
+    <table-cell
       v-for="cell, cellIndex in columns"
       :key="Math.random() * cellIndex"
-      class="cell"
       :style="`grid-column: ${cellIndex + 1}`"
-    >
-      <div
-        class="cell__legend"
-        v-if="cell.legend_on"
-      >
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
+      :cell="cell"
+    />
 
-        <span
-          v-for="value, valueIndex in cell.value"
-          class="legend__icon"
-          :class="kebabCaseClassName(value)"
-          :key="Math.random() * valueIndex"
-        />
-      </div>
-
-      <span v-else>
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
-
-        <span v-html="printValue(cell.value)" />
-      </span>
-
-
-    </div>
-
-    <span
+    <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
-      class="cell"
       :style="`grid-column: ${totalColumns}`"
     >
       <a
@@ -63,13 +33,13 @@
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
-    </span>
+    </table-cell>
   </div>
 </template>
 
 <script>
 import SvgArrow from './svgs/SvgArrow.vue'
-import { isALink } from '../../helpers/helpers-url.js'
+import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
 
@@ -78,7 +48,7 @@ const { mapGetters } = createNamespacedHelpers('filterableTable')
 export default {
   name: "row",
 
-  components: { SvgArrow },
+  components: { TableCell, SvgArrow },
 
   mixins: [mixinColumns],
 
@@ -163,21 +133,6 @@ export default {
       this.$root.$emit('openModal', payload)
     },
 
-    printValue (value) {
-      let output = value
-
-      if (Array.isArray(value)) {
-        const strings = value.map(string => {
-          return isALink(string)
-        })
-
-        output = strings.join(', ')
-      return output
-      }
-
-      return isALink(value)
-    },
-
     trim (phrase) {
       const length = phrase.length
       let output
@@ -189,10 +144,6 @@ export default {
       }
 
       return output
-    },
-
-    kebabCaseClassName (title) {
-      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
   }
 }
@@ -224,54 +175,6 @@ export default {
     @include breakpoint($medium) {
       background-color: #f4f4f4; // IE11
       background-color: var(--bg-color-2);
-    }
-  }
-}
-
-.legend {
-  &__icon {
-    margin: rem-calc(4);
-    height: rem-calc(38);
-    width: rem-calc(38);
-    background-size: cover;
-
-    display: inline-block;
-  }
-}
-
-.cell {
-  margin: 0;
-  padding: rem-calc(4 14);
-  width: 100%;
-
-  @include breakpoint($medium) {
-    border-left: solid #ffffff 1px; // IE11
-    border-left: var(--border-style) var(--border-color) var(--border-width);
-    padding: rem-calc(16 14);
-    width: auto;
-
-    display: block;
-  }
-
-  &:first-child {
-    border-left: none;
-  }
-
-  &__title {
-    font-weight: bold;
-    margin-right: rem-calc(6);
-
-    @include breakpoint($medium) {
-      display: none;
-    }
-  }
-
-  &__legend {
-    display: flex;
-    align-items: center;
-
-    @include breakpoint($medium) {
-      display: block;
     }
   }
 }
