@@ -3,8 +3,9 @@ const UNEP_WCMC_BLUE_DARK = '#006A98'
 
 export const DEFAULT_OPTIONS = {
   columns: {
-    widths: ['1fr', '1fr', '300px', '1fr', '1fr', '100px'] // widths.length = attributes.length + 1
+    widths: ['1fr', '1fr', '300px', '1fr', '1fr', '50px', '100px'] // widths.length = attributes.length + 1
   },
+  editButton: true,
   hideMoreContentColumn: false,
   download: {
     bgColor: '#aaa',
@@ -185,6 +186,7 @@ export const DUMMY_DATA = {
   items: [
     {
       pageUrl: 'http://google.com',
+      editUrl: 'http://google.com',
       cells: [
         {
           name: 'attribute_1',
@@ -240,6 +242,7 @@ export const DUMMY_DATA = {
     },
     {
       pageUrl: '',
+      editUrl: 'http',
       cells: [
         {
           name: 'attribute_1',
@@ -294,6 +297,7 @@ export const DUMMY_DATA = {
     },
     {
       pageUrl: '',
+      editUrl: 'http',
       cells: [
         {
           name: 'attribute_1',

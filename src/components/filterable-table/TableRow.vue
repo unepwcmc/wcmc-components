@@ -11,8 +11,24 @@
     />
 
     <table-cell
+      v-if="config.editButton" 
+      :style="`grid-column: ${totalColumns - 1}`"
+      :center-content="true"
+    >
+      <a
+        class="button"
+        :href="item.editUrl"
+      >
+        <portal-target name="row-edit-icon">
+          <svg-edit class="button__svg" />
+        </portal-target>
+      </a>
+    </table-cell>
+
+    <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       :style="`grid-column: ${totalColumns}`"
+      :center-content="true"
     >
       <a
         v-if="item.pageUrl"
@@ -39,6 +55,7 @@
 
 <script>
 import SvgArrow from './svgs/SvgArrow.vue'
+import SvgEdit from './svgs/SvgEdit.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
@@ -48,7 +65,7 @@ const { mapGetters } = createNamespacedHelpers('filterableTable')
 export default {
   name: "row",
 
-  components: { TableCell, SvgArrow },
+  components: { TableCell, SvgArrow, SvgEdit },
 
   mixins: [mixinColumns],
 

@@ -28,7 +28,9 @@
       </span>
     </template>
 
-    <slot />
+    <div class="cell__content">
+      <slot />
+    </div>
   </div>
 </template>
 
@@ -103,6 +105,14 @@ export default {
     @include breakpoint($medium) {
       display: block;
     }
+  }
+
+  &__content {
+    width: 100%; height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

@@ -240,11 +240,12 @@ export default {
     getTotalTableColumns () {
       if (this.headings.length < 1) { return }
 
-      if (this.isMoreContentColumnDisplayed(this.id)) {
-        this.totalColumns = this.headings.length + 1
-      } else {
-        this.totalColumns = this.headings.length
-      }
+      this.totalColumns = this.headings.length
+
+      this.totalColumns += [
+        this.isMoreContentColumnDisplayed(this.id),
+        this.config(this.id).editButton
+      ].filter(x => x === true).length
     },
 
     importUserOptions () {
