@@ -1,5 +1,5 @@
 <template>
-  <div class="cell">
+  <div :class="['cell', { 'cell--disabled': disabled }]">
     <template v-if="cell">
       <div
         class="cell__legend"
@@ -28,7 +28,7 @@
       </span>
     </template>
 
-    <div class="cell__content">
+    <div v-if="$slots" class="cell__content">
       <slot />
     </div>
   </div>
@@ -44,6 +44,11 @@ export default {
     cell: {
       type: Object,
       default: undefined,
+    },
+
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
 
@@ -89,6 +94,12 @@ export default {
     border-left: none;
   }
 
+  &--disabled {
+    cursor: none;
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
   &__title {
     font-weight: bold;
     margin-right: rem-calc(6);
@@ -110,9 +121,19 @@ export default {
   &__content {
     width: 100%; height: 100%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    @include breakpoint($medium) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:empty {
+        display: none;
+      }
+    }
+
+    &:empty {
+      display: none;
+    }
   }
 }
 

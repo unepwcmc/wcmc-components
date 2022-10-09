@@ -1,6 +1,7 @@
 <template>
   <div
     class="row"
+    :class="{ 'row--archived': item.archived }"
     :style="cssVariablesAndStyles"
   >
     <table-cell
@@ -8,44 +9,75 @@
       :key="Math.random() * cellIndex"
       :style="`grid-column: ${cellIndex + 1}`"
       :cell="cell"
+      :disabled="item.archived"
     />
 
     <table-cell
-      v-if="config.editButton" 
-      :style="`grid-column: ${totalColumns - 1}`"
-      :center-content="true"
+      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
+      :disabled="item.archived"
     >
       <a
-        class="button"
+        :class="getButtonClasses('edit')" 
         :href="item.editUrl"
       >
-        <portal-target name="row-edit-icon">
+        <portal-target 
+          class="button__svg-wrapper"
+          name="row-edit-icon"
+        >
           <svg-edit class="button__svg" />
         </portal-target>
       </a>
     </table-cell>
 
+    <table-cell :style="`grid-column: ${getAdminButtonColumn('archive')}`">
+      <form method="post" :action="item.archiveUrl" class="row__button-form">
+        <button
+          type="submit"
+          name="archived"
+          :value="archiveParamValue"
+          :class="getButtonClasses(archiveAction)"
+        >
+          <portal-target 
+            class="button__svg-wrapper"
+            :name="`row-${archiveAction}-icon`"
+          >
+            <component
+              :is="`svg-${archiveAction}`"
+              class="button__svg" 
+            />
+          </portal-target>
+        </button>
+
+      </form>
+    </table-cell>
+
     <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       :style="`grid-column: ${totalColumns}`"
-      :center-content="true"
+      :disabled="item.archived"
     >
       <a
         v-if="item.pageUrl"
-        class="button"
+        :class="getButtonClasses('more-content')"
         :href="item.pageUrl"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </a>
 
       <button
         v-else
-        class="button"
+        :class="getButtonClasses('more-content')"
         @click="openModal"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
@@ -54,8 +86,10 @@
 </template>
 
 <script>
+import SvgArchive from './svgs/SvgArchive.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
 import SvgEdit from './svgs/SvgEdit.vue'
+import SvgRestore from './svgs/SvgRestore.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
@@ -65,7 +99,13 @@ const { mapGetters } = createNamespacedHelpers('filterableTable')
 export default {
   name: "row",
 
-  components: { TableCell, SvgArrow, SvgEdit },
+  components: {
+    TableCell,
+    SvgArchive,
+    SvgArrow,
+    SvgEdit,
+    SvgRestore
+  },
 
   mixins: [mixinColumns],
 
@@ -97,12 +137,26 @@ export default {
       'isMoreContentColumnDisplayed'
     ]),
 
+    adminButtonsCount () {
+      return [this.config.showArchived, this.config.showEdit]
+        .filter(Boolean).length
+    },
+
+    archiveAction () {
+      return this.item.archived ? 'restore' : 'archive' 
+    },
+
+    archiveParamValue () {
+      return this.item.archived ? 0 : 1
+    },
+
     cssVariablesAndStyles () {
       return {
         'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
         '--bg-color-1': this.config.rows.bgColor1,
         '--bg-color-2': this.config.rows.bgColor2,
+        '--bg-color-archived': this.config.rows.bgColorArchived,
         '--bg-color-mobile': this.config.rows.bgColorMobile,
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
@@ -130,6 +184,27 @@ export default {
       const linkMarkdown = `<a href="${url}" title="View assessment" target="_blank">Link</a>`
 
       return url.includes('http') ? linkMarkdown : url
+    },
+
+    getAdminButtonColumn (type) {
+      let columnIndex = this.totalColumns
+
+      if (this.isMoreContentColumnDisplayed(this.tableId)) {
+        columnIndex -= 1
+      }
+
+      if (this.adminButtonsCount === 2) {
+        columnIndex -= (type === 'edit' ? 1 : 0)
+      }
+
+      return columnIndex
+    },
+
+    getButtonClasses (type) {
+      return [
+        'button',
+        `button--${type}`,
+      ]
     },
 
     openModal () {
@@ -167,6 +242,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .row {
   background-color: #efefef; // IE11
   background-color: var(--bg-color-mobile);
@@ -194,14 +275,30 @@ export default {
       background-color: var(--bg-color-2);
     }
   }
+
+  &.row--archived {
+    background-color: #bbb;
+    background-color: var(--bg-color-archived);
+
+    @include breakpoint($medium) {
+      background-color: #bbb;
+      background-color: var(--bg-color-archived);
+    }
+  }
+
+  &__button-form {
+    width: 100%;
+  }
 }
 
 .button {
+  @include flex-center;
+
   background: transparent;
   border: none;
   padding: 0;
-
-  display: block;
+  width: 100%; height: 100%;
+  max-width: 80px; max-height: 80px;
 
   &:hover {
     cursor: pointer;
@@ -215,6 +312,35 @@ export default {
       fill: #fff; // IE11
       fill: var(--button-hover-color-arrow);
     }
+  }
+
+  &--restore {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      background-color: #fff;
+      border-radius: 100%;
+      content: '';
+      width: 100%; padding-top: 100%;
+
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__svg-wrapper {
+    @include flex-center;
+    width: 100%;
+  }
+
+  &__svg {
+    width: 56%; height: 56%;
   }
 }
 </style>

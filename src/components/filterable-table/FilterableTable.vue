@@ -244,8 +244,9 @@ export default {
 
       this.totalColumns += [
         this.isMoreContentColumnDisplayed(this.id),
-        this.config(this.id).editButton
-      ].filter(x => x === true).length
+        this.config(this.id).showArchived,
+        this.config(this.id).showEdit,
+      ].filter(Boolean).length
     },
 
     importUserOptions () {
