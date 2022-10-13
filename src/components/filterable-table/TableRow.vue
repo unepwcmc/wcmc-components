@@ -206,7 +206,7 @@ export default {
     getButtonClasses (type) {
       return [
         'button',
-        `button--${type}`,
+        `button--${type}`
       ]
     },
 
