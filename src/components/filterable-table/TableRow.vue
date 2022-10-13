@@ -12,24 +12,9 @@
       :disabled="item.archived"
     />
 
-    <table-cell
-      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
-      :disabled="item.archived"
-    >
-      <a
-        :class="getButtonClasses('edit')" 
-        :href="item.editUrl"
-      >
-        <portal-target 
-          class="button__svg-wrapper"
-          name="row-edit-icon"
-        >
-          <svg-edit class="button__svg" />
-        </portal-target>
-      </a>
-    </table-cell>
-
-    <table-cell :style="`grid-column: ${getAdminButtonColumn('archive')}`">
+    <table-cell 
+      v-if="config.showArchived"
+      :style="`grid-column: ${getAdminButtonColumn('archive')}`">
       <form method="post" :action="item.archiveUrl" class="row__button-form">
         <button
           type="submit"
@@ -49,6 +34,24 @@
         </button>
 
       </form>
+    </table-cell>
+
+    <table-cell
+      v-if="config.showEdit"
+      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
+      :disabled="item.archived"
+    >
+      <a
+        :class="getButtonClasses('edit')" 
+        :href="item.editUrl"
+      >
+        <portal-target 
+          class="button__svg-wrapper"
+          name="row-edit-icon"
+        >
+          <svg-edit class="button__svg" />
+        </portal-target>
+      </a>
     </table-cell>
 
     <table-cell
