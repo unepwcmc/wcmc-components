@@ -1,75 +1,99 @@
 <template>
   <div
     class="row"
+    :class="{ 'row--archived': item.archived }"
     :style="cssVariablesAndStyles"
   >
-
-    <div
+    <table-cell
       v-for="cell, cellIndex in columns"
       :key="Math.random() * cellIndex"
-      class="cell"
       :style="`grid-column: ${cellIndex + 1}`"
+      :cell="cell"
+      :disabled="item.archived"
+    />
+
+    <table-cell 
+      v-if="config.showArchived"
+      :style="`grid-column: ${getAdminButtonColumn('archive')}`">
+      <form method="post" :action="item.archiveUrl" class="row__button-form">
+        <button
+          type="submit"
+          name="archived"
+          :value="archiveParamValue"
+          :class="getButtonClasses(archiveAction)"
+        >
+          <portal-target 
+            class="button__svg-wrapper"
+            :name="`row-${archiveAction}-icon`"
+          >
+            <component
+              :is="`svg-${archiveAction}`"
+              class="button__svg" 
+            />
+          </portal-target>
+        </button>
+
+      </form>
+    </table-cell>
+
+    <table-cell
+      v-if="config.showEdit"
+      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
+      :disabled="item.archived"
     >
-      <div
-        class="cell__legend"
-        v-if="cell.legend_on"
+      <a
+        :class="getButtonClasses('edit')" 
+        :href="item.editUrl"
       >
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
+        <portal-target 
+          class="button__svg-wrapper"
+          name="row-edit-icon"
+        >
+          <svg-edit class="button__svg" />
+        </portal-target>
+      </a>
+    </table-cell>
 
-        <span
-          v-for="value, valueIndex in cell.value"
-          class="legend__icon"
-          :class="kebabCaseClassName(value)"
-          :key="Math.random() * valueIndex"
-        />
-      </div>
-
-      <span v-else>
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
-
-        <span v-html="printValue(cell.value)" />
-      </span>
-
-
-    </div>
-
-    <span
+    <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
-      class="cell"
       :style="`grid-column: ${totalColumns}`"
+      :disabled="item.archived"
     >
       <a
         v-if="item.pageUrl"
-        class="button"
+        :class="getButtonClasses('more-content')"
         :href="item.pageUrl"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </a>
 
       <button
         v-else
-        class="button"
+        :class="getButtonClasses('more-content')"
         @click="openModal"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
-    </span>
+    </table-cell>
   </div>
 </template>
 
 <script>
+import SvgArchive from './svgs/SvgArchive.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
-import { isALink } from '../../helpers/helpers-url.js'
+import SvgEdit from './svgs/SvgEdit.vue'
+import SvgRestore from './svgs/SvgRestore.vue'
+import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
 
@@ -78,7 +102,13 @@ const { mapGetters } = createNamespacedHelpers('filterableTable')
 export default {
   name: "row",
 
-  components: { SvgArrow },
+  components: {
+    TableCell,
+    SvgArchive,
+    SvgArrow,
+    SvgEdit,
+    SvgRestore
+  },
 
   mixins: [mixinColumns],
 
@@ -110,12 +140,26 @@ export default {
       'isMoreContentColumnDisplayed'
     ]),
 
+    adminButtonsCount () {
+      return [this.config.showArchived, this.config.showEdit]
+        .filter(Boolean).length
+    },
+
+    archiveAction () {
+      return this.item.archived ? 'restore' : 'archive' 
+    },
+
+    archiveParamValue () {
+      return this.item.archived ? 0 : 1
+    },
+
     cssVariablesAndStyles () {
       return {
         'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
         '--bg-color-1': this.config.rows.bgColor1,
         '--bg-color-2': this.config.rows.bgColor2,
+        '--bg-color-archived': this.config.rows.bgColorArchived,
         '--bg-color-mobile': this.config.rows.bgColorMobile,
         '--border-color': this.config.rows.borderColor,
         '--border-style': this.config.rows.borderStyle,
@@ -145,6 +189,27 @@ export default {
       return url.includes('http') ? linkMarkdown : url
     },
 
+    getAdminButtonColumn (type) {
+      let columnIndex = this.totalColumns
+
+      if (this.isMoreContentColumnDisplayed(this.tableId)) {
+        columnIndex -= 1
+      }
+
+      if (this.adminButtonsCount === 2) {
+        columnIndex -= (type === 'edit' ? 1 : 0)
+      }
+
+      return columnIndex
+    },
+
+    getButtonClasses (type) {
+      return [
+        'button',
+        `button--${type}`
+      ]
+    },
+
     openModal () {
       const obj = {
         tableId: this.tableId,
@@ -163,21 +228,6 @@ export default {
       this.$root.$emit('openModal', payload)
     },
 
-    printValue (value) {
-      let output = value
-
-      if (Array.isArray(value)) {
-        const strings = value.map(string => {
-          return isALink(string)
-        })
-
-        output = strings.join(', ')
-      return output
-      }
-
-      return isALink(value)
-    },
-
     trim (phrase) {
       const length = phrase.length
       let output
@@ -189,16 +239,18 @@ export default {
       }
 
       return output
-    },
-
-    kebabCaseClassName (title) {
-      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .row {
   background-color: #efefef; // IE11
   background-color: var(--bg-color-mobile);
@@ -226,62 +278,30 @@ export default {
       background-color: var(--bg-color-2);
     }
   }
-}
 
-.legend {
-  &__icon {
-    margin: rem-calc(4);
-    height: rem-calc(38);
-    width: rem-calc(38);
-    background-size: cover;
-
-    display: inline-block;
-  }
-}
-
-.cell {
-  margin: 0;
-  padding: rem-calc(4 14);
-  width: 100%;
-
-  @include breakpoint($medium) {
-    border-left: solid #ffffff 1px; // IE11
-    border-left: var(--border-style) var(--border-color) var(--border-width);
-    padding: rem-calc(16 14);
-    width: auto;
-
-    display: block;
-  }
-
-  &:first-child {
-    border-left: none;
-  }
-
-  &__title {
-    font-weight: bold;
-    margin-right: rem-calc(6);
+  &.row--archived {
+    background-color: #bbb;
+    background-color: var(--bg-color-archived);
 
     @include breakpoint($medium) {
-      display: none;
+      background-color: #bbb;
+      background-color: var(--bg-color-archived);
     }
   }
 
-  &__legend {
-    display: flex;
-    align-items: center;
-
-    @include breakpoint($medium) {
-      display: block;
-    }
+  &__button-form {
+    width: 100%;
   }
 }
 
 .button {
+  @include flex-center;
+
   background: transparent;
   border: none;
   padding: 0;
-
-  display: block;
+  width: 100%; height: 100%;
+  max-width: 80px; max-height: 80px;
 
   &:hover {
     cursor: pointer;
@@ -295,6 +315,35 @@ export default {
       fill: #fff; // IE11
       fill: var(--button-hover-color-arrow);
     }
+  }
+
+  &--restore {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      background-color: #fff;
+      border-radius: 100%;
+      content: '';
+      width: 100%; padding-top: 100%;
+
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__svg-wrapper {
+    @include flex-center;
+    width: 100%;
+  }
+
+  &__svg {
+    width: 56%; height: 56%;
   }
 }
 </style>
