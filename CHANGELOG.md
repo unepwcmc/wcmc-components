@@ -1,3 +1,9 @@
+### 2.2.4
+
+- Added:
+  - Edit and archive buttons to table rows
+  - Archived styling for rows that are archived
+
 ### 2.2.3
 
 - Added:
