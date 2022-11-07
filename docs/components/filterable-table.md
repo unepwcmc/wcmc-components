@@ -14,6 +14,21 @@ sidebar: auto
 | `filter-array`      | `Array`  |             |
 | `options`           | `Object` | &nbsp;      |
 
+### Options
+
+| Name                    | Type      | Description |
+| ----------------------- | --------- | ----------- |
+| `columns`               | `Array`   | Array of column widths passed to css. Must equal the number of displayed columns. |
+| `showArchived`          | `Boolean` | Configures whether the archive button is displayed. Default is false. |
+| `showEdit`              | `Boolean` | Configures whether the edit button is displayed. Default is false. |
+| `hideMoreContentColumn` | `Boolean` | Configures whether the more content column/button is displayed. Default is false. |
+| `more...`               | `type`    | Continue to add to this...     |
+
+columns: 
+showArchived: true,
+showEdit: true,
+hideMoreContentColumn: false,
+
 ## Data
 
 | Name            | Type      | Description | Initial value |
