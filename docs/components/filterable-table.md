@@ -24,11 +24,6 @@ sidebar: auto
 | `hideMoreContentColumn` | `Boolean` | Configures whether the more content column/button is displayed. Default is false. |
 | `more...`               | `type`    | Continue to add to this...     |
 
-columns: 
-showArchived: true,
-showEdit: true,
-hideMoreContentColumn: false,
-
 ## Data
 
 | Name            | Type      | Description | Initial value |
