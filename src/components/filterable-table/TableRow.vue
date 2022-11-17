@@ -197,7 +197,7 @@ export default {
       }
 
       if (this.adminButtonsCount === 2) {
-        columnIndex -= (type === 'edit' ? 1 : 0)
+        columnIndex -= (type === 'archive' ? 1 : 0)
       }
 
       return columnIndex

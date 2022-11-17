@@ -1,3 +1,10 @@
+### 2.2.4
+
+- Added:
+  - Edit and archive buttons to table rows
+  - Archived styling for rows that are archived
+  - Configure whether edit and archive columns are shown via keys in the options prop of the FilterableTable. See README.md for more details about table props.
+
 ### 2.2.3
 
 - Added:
