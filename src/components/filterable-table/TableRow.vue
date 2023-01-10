@@ -15,25 +15,11 @@
     <table-cell 
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
-      <form method="post" :action="item.archiveUrl" class="row__button-form">
-        <button
-          type="submit"
-          name="archived"
-          :value="archiveParamValue"
-          :class="getButtonClasses(archiveAction)"
-        >
-          <portal-target 
-            class="button__svg-wrapper"
-            :name="`row-${archiveAction}-icon`"
-          >
-            <component
-              :is="`svg-${archiveAction}`"
-              class="button__svg" 
-            />
-          </portal-target>
-        </button>
-
-      </form>
+      <archive-button 
+        :archive-url="item.archiveUrl"
+        :archived="item.archived"
+        :record-id="item.id"
+      />
     </table-cell>
 
     <table-cell
@@ -89,10 +75,9 @@
 </template>
 
 <script>
-import SvgArchive from './svgs/SvgArchive.vue'
+import ArchiveButton from './ArchiveButton.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
 import SvgEdit from './svgs/SvgEdit.vue'
-import SvgRestore from './svgs/SvgRestore.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
@@ -104,10 +89,9 @@ export default {
 
   components: {
     TableCell,
-    SvgArchive,
+    ArchiveButton,
     SvgArrow,
-    SvgEdit,
-    SvgRestore
+    SvgEdit
   },
 
   mixins: [mixinColumns],
@@ -145,9 +129,9 @@ export default {
         .filter(Boolean).length
     },
 
-    archiveAction () {
-      return this.item.archived ? 'restore' : 'archive' 
-    },
+    // archiveAction () {
+    //   return this.item.archived ? 'restore' : 'archive' 
+    // },
 
     archiveParamValue () {
       return this.item.archived ? 0 : 1
