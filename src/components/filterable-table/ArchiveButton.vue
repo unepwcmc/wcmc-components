@@ -1,8 +1,8 @@
 <template>
-  <div @click="archive" class="button archive-button button__svg-wrapper">
+  <div @click="archive" :class="`button button__svg-wrapper button--${archiveClass}`" >
     <component
       :is="`svg-${archiveClass}`"
-      class="button__svg" 
+      class="button__svg"
     />
   </div>
 </template>
@@ -16,7 +16,7 @@ import SvgRestore from './svgs/SvgRestore.vue'
 export default {
   name: 'ArchiveButton',
 
-  components: { 
+  components: {
     SvgArchive,
     SvgRestore
   },
@@ -36,36 +36,25 @@ export default {
     },
   },
 
-  created () {
-    this.isArchived = this.archived
-  },
-
-  data () {
-    return {
-      isArchived: false
-    }
-  },
-
   computed: {
     archiveClass () {
-      return this.isArchived ? 'restore' : 'archive' 
+      return this.archived ? 'restore' : 'archive'
     }
   },
 
   methods:{
     archive () {
-      console.log('archived', this.isArchived)
       const data = {
         id: this.recordId,
-        archived: this.isArchived ? 0 : 1
+        archived: this.archived ? 0 : 1
       }
+      console.log(data)
 
       setAxiosHeaders(axios)
 
       axios.post(this.archiveUrl, data)
         .then(response => {
-          console.log(response)
-          this.isArchived = response.data.archived
+          this.$emit('clicked', response.data.archived)
         })
         .catch(function (error) {
             console.log(error)
@@ -77,14 +66,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@mixin flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .button {
-  @include flex-center;
 
   background: transparent;
   border: none;
@@ -127,7 +109,6 @@ export default {
   }
 
   &__svg-wrapper {
-    @include flex-center;
     width: 100%;
   }
 

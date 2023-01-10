@@ -1,7 +1,7 @@
 <template>
   <div
     class="row"
-    :class="{ 'row--archived': item.archived }"
+    :class="{ 'row--archived': archived }"
     :style="cssVariablesAndStyles"
   >
     <table-cell
@@ -9,15 +9,16 @@
       :key="Math.random() * cellIndex"
       :style="`grid-column: ${cellIndex + 1}`"
       :cell="cell"
-      :disabled="item.archived"
+      :disabled="archived"
     />
 
     <table-cell 
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
-      <archive-button 
+      <archive-button
+        @clicked="updateArchiveStatus"
         :archive-url="item.archiveUrl"
-        :archived="item.archived"
+        :archived="archived"
         :record-id="item.id"
       />
     </table-cell>
@@ -25,7 +26,7 @@
     <table-cell
       v-if="config.showEdit"
       :style="`grid-column: ${getAdminButtonColumn('edit')}`"
-      :disabled="item.archived"
+      :disabled="archived"
     >
       <a
         :class="getButtonClasses('edit')" 
@@ -43,7 +44,7 @@
     <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       :style="`grid-column: ${totalColumns}`"
-      :disabled="item.archived"
+      :disabled="archived"
     >
       <a
         v-if="item.pageUrl"
@@ -118,6 +119,16 @@ export default {
     }
   },
 
+  created() {
+    this.archived = this.item.archived
+  },
+
+  data() {
+    return {
+      archived: null
+    }
+  },
+
   computed: {
     ...mapGetters([
       'options',
@@ -127,14 +138,6 @@ export default {
     adminButtonsCount () {
       return [this.config.showArchived, this.config.showEdit]
         .filter(Boolean).length
-    },
-
-    // archiveAction () {
-    //   return this.item.archived ? 'restore' : 'archive' 
-    // },
-
-    archiveParamValue () {
-      return this.item.archived ? 0 : 1
     },
 
     cssVariablesAndStyles () {
@@ -223,6 +226,10 @@ export default {
       }
 
       return output
+    },
+
+    updateArchiveStatus () {
+      this.archived = !this.archived
     }
   }
 }
