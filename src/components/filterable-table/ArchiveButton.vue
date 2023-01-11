@@ -48,7 +48,6 @@ export default {
         id: this.recordId,
         archived: this.archived ? 0 : 1
       }
-      console.log(data)
 
       setAxiosHeaders(axios)
 

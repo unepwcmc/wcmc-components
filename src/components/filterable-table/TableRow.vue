@@ -16,6 +16,7 @@
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
       <archive-button
+        v-if="item"
         @clicked="updateArchiveStatus"
         :archive-url="item.archiveUrl"
         :archived="archived"
