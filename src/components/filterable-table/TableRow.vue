@@ -1,7 +1,7 @@
 <template>
   <div
     class="row"
-    :class="{ 'row--archived': item.archived }"
+    :class="{ 'row--archived': archived }"
     :style="cssVariablesAndStyles"
   >
     <table-cell
@@ -9,37 +9,25 @@
       :key="Math.random() * cellIndex"
       :style="`grid-column: ${cellIndex + 1}`"
       :cell="cell"
-      :disabled="item.archived"
+      :disabled="archived"
     />
 
     <table-cell 
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
-      <form method="post" :action="item.archiveUrl" class="row__button-form">
-        <button
-          type="submit"
-          name="archived"
-          :value="archiveParamValue"
-          :class="getButtonClasses(archiveAction)"
-        >
-          <portal-target 
-            class="button__svg-wrapper"
-            :name="`row-${archiveAction}-icon`"
-          >
-            <component
-              :is="`svg-${archiveAction}`"
-              class="button__svg" 
-            />
-          </portal-target>
-        </button>
-
-      </form>
+      <archive-button
+        v-if="item"
+        @clicked="updateArchiveStatus"
+        :archive-url="item.archiveUrl"
+        :archived="archived"
+        :record-id="item.id"
+      />
     </table-cell>
 
     <table-cell
       v-if="config.showEdit"
       :style="`grid-column: ${getAdminButtonColumn('edit')}`"
-      :disabled="item.archived"
+      :disabled="archived"
     >
       <a
         :class="getButtonClasses('edit')" 
@@ -57,7 +45,7 @@
     <table-cell
       v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
       :style="`grid-column: ${totalColumns}`"
-      :disabled="item.archived"
+      :disabled="archived"
     >
       <a
         v-if="item.pageUrl"
@@ -89,10 +77,9 @@
 </template>
 
 <script>
-import SvgArchive from './svgs/SvgArchive.vue'
+import ArchiveButton from './ArchiveButton.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
 import SvgEdit from './svgs/SvgEdit.vue'
-import SvgRestore from './svgs/SvgRestore.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
@@ -104,10 +91,9 @@ export default {
 
   components: {
     TableCell,
-    SvgArchive,
+    ArchiveButton,
     SvgArrow,
-    SvgEdit,
-    SvgRestore
+    SvgEdit
   },
 
   mixins: [mixinColumns],
@@ -134,6 +120,16 @@ export default {
     }
   },
 
+  created() {
+    this.archived = this.item.archived
+  },
+
+  data() {
+    return {
+      archived: null
+    }
+  },
+
   computed: {
     ...mapGetters([
       'options',
@@ -143,14 +139,6 @@ export default {
     adminButtonsCount () {
       return [this.config.showArchived, this.config.showEdit]
         .filter(Boolean).length
-    },
-
-    archiveAction () {
-      return this.item.archived ? 'restore' : 'archive' 
-    },
-
-    archiveParamValue () {
-      return this.item.archived ? 0 : 1
     },
 
     cssVariablesAndStyles () {
@@ -239,6 +227,10 @@ export default {
       }
 
       return output
+    },
+
+    updateArchiveStatus () {
+      this.archived = !this.archived
     }
   }
 }
