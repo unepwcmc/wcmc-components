@@ -31,7 +31,7 @@
     >
       <a
         :class="getButtonClasses('edit')" 
-        :href="item.editUrl"
+        :href= "`${item.editUrl}?fallback_url=${window.location.href}`"
       >
         <portal-target 
           class="button__svg-wrapper"
