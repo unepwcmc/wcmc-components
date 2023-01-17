@@ -31,7 +31,7 @@
     >
       <a
         :class="getButtonClasses('edit')" 
-        :href="`${item.editUrl}?fallback_url=${window.location.pathname}`"
+        :href="editUrl(item)"
       >
         <portal-target 
           class="button__svg-wrapper"
@@ -171,6 +171,10 @@ export default {
   },
 
   methods: {
+    editUrl(item) {
+      return `${item.editUrl}?fallback_url=${location.pathname}`
+    },
+
     assessmentUrl (url) {
       const linkMarkdown = `<a href="${url}" title="View assessment" target="_blank">Link</a>`
 
@@ -212,8 +216,7 @@ export default {
         tableId: this.tableId,
         totalColumns: this.totalColumns
       }
-      console.log(payload)
-      this.$root.$emit('openModal', {})
+      this.$root.$emit('openModal', payload)
     },
 
     trim (phrase) {
