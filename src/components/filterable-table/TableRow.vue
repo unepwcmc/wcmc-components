@@ -31,7 +31,7 @@
     >
       <a
         :class="getButtonClasses('edit')" 
-        :href= "`${item.editUrl}?fallback_url=${window.location.href}`"
+        :href="`${item.editUrl}?fallback_url=${window.location.pathname}`"
       >
         <portal-target 
           class="button__svg-wrapper"
@@ -212,8 +212,8 @@ export default {
         tableId: this.tableId,
         totalColumns: this.totalColumns
       }
-
-      this.$root.$emit('openModal', payload)
+      console.log(payload)
+      this.$root.$emit('openModal', {})
     },
 
     trim (phrase) {
