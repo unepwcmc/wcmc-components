@@ -1,5 +1,5 @@
-### 2.2.7
-- No change
+### 2.2.7 and 2.2.8
+- No change - We weren't sure if yarn link was broken or the library was broken
 
 ### 2.2.6
 
