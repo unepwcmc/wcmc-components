@@ -1,9 +1,9 @@
 <template>
    <a 
-      :href="newRecordPath"
+      :href="buttonURL"
       class="new-record-button"
-      :text="buttonText"
-    >
+      v-text="buttonText"
+    />
 </template>
 
 <script>

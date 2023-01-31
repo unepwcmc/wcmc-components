@@ -33,6 +33,7 @@
           :totalColumns="totalColumns"
         />
       </template>
+
       <template v-else>
         <div 
           class="table-body__placeholder"
@@ -53,6 +54,7 @@
 
     <new-record-button
       v-if="shouldRenderNewRecordButton"
+      :table-id="id"
     />
 
     <table-modal 
@@ -164,8 +166,8 @@ export default {
       return this.config(this.id).text.noResultsMessage
     },
 
-    renderNewRecordButton () {
-      return this.config(this.id).newRecordLink.href == null
+    shouldRenderNewRecordButton () {
+      return this.config(this.id).newRecordLink.url != null
     }
   },
 
