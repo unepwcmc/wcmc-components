@@ -101,13 +101,13 @@ export default {
       type: Array
     },
 
-    legendArray: {
-      type: Array
-    },
-
     itemsPerPage: {
       default: 10,
       type: Number
+    },
+
+    legendArray: {
+      type: Array
     },
 
     options: {
