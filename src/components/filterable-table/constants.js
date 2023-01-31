@@ -113,6 +113,10 @@ export const DEFAULT_OPTIONS = {
     crossFill: '#000',
     wrapperColor: 'rgba(0,0,0,.2)'
   },
+  newRecordLink: {
+    url: null,
+    text: 'Create a new record'
+  },
   pagination: {
     buttonBgColor: UNEP_WCMC_BLUE,
     buttonBgColorDisabled: '#ccc',
