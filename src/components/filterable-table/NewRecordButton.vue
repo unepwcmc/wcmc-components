@@ -47,7 +47,6 @@ export default {
         '--border-color-hover': this.config.download.borderColorHover,
         '--color'             : this.config.download.color,
         '--font-size'         : this.config.download.fontSize,
-        '--font-size'         : this.config.download.fontSize,
         '--font-weight'       : this.config.download.fontWeight,
         '--height'            : this.config.download.height,
         '--icon-fill'         : this.config.download.iconFill,
