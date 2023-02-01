@@ -114,7 +114,7 @@ export const DEFAULT_OPTIONS = {
     wrapperColor: 'rgba(0,0,0,.2)'
   },
   newRecordLink: {
-    url: null,
+    url: null, // button won't render if this is null
     text: 'Create a new record'
   },
   pagination: {
