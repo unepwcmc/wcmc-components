@@ -35,7 +35,7 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 - Run `yarn build-lib` to create the library files in the dist folder
 - Run either `yarn link` (not working well) to enable you to sync this repo to another OR `yalc push` (working well) to publish your library files to the local yalc repository
   - **in order to use `yalc push` you need to first install yalc, run `yarn global add yalc` in the terminal**
-
+  - if using `yalc` whenever you change something in the code and want to try it, you have to run `yarn build-lib` and `yalc push`
 
 In your **new project** do the following:
 - if using `yarn link`
