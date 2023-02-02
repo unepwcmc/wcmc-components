@@ -1,7 +1,7 @@
 <template>
   <div
     class="row"
-    :class="{ 'row--archived': true }"
+    :class="{ 'row--archived': archived }"
     :style="cssVariablesAndStyles"
   >
     <table-cell
@@ -115,11 +115,6 @@ export default {
     },
 
     totalColumns: {
-      required: true,
-      type: Number,
-    },
-
-    currentPage: {
       required: true,
       type: Number,
     }
