@@ -121,11 +121,7 @@ export default {
     }
   },
 
-  created() {
-    this.archived = this.item.archived
-  },
-
-  data() {
+  data () {
     return {
       archived: null
     }
@@ -232,6 +228,12 @@ export default {
 
     updateArchiveStatus () {
       this.archived = !this.archived
+    }
+  },
+
+  watch: {
+    item () {
+      this.archived = this.item.archived
     }
   }
 }
