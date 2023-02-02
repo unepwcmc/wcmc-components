@@ -190,18 +190,17 @@ export default {
     ...mapActions({ updateRequestedPage: 'updateRequestedPage' }),
 
     changePage (isActive, direction) {
-      // only change the page if the button is active
-      if (isActive) {
-        const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
+      if (!isActive) return // only change the page if the button is active
+      
+      const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
 
-        const obj = { 
-          tableId: this.tableId,
-          requestedPage: newPage 
-        }
-
-        this.updateRequestedPage(obj)
-        this.$emit('updated:page')
+      const obj = { 
+        tableId: this.tableId,
+        requestedPage: newPage 
       }
+
+      this.updateRequestedPage(obj)
+      this.$emit('updated:page')
     },
 
     goToPage (page) {
