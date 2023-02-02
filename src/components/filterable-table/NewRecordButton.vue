@@ -66,6 +66,7 @@ export default {
   background-color: #aaa;
   border-color: #009FE3;
   color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: 500;
   padding-left: 24px;
@@ -90,6 +91,7 @@ export default {
   background-color: var(--bg-color);
   border-color: var(--border-color);
   color: var(--color);
+  font-family: var(--font-family);
   font-size: var(--font-size);
   font-weight: var(--font-weight);
   margin-bottom: rem-calc(10); // to sit inline with filters on mobile
@@ -97,6 +99,9 @@ export default {
   padding-left: var(--padding-left);
   padding-right: var(--padding-right);
   height: var(--height);
+
+  display: flex;
+  align-items: center;
 
   @include breakpoint($medium) { margin-bottom: 0; }
 
