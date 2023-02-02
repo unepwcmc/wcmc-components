@@ -23,6 +23,7 @@
         :totalColumns="totalColumns"
       />
     </div>
+
     <div class="table-body">
       <template v-if="hasItems">
         <table-row v-for="item, itemIndex in items"
@@ -160,6 +161,7 @@ export default {
   },
 
   created () {
+    console.log('YO!')
     this.id = this.tableCount + 1
     this.createNewTable(this.id)
     this.importUserOptions()

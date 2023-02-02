@@ -17,6 +17,7 @@
         @click="goToEnd('first')"
       >
         <svg-chevron class="button__svg" />
+
         <svg-chevron class="button__svg" />
       </button>
 
@@ -51,6 +52,7 @@
         @click="goToEnd('last')"
       >
         <svg-chevron class="button__svg" />
+
         <svg-chevron class="button__svg" />
       </button>
     </div>
@@ -65,11 +67,12 @@
 </template>
 
 <script>
-import SvgChevron from './svgs/SvgChevron.vue'
 import { createNamespacedHelpers } from 'vuex'
 import { range } from 'lodash'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
+
+import SvgChevron from './svgs/SvgChevron.vue'
 
 export default {
   name: "TablePagination",

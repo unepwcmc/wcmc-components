@@ -77,12 +77,13 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+
 import ArchiveButton from './ArchiveButton.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
 import SvgEdit from './svgs/SvgEdit.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
-import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters } = createNamespacedHelpers('filterableTable')
 
