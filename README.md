@@ -43,6 +43,12 @@ In your **new project** do the following:
   - Run `yarn link "@unep-wcmc/wcmc-components"`
 - if using `yalc push`
   - Run `yalc add @unep-wcmc/wcmc-components && yalc link @unep-wcmc/wcmc-components && yarn install`
+  - Add the following to the .gitignore file 
+    ```
+    # Yalc
+    /.yalc
+    yalc.lock
+    ````
 - In your js file add `import FilterableTable from "@unep-wcmc/wcmc-components"`
 - In your js file add `Vue.use(FilterableTable, { store })`
 
