@@ -60,39 +60,58 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+// Styles here are only for IE11 
+.new-record-button {
+  background-color: #aaa;
+  border-color: #009FE3;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+  padding-left: 24px;
+  padding-right: 24px; 
+  height: 50px;
+
+  &:hover {
+    background-color: #009FE3;
+    border-color: #009FE3; 
+  }
+}
+
+::v-deep .svg--download {
+  fill: '#fff';
+}
+
+// ------------------------------
+
+// Styles here either overwrite IE11 styles for other browsers, apply to all browsers
 .new-record-button {
   @include button-basic;
-  background-color: #aaa; // IE11
   background-color: var(--bg-color);
-  border-color: #009FE3; // IE11
   border-color: var(--border-color);
-  color: #fff; // IE11
   color: var(--color);
-  font-size: 18px;
+  font-family: var(--font-family);
   font-size: var(--font-size);
-  font-weight: 500;
   font-weight: var(--font-weight);
-  height: 50px; // IE11
-  height: var(--height);
-  margin-bottom: rem-calc(10); //to sit inline with filters on mobile
+  margin-bottom: rem-calc(10); // to sit inline with filters on mobile
   margin-left: auto;
-  padding-left: 24px; // IE11
   padding-left: var(--padding-left);
-  padding-right: 24px; // IE11
   padding-right: var(--padding-right);
+  height: var(--height);
+
+  display: flex;
+  align-items: center;
 
   @include breakpoint($medium) { margin-bottom: 0; }
 
   &:hover {
-    background-color: #009FE3; // IE11
     background-color: var(--bg-color-hover);
-    border-color: #009FE3; // IE11
     border-color: var(--border-color-hover);
   }
 }
 
 ::v-deep .svg--download {
-  fill: '#fff'; // IE11
   fill: var(--icon-fill);
 }
 </style>

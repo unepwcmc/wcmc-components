@@ -8,6 +8,15 @@
       <slot name="row-link-icon" />
     </portal>
 
+    <div
+      class='buttons'
+      v-if="shouldRenderNewRecordButton"
+    >
+      <new-record-button
+        :table-id="id"
+      />
+    </div>
+
     <table-filters
       :endpoint-download="endpointDownload"
       :filters="filters"
@@ -50,11 +59,6 @@
       :total-items="totalItems" 
       :total-pages="totalPages"
       v-on:updated:page="getNewItems"
-    />
-
-    <new-record-button
-      v-if="shouldRenderNewRecordButton"
-      :table-id="id"
     />
 
     <table-modal 
@@ -296,6 +300,13 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+}
+
+.buttons {
+  margin-bottom: 10px;
+  height: 50px;
+  
+  display: flex;
 }
 
 .cloak { display: none; }
