@@ -33,6 +33,7 @@
           :totalColumns="totalColumns"
         />
       </template>
+
       <template v-else>
         <div 
           class="table-body__placeholder"
@@ -51,6 +52,11 @@
       v-on:updated:page="getNewItems"
     />
 
+    <new-record-button
+      v-if="shouldRenderNewRecordButton"
+      :table-id="id"
+    />
+
     <table-modal 
       :tableId="id"
     />
@@ -65,6 +71,7 @@ import { createNamespacedHelpers } from 'vuex'
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 import { merge } from 'lodash'
+import NewRecordButton from './NewRecordButton.vue'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
@@ -76,7 +83,8 @@ const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterable
 export default {
   name: 'FilterableTable',
 
-  components: { 
+  components: {
+    NewRecordButton,
     TableHead,
     TableFilters,
     TableModal,
@@ -101,13 +109,13 @@ export default {
       type: Array
     },
 
-    legendArray: {
-      type: Array
-    },
-
     itemsPerPage: {
       default: 10,
       type: Number
+    },
+
+    legendArray: {
+      type: Array
     },
 
     options: {
@@ -156,6 +164,10 @@ export default {
 
     noResultsMessage () {
       return this.config(this.id).text.noResultsMessage
+    },
+
+    shouldRenderNewRecordButton () {
+      return this.config(this.id).newRecordLink.url != null
     }
   },
 
@@ -262,6 +274,7 @@ export default {
         tableId: this.id,
         options
       }
+
       this.updateOptions(obj)
     },
 

@@ -5,9 +5,6 @@ export const DEFAULT_OPTIONS = {
   columns: {
     widths: ['1fr', '1fr', '300px', '1fr', '1fr', '75px'] // widths.length = attributes.length + 1 + (1 for archive and edit buttons if shown)
   },
-  showArchived: false,
-  showEdit: false,
-  hideMoreContentColumn: false,
   download: {
     bgColor: '#aaa',
     bgColorHover: UNEP_WCMC_BLUE,
@@ -90,6 +87,7 @@ export const DEFAULT_OPTIONS = {
       paddingRight: '40px'
     }
   },
+  hideMoreContentColumn: false,
   headings: {
     bgColor: '#000000',
     borderColor: '#ffffff',
@@ -97,14 +95,6 @@ export const DEFAULT_OPTIONS = {
     borderWidth: '1px',
     fontFamily: 'Arial, sans-serif',
     fontWeight: 'normal'
-  },
-  modal: {
-    bulletDisplay: true,
-    title: 'Optional modal title',
-    closeBgColor: '#fff',
-    closeBorderRadius: '0',
-    crossFill: '#000',
-    wrapperColor: 'rgba(0,0,0,.2)'
   },
   legend: {
     title: 'Legend',
@@ -114,6 +104,18 @@ export const DEFAULT_OPTIONS = {
     closeBorderRadius: '0',
     crossFill: '#000',
     wrapperColor: 'rgba(0,0,0,.2)'
+  },
+  modal: {
+    bulletDisplay: true,
+    title: 'Optional modal title',
+    closeBgColor: '#fff',
+    closeBorderRadius: '0',
+    crossFill: '#000',
+    wrapperColor: 'rgba(0,0,0,.2)'
+  },
+  newRecordLink: {
+    url: null, // button won't render if this is null
+    text: 'Create a new record'
   },
   pagination: {
     buttonBgColor: UNEP_WCMC_BLUE,
@@ -135,6 +137,8 @@ export const DEFAULT_OPTIONS = {
     buttonHoverColor: UNEP_WCMC_BLUE,
     buttonHoverColorArrow: '#fff'
   },
+  showArchived: false,
+  showEdit: false,
   sortable: false, // for a sortable table, pass :options="{sortable: true}" to FilterableTable
   text: {
     noResultsMessage: 'There are no items to display.'
