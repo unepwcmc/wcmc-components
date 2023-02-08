@@ -12,7 +12,7 @@
       :disabled="archived"
     />
 
-    <table-cell 
+    <table-cell
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
       <archive-button
@@ -30,10 +30,10 @@
       :disabled="archived"
     >
       <a
-        :class="getButtonClasses('edit')" 
+        :class="getButtonClasses('edit')"
         :href="item.editUrl"
       >
-        <portal-target 
+        <portal-target
           class="button__svg-wrapper"
           name="row-edit-icon"
         >
@@ -43,7 +43,7 @@
     </table-cell>
 
     <table-cell
-      v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)"
       :style="`grid-column: ${totalColumns}`"
       :disabled="archived"
     >
@@ -123,7 +123,7 @@ export default {
 
   data () {
     return {
-      archived: null
+      archived: this.item.archived
     }
   },
 
