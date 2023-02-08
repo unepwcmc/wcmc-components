@@ -26,12 +26,12 @@ export default {
       type: String,
       required: true
     },
-    
+
     archived: {
       type: Boolean,
       required: true
     },
-    
+
     recordId: {
       type: Number,
       required: true
