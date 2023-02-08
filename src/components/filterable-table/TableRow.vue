@@ -12,7 +12,7 @@
       :disabled="archived"
     />
 
-    <table-cell 
+    <table-cell
       v-if="config.showArchived"
       :style="`grid-column: ${getAdminButtonColumn('archive')}`">
       <archive-button
@@ -30,10 +30,10 @@
       :disabled="archived"
     >
       <a
-        :class="getButtonClasses('edit')" 
+        :class="getButtonClasses('edit')"
         :href="item.editUrl"
       >
-        <portal-target 
+        <portal-target
           class="button__svg-wrapper"
           name="row-edit-icon"
         >
@@ -43,7 +43,7 @@
     </table-cell>
 
     <table-cell
-      v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)"
       :style="`grid-column: ${totalColumns}`"
       :disabled="archived"
     >
@@ -77,12 +77,13 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+
 import ArchiveButton from './ArchiveButton.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
 import SvgEdit from './svgs/SvgEdit.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
-import { createNamespacedHelpers } from 'vuex'
 
 const { mapGetters } = createNamespacedHelpers('filterableTable')
 
@@ -120,13 +121,9 @@ export default {
     }
   },
 
-  created() {
-    this.archived = this.item.archived
-  },
-
-  data() {
+  data () {
     return {
-      archived: null
+      archived: this.item.archived
     }
   },
 
@@ -231,6 +228,12 @@ export default {
 
     updateArchiveStatus () {
       this.archived = !this.archived
+    }
+  },
+
+  watch: {
+    item () {
+      this.archived = this.item.archived
     }
   }
 }

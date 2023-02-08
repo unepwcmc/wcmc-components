@@ -32,6 +32,7 @@
         :totalColumns="totalColumns"
       />
     </div>
+
     <div class="table-body">
       <template v-if="hasItems">
         <table-row v-for="item, itemIndex in items"
