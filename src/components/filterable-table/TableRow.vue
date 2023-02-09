@@ -105,11 +105,6 @@ export default {
       type: Object,
     },
 
-    itemIndex: {
-      required: true,
-      type: Number,
-    },
-
     tableId: {
       required: true,
       type: Number,
@@ -140,16 +135,16 @@ export default {
 
     cssVariablesAndStyles () {
       return {
-        'grid-template-columns': this.gridColumnsCss,
-        'grid-columns': this.gridColumnsCss, // IE11
-        '--bg-color-1': this.config.rows.bgColor1,
-        '--bg-color-2': this.config.rows.bgColor2,
-        '--bg-color-archived': this.config.rows.bgColorArchived,
-        '--bg-color-mobile': this.config.rows.bgColorMobile,
-        '--border-color': this.config.rows.borderColor,
-        '--border-style': this.config.rows.borderStyle,
-        '--border-width': this.config.rows.borderWidth,
-        '--button-hover-color': this.config.rows.buttonHoverColor,
+        'grid-template-columns'     : this.gridColumnsCss,
+        'grid-columns'              : this.gridColumnsCss, // IE11
+        '--bg-color-1'              : this.config.rows.bgColor1,
+        '--bg-color-2'              : this.config.rows.bgColor2,
+        '--bg-color-archived'       : this.config.rows.bgColorArchived,
+        '--bg-color-mobile'         : this.config.rows.bgColorMobile,
+        '--border-color'            : this.config.rows.borderColor,
+        '--border-style'            : this.config.rows.borderStyle,
+        '--border-width'            : this.config.rows.borderWidth,
+        '--button-hover-color'      : this.config.rows.buttonHoverColor,
         '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
@@ -203,14 +198,7 @@ export default {
 
       this.$store.dispatch('filterableTable/updateModal', obj)
 
-      const payload = {
-        row: this.item,
-        rowIndex: this.itemIndex,
-        tableId: this.tableId,
-        totalColumns: this.totalColumns
-      }
-
-      this.$root.$emit('openModal', payload)
+      this.$root.$emit('openModal', this.tableId)
     },
 
     trim (phrase) {
@@ -220,7 +208,7 @@ export default {
       if (length <= 30) {
         output = phrase
       } else {
-        output = phrase.substring(0, 27) + '...'
+        output = phrase.substring(0,27) + '...'
       }
 
       return output
@@ -297,18 +285,97 @@ export default {
   padding: 0;
   width: 100%; height: 100%;
   max-width: 80px; max-height: 80px;
+  .row {
+    background-color: #efefef; // IE11
+    background-color: var(--bg-color-mobile);
+    font-family: Arial, sans-serif; // IE11
+    font-family: var(--font-family);
+    margin-bottom: rem-calc(18);
+    padding: rem-calc(6 0);      
 
-  &:hover {
-    cursor: pointer;
+    display: flex;
+    flex-direction: column;
 
-    ::v-deep .svg-arrow .svg__circle {
-      fill: #009fe3; // IE11
-      fill: var(--button-hover-color);
+    @include breakpoint($medium) { 
+      background-color: #ffffff; // IE11
+      background-color: var(--bg-color-1);
+      margin: 0;
+      padding: 0;
+
+      display: -ms-grid; // IE11
+      display: grid;
     }
 
-    ::v-deep .svg-arrow .svg__arrow {
-      fill: #fff; // IE11
-      fill: var(--button-hover-color-arrow);
+    &:nth-child(even) { 
+      @include breakpoint($medium) { 
+        background-color: #f4f4f4; // IE11
+        background-color: var(--bg-color-2);
+      }
+    }
+  }
+
+  .legend {
+    &__icon {
+      margin: rem-calc(4);
+      height: rem-calc(38);
+      width: rem-calc(38);
+      background-size: cover;
+
+      display: inline-block;
+    }
+  }
+
+  .cell {
+    margin: 0;
+    padding: rem-calc(4 14);
+    width: 100%;
+
+    @include breakpoint($medium) {
+      border-left: solid #ffffff 1px; // IE11
+      border-left: var(--border-style) var(--border-color) var(--border-width);
+      padding: rem-calc(16 14);
+      width: auto;
+
+      display: block;
+    }
+
+    &:first-child { border-left: none; }
+
+    &__title {
+      font-weight: bold; 
+      margin-right: rem-calc(6);
+
+      @include breakpoint($medium){ display: none; }
+    }
+    
+    &__legend {
+      display: flex;
+      align-items: center;
+      @include breakpoint($medium) {
+        display: block;
+      }
+    }
+  }
+
+  .button {
+    background: transparent;
+    border: none;
+    padding: 0;
+
+    display: block;
+
+    &:hover {
+      cursor: pointer;
+
+      ::v-deep .svg-arrow .svg__circle {
+        fill: #009FE3; // IE11
+        fill: var(--button-hover-color);
+      }
+
+      ::v-deep .svg-arrow .svg__arrow {
+        fill: #fff; // IE11
+        fill: var(--button-hover-color-arrow);
+      }
     }
   }
 

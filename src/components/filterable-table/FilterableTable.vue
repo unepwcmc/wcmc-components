@@ -35,10 +35,9 @@
 
     <div class="table-body">
       <template v-if="hasItems">
-        <table-row v-for="item, itemIndex in items"
+        <table-row v-for="item in items"
           :key="item._uid"
           :item="item" 
-          :item-index="itemIndex"
           :table-id="id"
           :totalColumns="totalColumns"
         />
@@ -70,12 +69,12 @@
 
 <script>
 import axios from 'axios'
-
+import { merge } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
-import { merge } from 'lodash'
+
 import NewRecordButton from './NewRecordButton.vue'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
@@ -130,16 +129,16 @@ export default {
 
   data () {
     return {
+      headings: [],
       currentPage: 1,
       dummyData: DUMMY_DATA,
       filters: [],
-      headings: [],
+      legends: [],
       id: '',
       items: [],
-      legends: [],
       totalColumns: 0,
       totalItems: 5,
-      totalPages: 3,
+      totalPages: 3
     }
   },
 
@@ -182,7 +181,7 @@ export default {
     this.importUserOptions()
   },
 
-  mounted () {
+  mounted() {
     if (this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
@@ -230,7 +229,7 @@ export default {
         filterOptions: array
       }
 
-      this.setFilterOptions(obj)
+      this.selectedFilterOptions(this.id, obj)
     },
 
     getNewItems () {
@@ -239,6 +238,7 @@ export default {
         items_per_page: this.itemsPerPage,
         requested_page: this.requestedPage(this.id),
       }
+
       if (this.isSortable(this.id)) {
         data.sort = this.selectedSort(this.id)
       }
@@ -290,10 +290,6 @@ export default {
       this.totalPages = data.total_pages
       this.items = data.items
     },
-  },
-
-  beforeDestroy () {
-    this.$root.$off('openModal', this.onOpenModal)
   }
 }
 </script>
