@@ -8,26 +8,30 @@
       :style="cssVariables"
     >
       <table-heading 
-        v-for="(heading, n) in headings" 
+        v-for="heading, n in headings" 
         :key="heading._uid"
         :heading="heading"
         :tableId="tableId"
         :style="`grid-column: ${n+1}`"
       />
       
-      <!-- empty heading for 'more content' button -->
+      <!-- empty heading for 'more content' and admin buttons -->
       <table-heading
+        v-for="n in emptyHeaderCount"
+        :key="`empty-header-${_uid}-${n}`"
         :tableId="tableId"
-        :style="`grid-column: ${totalColumns}`"
+        :style="`grid-column: ${getEmptyHeaderIndex(n)}`"
       />
     </div>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
 import TableHeading from './TableHeading.vue'
-
 import mixinColumns from './mixins/mixin-columns'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'TableHead',
@@ -41,10 +45,12 @@ export default {
       required: true,
       type: Array
     },
+
     tableId: {
       required: true,
       type: Number,
     },
+
     totalColumns: {
       required: true,
       type: Number,
@@ -59,12 +65,18 @@ export default {
   },
 
   computed: {
+    ...mapGetters(['isMoreContentColumnDisplayed']),
+
     cssVariables () {
       return {
         'grid-template-columns': this.gridColumnsCss,
         'grid-columns': this.gridColumnsCss, // IE11
       }
     },
+
+    emptyHeaderCount () {
+      return this.totalColumns - this.headings.length
+    }
   },
 
   mounted () {
@@ -73,6 +85,10 @@ export default {
   },
 
   methods: {
+    getEmptyHeaderIndex (n) {
+      return this.totalColumns - this.emptyHeaderCount + n
+    },
+
     setStickyTrigger () {
       const stickyElement = document.getElementById('sticky')
       const stickyElementHeight = stickyElement.clientHeight

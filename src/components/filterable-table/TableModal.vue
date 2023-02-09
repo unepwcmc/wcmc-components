@@ -16,17 +16,21 @@
         <h2 
           v-if="config.modal.title"
           class="modal__title"
-        >
-          {{ config.modal.title }}
-        </h2>
+          v-text="config.modal.title"
+        />
 
-        <template v-for="(item, index) in modalContent" >
+        <template v-for="item, modalContentIndex in modalContent" >
           <div 
-            v-if="item.showInModal"         
-            :key="index" 
+            v-if="item.showInModal"
+            :key="modalContentIndex"
+            class="modal__item"
           >
-            <span class="modal__item-name">{{ item.title }}:</span> 
-            <div 
+            <span
+              class="modal__item-name"
+              v-text="item.title + ':'"
+            />
+
+            <span
               v-if="hasMultipleValues(item.value)"
               :key="index" 
             >
@@ -39,26 +43,33 @@
                   class="legend__li"
                 >
                   <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
+
                   <p v-html="printValue(string)"/>
                 </li>
               </ul>
-              <ul 
-                v-else
+
+              <ul
+                v-else-if="displayBullet"
                 class="modal__ul"
               >
-                <li v-for="string, index in item.value"
+                <li 
+                  v-for="string, index in item.value"
                   :key="Math.random() * index"
                   v-html="printValue(string)"
                 />
               </ul>
-            </div>
+              <span v-else>{{ item.value.join("; ") }}</span>
+            </span>
+
             <template v-else>
-              <span 
+              <span
                 v-if="item.legend_on"
                 :key="index" 
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
-              />             
-              {{ item.value }}
+                v-text="item.value"
+              />
+
+              <span v-else v-html="printValue(item.value)" />
             </template>
           </div>
         </template>
@@ -81,6 +92,7 @@ export default {
       required: true,
       type: Number,
     },
+
     legends: {
       type: Array,
     },
@@ -107,9 +119,8 @@ export default {
         '--font-family': this.config.fontFamily
       }
     },
-    config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
-    }
+
+    displayBullet () { return this.config.modal.bulletDisplay },
   },
 
   mounted () {
@@ -118,7 +129,7 @@ export default {
 
   methods: {
     openModal (tableId) {
-      if(this.tableId !== tableId) { return false }
+      if (this.tableId !== tableId) { return false }
 
       this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
 
@@ -203,6 +214,10 @@ export default {
     &-svg {
       width: rem-calc(20); height: rem-calc(20);
     }
+  }
+
+  &__item {
+    margin-bottom: rem-calc(10);
   }
 
   &__content {

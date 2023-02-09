@@ -1,67 +1,101 @@
 <template>
-  <div 
+  <div
     class="row"
+    :class="{ 'row--archived': archived }"
     :style="cssVariablesAndStyles"
   >
-    
-    <div
-      v-for="(cell, index) in columns"
-      :key="Math.random() * index"
-      class="cell"
-      :style="`grid-column: ${index + 1}`"
+    <table-cell
+      v-for="cell, cellIndex in columns"
+      :key="Math.random() * cellIndex"
+      :style="`grid-column: ${cellIndex + 1}`"
+      :cell="cell"
+      :disabled="archived"
+    />
+
+    <table-cell
+      v-if="config.showArchived"
+      :style="`grid-column: ${getAdminButtonColumn('archive')}`">
+      <archive-button
+        v-if="item"
+        @clicked="updateArchiveStatus"
+        :archive-url="item.archiveUrl"
+        :archived="archived"
+        :record-id="item.id"
+      />
+    </table-cell>
+
+    <table-cell
+      v-if="config.showEdit"
+      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
+      :disabled="archived"
     >
-      <div 
-      class="cell__legend" 
-      v-if="cell.legend_on"
+      <a
+        :class="getButtonClasses('edit')"
+        :href="item.editUrl"
       >
-        <span class="cell__title">{{ cell.title }}: </span>
-
-        <span
-          v-for="(value, index) in cell.value"
-          :key="Math.random() * index"
-          :class="`legend__icon ${kebabCaseClassName(value)}`"
+        <portal-target
+          class="button__svg-wrapper"
+          name="row-edit-icon"
         >
-        </span>
-      </div>
+          <svg-edit class="button__svg" />
+        </portal-target>
+      </a>
+    </table-cell>
 
-      <p v-else>
-        <span class="cell__title">{{ cell.title }}: </span>
-        <span v-html="printValue(cell.value)" />
-      </p>
-    </div>
-    
-    <p
-      class="cell"
+    <table-cell
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)"
       :style="`grid-column: ${totalColumns}`"
+      :disabled="archived"
     >
-      <a 
+      <a
         v-if="item.pageUrl"
-        class="button"
+        :class="getButtonClasses('more-content')"
         :href="item.pageUrl"
       >
-        <svg-arrow class="button__svg" />
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
+          <svg-arrow class="button__svg" />
+        </portal-target>
       </a>
 
-      <button 
-        v-else 
-        class="button"
+      <button
+        v-else
+        :class="getButtonClasses('more-content')"
         @click="openModal"
       >
-        <svg-arrow class="button__svg" />
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
+          <svg-arrow class="button__svg" />
+        </portal-target>
       </button>
-    </p>
+    </table-cell>
   </div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex'
+
+import ArchiveButton from './ArchiveButton.vue'
 import SvgArrow from './svgs/SvgArrow.vue'
-import { isALink } from '../../helpers/helpers-url.js'
+import SvgEdit from './svgs/SvgEdit.vue'
+import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
+
+const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "row",
 
-  components: { SvgArrow },
+  components: {
+    TableCell,
+    ArchiveButton,
+    SvgArrow,
+    SvgEdit
+  },
 
   mixins: [mixinColumns],
 
@@ -70,23 +104,42 @@ export default {
       required: true,
       type: Object,
     },
+
     tableId: {
       required: true,
       type: Number,
     },
+
     totalColumns: {
       required: true,
       type: Number,
     }
   },
 
+  data () {
+    return {
+      archived: this.item.archived
+    }
+  },
+
   computed: {
+    ...mapGetters([
+      'options',
+      'isMoreContentColumnDisplayed'
+    ]),
+
+    adminButtonsCount () {
+      return [this.config.showArchived, this.config.showEdit]
+        .filter(Boolean).length
+    },
+
     cssVariablesAndStyles () {
       return {
         'grid-template-columns'     : this.gridColumnsCss,
         'grid-columns'              : this.gridColumnsCss, // IE11
         '--bg-color-1'              : this.config.rows.bgColor1,
         '--bg-color-2'              : this.config.rows.bgColor2,
+        '--bg-color-archived'       : this.config.rows.bgColorArchived,
         '--bg-color-mobile'         : this.config.rows.bgColorMobile,
         '--border-color'            : this.config.rows.borderColor,
         '--border-style'            : this.config.rows.borderStyle,
@@ -95,20 +148,46 @@ export default {
         '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
+
     projectTitle () {
       return this.trim(this.item.title)
     },
+
     config () {
-      return this.$store.getters['filterableTable/options'](this.tableId)
+      return this.options(this.tableId)
     },
+
     columns () {
-      return this.item.cells.filter(cell => cell.showInTable == true)
+      return this.item.cells.filter(cell => cell.showInTable === true)
     }
   },
 
   methods: {
     assessmentUrl (url) {
-      return url.includes('http') ? `<a href="${url}" title="View assessment" target="_blank">Link</a>` :  url
+      const linkMarkdown = `<a href="${url}" title="View assessment" target="_blank">Link</a>`
+
+      return url.includes('http') ? linkMarkdown : url
+    },
+
+    getAdminButtonColumn (type) {
+      let columnIndex = this.totalColumns
+
+      if (this.isMoreContentColumnDisplayed(this.tableId)) {
+        columnIndex -= 1
+      }
+
+      if (this.adminButtonsCount === 2) {
+        columnIndex -= (type === 'archive' ? 1 : 0)
+      }
+
+      return columnIndex
+    },
+
+    getButtonClasses (type) {
+      return [
+        'button',
+        `button--${type}`
+      ]
     },
 
     openModal () {
@@ -120,20 +199,6 @@ export default {
       this.$store.dispatch('filterableTable/updateModal', obj)
 
       this.$root.$emit('openModal', this.tableId)
-    },
-
-    printValue (value) {
-      let output = value
-
-      if(Array.isArray(value)) {
-        const strings = value.map(string => {
-          return isALink(string)
-        })
-
-        output = strings.join(', ')
-      }
-
-      return output
     },
 
     trim (phrase) {
@@ -148,15 +213,78 @@ export default {
 
       return output
     },
-      
-    kebabCaseClassName (title) {
-      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
+
+    updateArchiveStatus () {
+      this.archived = !this.archived
+    }
+  },
+
+  watch: {
+    item () {
+      this.archived = this.item.archived
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  background-color: #efefef; // IE11
+  background-color: var(--bg-color-mobile);
+  font-family: Arial, sans-serif; // IE11
+  font-family: var(--font-family);
+  margin-bottom: rem-calc(18);
+  padding: rem-calc(6 0);
+
+  display: flex;
+  flex-direction: column;
+
+  @include breakpoint($medium) {
+    background-color: #ffffff; // IE11
+    background-color: var(--bg-color-1);
+    margin: 0;
+    padding: 0;
+
+    display: -ms-grid; // IE11
+    display: grid;
+  }
+
+  &:nth-child(even) {
+    @include breakpoint($medium) {
+      background-color: #f4f4f4; // IE11
+      background-color: var(--bg-color-2);
+    }
+  }
+
+  &.row--archived {
+    background-color: #bbb;
+    background-color: var(--bg-color-archived);
+
+    @include breakpoint($medium) {
+      background-color: #bbb;
+      background-color: var(--bg-color-archived);
+    }
+  }
+
+  &__button-form {
+    width: 100%;
+  }
+}
+
+.button {
+  @include flex-center;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 100%; height: 100%;
+  max-width: 80px; max-height: 80px;
   .row {
     background-color: #efefef; // IE11
     background-color: var(--bg-color-mobile);
@@ -250,4 +378,34 @@ export default {
       }
     }
   }
+
+  &--restore {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      background-color: #fff;
+      border-radius: 100%;
+      content: '';
+      width: 100%; padding-top: 100%;
+
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__svg-wrapper {
+    @include flex-center;
+    width: 100%;
+  }
+
+  &__svg {
+    width: 56%; height: 56%;
+  }
+}
 </style>

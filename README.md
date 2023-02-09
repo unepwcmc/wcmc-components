@@ -33,11 +33,22 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Install local package
 - Clone this repo
 - Run `yarn build-lib` to create the library files in the dist folder
-- Run `yarn link` to enable you to sync this repo to another
+- Run either `yarn link` (not working well) to enable you to sync this repo to another OR `yalc push` (working well) to publish your library files to the local yalc repository
+  - **in order to use `yalc push` you need to first install yalc, run `yarn global add yalc` or `npm install -g yalc` in the terminal**
+  - if using `yalc` whenever you change something in the code and want to try it, you have to run `yarn build-lib` and `yalc push`
 
 In your **new project** do the following:
-- Add the following the the package.json `"@unep-wcmc/wcmc-components": "../wcmc-components",`
-- Run `yarn link "@unep-wcmc/wcmc-components"`
+- if using `yarn link`
+  - Add the following the the package.json `"@unep-wcmc/wcmc-components": "../wcmc-components",`
+  - Run `yarn link "@unep-wcmc/wcmc-components"`
+- if using `yalc push`
+  - Run `yalc add @unep-wcmc/wcmc-components && yalc link @unep-wcmc/wcmc-components && yarn install`
+  - Add the following to the .gitignore file
+    ```
+    # Yalc
+    /.yalc
+    yalc.lock
+    ````
 - In your js file add `import FilterableTable from "@unep-wcmc/wcmc-components"`
 - In your js file add `Vue.use(FilterableTable, { store })`
 

@@ -1,5 +1,22 @@
 <template>
   <div :style="cssVariables">
+    <portal to="sort-icon">
+      <slot name="sort-icon" />
+    </portal>
+    
+    <portal to="row-link-icon">
+      <slot name="row-link-icon" />
+    </portal>
+
+    <div
+      class='buttons'
+      v-if="shouldRenderNewRecordButton"
+    >
+      <new-record-button
+        :table-id="id"
+      />
+    </div>
+
     <table-filters
       :endpoint-download="endpointDownload"
       :filters="filters"
@@ -15,6 +32,7 @@
         :totalColumns="totalColumns"
       />
     </div>
+
     <div class="table-body">
       <template v-if="hasItems">
         <table-row v-for="item in items"
@@ -24,10 +42,12 @@
           :totalColumns="totalColumns"
         />
       </template>
+
       <template v-else>
-        <div class="table-body__placeholder">
-          {{ config.text.noResultsMessage }}
-        </div>
+        <div 
+          class="table-body__placeholder"
+          v-text="noResultsMessage" 
+        />
       </template>
     </div>
 
@@ -49,25 +69,26 @@
 
 <script>
 import axios from 'axios'
-import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
+import { merge } from 'lodash'
+import { createNamespacedHelpers } from 'vuex'
 
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
+import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
-import { merge } from 'lodash'
-
+import NewRecordButton from './NewRecordButton.vue'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
-
 import TableModal from './TableModal.vue'
 import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
 
-import { mapState } from 'vuex'
+const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: 'FilterableTable',
 
-  components: { 
+  components: {
+    NewRecordButton,
     TableHead,
     TableFilters,
     TableModal,
@@ -79,22 +100,28 @@ export default {
     attributes: {
       type: Array,
     },
+
     endpoint: {
       type: String
     },
+
     endpointDownload: {
       type: String
     },
+
     filterArray: {
       type: Array
     },
-    legendArray: {
-      type: Array
-    },
+
     itemsPerPage: {
       default: 10,
       type: Number
     },
+
+    legendArray: {
+      type: Array
+    },
+
     options: {
       type: Object
     }
@@ -109,7 +136,6 @@ export default {
       legends: [],
       id: '',
       items: [],
-      noResultsMessage: '',
       totalColumns: 0,
       totalItems: 5,
       totalPages: 3
@@ -117,36 +143,46 @@ export default {
   },
 
   computed: {
+    ...mapState({
+      tableCount: state => state.tableCount
+    }),
+
+    ...mapGetters({
+      config: 'options',
+      isSortable: 'isSortable',
+      requestedPage: 'getRequestedPage',
+      selectedFilterOptions: 'getSelectedFilterOptions',
+      selectedSort: 'getSelectedSort',
+      isMoreContentColumnDisplayed: 'isMoreContentColumnDisplayed'
+    }),
+
     cssVariables () {
       return {
-        '--font-family': this.config.fontFamily
+        '--font-family': this.config(this.id).fontFamily
       }
     },
-    ...mapState({
-      tableCount: state => state.filterableTable.tableCount
-    }),
-    config () {
-      return this.$store.getters['filterableTable/options'](this.id)
-    },
+
     hasItems () {
       return this.items.length > 0
     },
-    requestedPage () {
-      return this.$store.getters['filterableTable/getRequestedPage'](this.id)
+
+    noResultsMessage () {
+      return this.config(this.id).text.noResultsMessage
     },
-    selectedFilterOptions () {
-      return this.$store.getters['filterableTable/getSelectedFilterOptions'](this.id)
+
+    shouldRenderNewRecordButton () {
+      return this.config(this.id).newRecordLink.url != null
     }
   },
 
   created () {
     this.id = this.tableCount + 1
-    this.$store.dispatch('filterableTable/createNewTable', this.id)
+    this.createNewTable(this.id)
     this.importUserOptions()
   },
 
   mounted() {
-    if(this.endpoint == undefined) {
+    if (this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
       this.legends = this.dummyData.legends
@@ -170,6 +206,12 @@ export default {
   },
 
   methods: {
+    ...mapActions([
+      'createNewTable',
+      'setFilterOptions',
+      'updateOptions'
+    ]),
+
     createSelectedFilterOptions () {
       // create an empty array for each filter
       const array = this.filters.map(filter => {
@@ -187,14 +229,18 @@ export default {
         filterOptions: array
       }
 
-      this.$store.dispatch('filterableTable/setFilterOptions', obj)
+      this.selectedFilterOptions(this.id, obj)
     },
 
     getNewItems () {
-      let data = {
-        filters: this.selectedFilterOptions,
+      const data = {
+        filters: this.selectedFilterOptions(this.id),
         items_per_page: this.itemsPerPage,
-        requested_page: this.$store.getters['filterableTable/getRequestedPage'](this.id)
+        requested_page: this.requestedPage(this.id),
+      }
+
+      if (this.isSortable(this.id)) {
+        data.sort = this.selectedSort(this.id)
       }
 
       setAxiosHeaders(axios)
@@ -207,20 +253,36 @@ export default {
         console.log(error)
       })
     },
+
     getTotalTableColumns () {
-      //Add an additional column for the "View more" button
-      if(this.headings.length > 0) {
-        this.totalColumns = this.headings.length + 1
-      }
+      if (this.headings.length < 1) { return }
+
+      this.totalColumns = this.headings.length
+
+      this.totalColumns += [
+        this.isMoreContentColumnDisplayed(this.id),
+        this.config(this.id).showArchived,
+        this.config(this.id).showEdit,
+      ].filter(Boolean).length
     },
+
     importUserOptions () {
+      const providedOptions = typeof(this.options) == 'object' ? this.options : {}
+
+      const defaultOptionsWithoutColumns = JSON.parse(JSON.stringify(DEFAULT_OPTIONS));
+      delete defaultOptionsWithoutColumns.columns // remove default columns widths which was messing the vertical alignment
+
+      const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns') ? defaultOptionsWithoutColumns : DEFAULT_OPTIONS
+
+      const options = merge(defaultOptionsToMerge, providedOptions)
       const obj = {
         tableId: this.id,
-        options: typeof(this.options) == 'object' ? merge({}, DEFAULT_OPTIONS, this.options) : DEFAULT_OPTIONS
+        options
       }
 
-      this.$store.dispatch('filterableTable/updateOptions', obj)
+      this.updateOptions(obj)
     },
+
     updateProperties (data) {
       this.currentPage = data.current_page
       this.itemsPerPage = data.per_page
@@ -235,6 +297,13 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+}
+
+.buttons {
+  margin-bottom: 10px;
+  height: 50px;
+  
+  display: flex;
 }
 
 .cloak { display: none; }
