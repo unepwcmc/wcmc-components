@@ -67,8 +67,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.button {
-
+.button.button--archive {
   background: transparent;
   border: none;
   padding: 0;
