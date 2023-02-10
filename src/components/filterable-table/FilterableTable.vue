@@ -35,9 +35,10 @@
 
     <div class="table-body">
       <template v-if="hasItems">
-        <table-row v-for="item in items"
+        <table-row v-for="item, itemIndex in items"
           :key="item._uid"
           :item="item"
+          :item-index="itemIndex"
           :table-id="id"
           :totalColumns="totalColumns"
         />
@@ -290,6 +291,10 @@ export default {
       this.totalPages = data.total_pages
       this.items = data.items
     },
+  },
+
+  beforeDestroy () {
+    this.$root.$off('openModal', this.onOpenModal)
   }
 }
 </script>

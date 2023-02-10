@@ -105,6 +105,11 @@ export default {
       type: Object,
     },
 
+    itemIndex: {
+      required: true,
+      type: Number,
+    },
+
     tableId: {
       required: true,
       type: Number,
@@ -198,7 +203,14 @@ export default {
 
       this.$store.dispatch('filterableTable/updateModal', obj)
 
-      this.$root.$emit('openModal', this.tableId)
+      const payload = {
+        row: this.item,
+        rowIndex: this.itemIndex,
+        tableId: this.tableId,
+        totalColumns: this.totalColumns
+      }
+
+      this.$root.$emit('openModal', payload)
     },
 
     trim (phrase) {
@@ -285,97 +297,18 @@ export default {
   padding: 0;
   width: 100%; height: 100%;
   max-width: 80px; max-height: 80px;
-  .row {
-    background-color: #efefef; // IE11
-    background-color: var(--bg-color-mobile);
-    font-family: Arial, sans-serif; // IE11
-    font-family: var(--font-family);
-    margin-bottom: rem-calc(18);
-    padding: rem-calc(6 0);      
 
-    display: flex;
-    flex-direction: column;
+  &:hover {
+    cursor: pointer;
 
-    @include breakpoint($medium) { 
-      background-color: #ffffff; // IE11
-      background-color: var(--bg-color-1);
-      margin: 0;
-      padding: 0;
-
-      display: -ms-grid; // IE11
-      display: grid;
+    ::v-deep .svg-arrow .svg__circle {
+      fill: #009fe3; // IE11
+      fill: var(--button-hover-color);
     }
 
-    &:nth-child(even) { 
-      @include breakpoint($medium) { 
-        background-color: #f4f4f4; // IE11
-        background-color: var(--bg-color-2);
-      }
-    }
-  }
-
-  .legend {
-    &__icon {
-      margin: rem-calc(4);
-      height: rem-calc(38);
-      width: rem-calc(38);
-      background-size: cover;
-
-      display: inline-block;
-    }
-  }
-
-  .cell {
-    margin: 0;
-    padding: rem-calc(4 14);
-    width: 100%;
-
-    @include breakpoint($medium) {
-      border-left: solid #ffffff 1px; // IE11
-      border-left: var(--border-style) var(--border-color) var(--border-width);
-      padding: rem-calc(16 14);
-      width: auto;
-
-      display: block;
-    }
-
-    &:first-child { border-left: none; }
-
-    &__title {
-      font-weight: bold; 
-      margin-right: rem-calc(6);
-
-      @include breakpoint($medium){ display: none; }
-    }
-    
-    &__legend {
-      display: flex;
-      align-items: center;
-      @include breakpoint($medium) {
-        display: block;
-      }
-    }
-  }
-
-  .button {
-    background: transparent;
-    border: none;
-    padding: 0;
-
-    display: block;
-
-    &:hover {
-      cursor: pointer;
-
-      ::v-deep .svg-arrow .svg__circle {
-        fill: #009FE3; // IE11
-        fill: var(--button-hover-color);
-      }
-
-      ::v-deep .svg-arrow .svg__arrow {
-        fill: #fff; // IE11
-        fill: var(--button-hover-color-arrow);
-      }
+    ::v-deep .svg-arrow .svg__arrow {
+      fill: #fff; // IE11
+      fill: var(--button-hover-color-arrow);
     }
   }
 

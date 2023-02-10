@@ -1,26 +1,27 @@
 <template>
-  <div 
+  <div
     :class="['modal-wrapper', { 'active' : isActive }]"
-    @click.stop.self="closeModal()"
+    v-if="config"
+    @click.stop.self="closeModal"
     :style="cssVariables"
   >
     <div class="modal">
       <div class="modal__content">
-        <button 
+        <button
           class="modal__close"
-          @click="closeModal()"
+          @click="closeModal"
         >
           <svg-cross class="modal__close-svg" />
         </button>
 
-        <h2 
+        <h2
           v-if="config.modal.title"
           class="modal__title"
           v-text="config.modal.title"
         />
 
         <template v-for="item, modalContentIndex in modalContent" >
-          <div 
+          <div
             v-if="item.showInModal"
             :key="modalContentIndex"
             class="modal__item"
@@ -32,14 +33,14 @@
 
             <span
               v-if="hasMultipleValues(item.value)"
-              :key="index" 
+              :key="modalContentIndex"
             >
-              <ul 
+              <ul
                 v-if="item.legend_on"
                 class="legend"
               >
-                <li v-for="string, index in item.value"
-                  :key="Math.random() * index"
+                <li v-for="string, valueIndex in item.value"
+                  :key="Math.random() * valueIndex"
                   class="legend__li"
                 >
                   <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
@@ -52,9 +53,9 @@
                 v-else-if="displayBullet"
                 class="modal__ul"
               >
-                <li 
-                  v-for="string, index in item.value"
-                  :key="Math.random() * index"
+                <li
+                  v-for="string, valueIndex in item.value"
+                  :key="Math.random() * valueIndex"
                   v-html="printValue(string)"
                 />
               </ul>
@@ -64,7 +65,7 @@
             <template v-else>
               <span
                 v-if="item.legend_on"
-                :key="index" 
+                :key="modalContentIndex"
                 :class="`legend__icon ${kebabCaseClassName(item.value)}`"
                 v-text="item.value"
               />
@@ -101,11 +102,12 @@ export default {
   data () {
     return {
       isActive: false,
+      config: undefined,
+      modalContent: {},
       modalOffset: 0,
       styleObject: {
         top: 0
-      },
-      modalContent: {}
+      }
     }
   },
 
@@ -128,8 +130,10 @@ export default {
   },
 
   methods: {
-    openModal (tableId) {
+    openModal ({ tableId }) {
       if (this.tableId !== tableId) { return false }
+
+      this.config = this.$store.getters['filterableTable/options'](this.tableId)
 
       this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
 
@@ -145,12 +149,16 @@ export default {
     },
 
     printValue(string) {
-      return isALink(string) 
+      return isALink(string)
     },
-    
+
     kebabCaseClassName (title) {
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
+  },
+
+  beforeDestroy () {
+    this.$root.$off('openModal', this.openModal)
   }
 }
 </script>
@@ -179,7 +187,7 @@ export default {
   overflow-y: scroll;
   padding: rem-calc(34 32);
   width: 100%; height: 100vh;
-  
+
   position: fixed;
   top: 0;
   left: 0;
@@ -205,7 +213,7 @@ export default {
     border-radius: var(--close-border-radius);
     cursor: pointer;
     width: rem-calc(50); height: rem-calc(50);
-    
+
     position: sticky;
     float: right;
     top: rem-calc(-18);
@@ -242,7 +250,7 @@ export default {
 .legend {
   display: flex;
   flex-wrap: wrap;
-  
+
   &__li {
     padding: rem-calc(12);
 
