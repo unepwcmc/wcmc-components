@@ -1,3 +1,12 @@
+### 2.2.9
+
+- Added:
+  - New record button at the top of the table
+  - Yalc instructions to README as an alternative to yarn link(buggy) for development
+- Fix:
+  - Archive functionality
+  - Archive icon style
+
 ### 2.2.7 / 2.2.8
 - No change - We weren't sure if yarn link was broken or the library was broken
 
@@ -75,7 +84,7 @@
   - Enforce newline between computed properties, methods and props
   - Enforce newline between sibling elements in markdown
   - Enforce whitespace between `if` and `()`
-- Refactoring: 
+- Refactoring:
   - Use `mapGetters`, `mapState` & `mapActions` and `createNamespacedHelpers` instead of `this.$store.getters[]`
   - Use `const` for mutable object assignments
   - Use `v-text` instead of `{{}}` wherever possible
@@ -105,7 +114,7 @@
 - Fix the CSV Download
 ### 1.0.1
 
-- 
+-
 
 ### 1.0.0
 
