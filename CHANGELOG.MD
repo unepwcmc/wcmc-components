@@ -1,5 +1,5 @@
-### 2.2.7
-- No change
+### 2.2.7 / 2.2.8
+- No change - We weren't sure if yarn link was broken or the library was broken
 
 ### 2.2.6
 
@@ -8,7 +8,11 @@
   - Archived styling for rows that are archived
   - Configure whether edit and archive columns are shown via keys in the options prop of the FilterableTable. See README.md for more details about table props.
 
-### 2.2.3
+### 2.2.5
+
+- Fix: add .node-version and .tool-version files
+
+### 2.2.3 / 2.2.4
 
 - Added:
   - Page buttons in the pagination component, implemented via a key in the existing `options` prop: `pagination.numberOfPageButtonsToShow`, which can be set to any odd number. If this key doesn't exist, the pagination will only display the arrows buttons.

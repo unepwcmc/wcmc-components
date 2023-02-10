@@ -140,16 +140,16 @@ export default {
 
     cssVariablesAndStyles () {
       return {
-        'grid-template-columns': this.gridColumnsCss,
-        'grid-columns': this.gridColumnsCss, // IE11
-        '--bg-color-1': this.config.rows.bgColor1,
-        '--bg-color-2': this.config.rows.bgColor2,
-        '--bg-color-archived': this.config.rows.bgColorArchived,
-        '--bg-color-mobile': this.config.rows.bgColorMobile,
-        '--border-color': this.config.rows.borderColor,
-        '--border-style': this.config.rows.borderStyle,
-        '--border-width': this.config.rows.borderWidth,
-        '--button-hover-color': this.config.rows.buttonHoverColor,
+        'grid-template-columns'     : this.gridColumnsCss,
+        'grid-columns'              : this.gridColumnsCss, // IE11
+        '--bg-color-1'              : this.config.rows.bgColor1,
+        '--bg-color-2'              : this.config.rows.bgColor2,
+        '--bg-color-archived'       : this.config.rows.bgColorArchived,
+        '--bg-color-mobile'         : this.config.rows.bgColorMobile,
+        '--border-color'            : this.config.rows.borderColor,
+        '--border-style'            : this.config.rows.borderStyle,
+        '--border-width'            : this.config.rows.borderWidth,
+        '--button-hover-color'      : this.config.rows.buttonHoverColor,
         '--button-hover-color-arrow': this.config.rows.buttonHoverColorArrow
       }
     },
@@ -220,7 +220,7 @@ export default {
       if (length <= 30) {
         output = phrase
       } else {
-        output = phrase.substring(0, 27) + '...'
+        output = phrase.substring(0,27) + '...'
       }
 
       return output

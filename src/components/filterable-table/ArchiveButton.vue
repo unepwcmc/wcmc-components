@@ -71,7 +71,7 @@ export default {
   background: transparent;
   border: none;
   padding: 0;
-  width: 100%; height: 100%;
+  width: 100%; height: 80px;
   max-width: 80px; max-height: 80px;
 
   &:hover {

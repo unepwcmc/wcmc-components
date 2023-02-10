@@ -3,10 +3,19 @@
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
-    
+
     <portal to="row-link-icon">
       <slot name="row-link-icon" />
     </portal>
+
+    <div
+      class='buttons'
+      v-if="shouldRenderNewRecordButton"
+    >
+      <new-record-button
+        :table-id="id"
+      />
+    </div>
 
     <table-filters
       :endpoint-download="endpointDownload"
@@ -17,7 +26,7 @@
     />
 
     <div class="table-head">
-      <table-head 
+      <table-head
         :headings="headings"
         :table-id="id"
         :totalColumns="totalColumns"
@@ -28,31 +37,32 @@
       <template v-if="hasItems">
         <table-row v-for="item, itemIndex in items"
           :key="item._uid"
-          :item="item" 
+          :item="item"
           :item-index="itemIndex"
           :table-id="id"
           :totalColumns="totalColumns"
         />
       </template>
+
       <template v-else>
-        <div 
+        <div
           class="table-body__placeholder"
-          v-text="noResultsMessage" 
+          v-text="noResultsMessage"
         />
       </template>
     </div>
 
-    <table-pagination 
+    <table-pagination
       v-if="hasItems"
-      :current-page="currentPage" 
-      :items-per-page="itemsPerPage" 
+      :current-page="currentPage"
+      :items-per-page="itemsPerPage"
       :table-id="id"
-      :total-items="totalItems" 
+      :total-items="totalItems"
       :total-pages="totalPages"
       v-on:updated:page="getNewItems"
     />
 
-    <table-modal 
+    <table-modal
       :tableId="id"
     />
   </div>
@@ -60,12 +70,13 @@
 
 <script>
 import axios from 'axios'
-
+import { merge } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
-import { merge } from 'lodash'
+
+import NewRecordButton from './NewRecordButton.vue'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
@@ -77,12 +88,13 @@ const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterable
 export default {
   name: 'FilterableTable',
 
-  components: { 
+  components: {
+    NewRecordButton,
     TableHead,
     TableFilters,
     TableModal,
     TablePagination,
-    TableRow 
+    TableRow
   },
 
   props: {
@@ -102,13 +114,13 @@ export default {
       type: Array
     },
 
-    legendArray: {
-      type: Array
-    },
-
     itemsPerPage: {
       default: 10,
       type: Number
+    },
+
+    legendArray: {
+      type: Array
     },
 
     options: {
@@ -118,16 +130,16 @@ export default {
 
   data () {
     return {
+      headings: [],
       currentPage: 1,
       dummyData: DUMMY_DATA,
       filters: [],
-      headings: [],
+      legends: [],
       id: '',
       items: [],
-      legends: [],
       totalColumns: 0,
       totalItems: 5,
-      totalPages: 3,
+      totalPages: 3
     }
   },
 
@@ -157,6 +169,10 @@ export default {
 
     noResultsMessage () {
       return this.config(this.id).text.noResultsMessage
+    },
+
+    shouldRenderNewRecordButton () {
+      return this.config(this.id).newRecordLink.url != null
     }
   },
 
@@ -166,7 +182,7 @@ export default {
     this.importUserOptions()
   },
 
-  mounted () {
+  mounted() {
     if (this.endpoint == undefined) {
       this.headings = this.dummyData.attributes
       this.filters = this.dummyData.filters
@@ -208,7 +224,7 @@ export default {
           }
         }
       })
-      
+
       const obj = {
         tableId: this.id,
         filterOptions: array
@@ -223,6 +239,7 @@ export default {
         items_per_page: this.itemsPerPage,
         requested_page: this.requestedPage(this.id),
       }
+
       if (this.isSortable(this.id)) {
         data.sort = this.selectedSort(this.id)
       }
@@ -263,6 +280,7 @@ export default {
         tableId: this.id,
         options
       }
+
       this.updateOptions(obj)
     },
 
@@ -284,6 +302,13 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+}
+
+.buttons {
+  margin-bottom: 10px;
+  height: 50px;
+
+  display: flex;
 }
 
 .cloak { display: none; }

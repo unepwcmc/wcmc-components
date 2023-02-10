@@ -1,7 +1,6 @@
 <template>
   <div
-    class="modal-wrapper"
-    :class="{'active': isActive}"
+    :class="['modal-wrapper', { 'active' : isActive }]"
     v-if="config"
     @click.stop.self="closeModal"
     :style="cssVariables"
@@ -21,7 +20,7 @@
           v-text="config.modal.title"
         />
 
-        <template v-for="item, modalContentIndex in modalContent">
+        <template v-for="item, modalContentIndex in modalContent" >
           <div
             v-if="item.showInModal"
             :key="modalContentIndex"
@@ -40,17 +39,13 @@
                 v-if="item.legend_on"
                 class="legend"
               >
-                <li
-                  v-for="string, valueIndex in item.value"
+                <li v-for="string, valueIndex in item.value"
                   :key="Math.random() * valueIndex"
                   class="legend__li"
                 >
-                  <span
-                    class="legend__icon"
-                    :class="kebabCaseClassName(string)"
-                  />
+                  <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
 
-                  <p v-html="printValue(string)" />
+                  <p v-html="printValue(string)"/>
                 </li>
               </ul>
 
@@ -71,8 +66,7 @@
               <span
                 v-if="item.legend_on"
                 :key="modalContentIndex"
-                class="legend__icon"
-                :class="kebabCaseClassName(item.value)"
+                :class="`legend__icon ${kebabCaseClassName(item.value)}`"
                 v-text="item.value"
               />
 
@@ -113,7 +107,7 @@ export default {
       modalOffset: 0,
       styleObject: {
         top: 0
-      },
+      }
     }
   },
 
@@ -154,7 +148,7 @@ export default {
       return Array.isArray(value)
     },
 
-    printValue (string) {
+    printValue(string) {
       return isALink(string)
     },
 
@@ -171,7 +165,7 @@ export default {
 
 <style lang="scss" scoped>
 .modal-wrapper {
-  background-color: rgba(0, 0, 0, 0.2); // IE11
+  background-color: rgba(0,0,0,.2); // IE11
   background-color: var(--wrapper-color);
 
   display: none;
@@ -182,9 +176,7 @@ export default {
   left: 0;
   z-index: 3;
 
-  &.active {
-    display: block;
-  }
+  &.active { display: block; }
 }
 
 .modal {
