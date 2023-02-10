@@ -3,7 +3,7 @@
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
-    
+
     <portal to="row-link-icon">
       <slot name="row-link-icon" />
     </portal>
@@ -26,7 +26,7 @@
     />
 
     <div class="table-head">
-      <table-head 
+      <table-head
         :headings="headings"
         :table-id="id"
         :totalColumns="totalColumns"
@@ -37,31 +37,31 @@
       <template v-if="hasItems">
         <table-row v-for="item in items"
           :key="item._uid"
-          :item="item" 
+          :item="item"
           :table-id="id"
           :totalColumns="totalColumns"
         />
       </template>
 
       <template v-else>
-        <div 
+        <div
           class="table-body__placeholder"
-          v-text="noResultsMessage" 
+          v-text="noResultsMessage"
         />
       </template>
     </div>
 
-    <table-pagination 
+    <table-pagination
       v-if="hasItems"
-      :current-page="currentPage" 
-      :items-per-page="itemsPerPage" 
+      :current-page="currentPage"
+      :items-per-page="itemsPerPage"
       :table-id="id"
-      :total-items="totalItems" 
+      :total-items="totalItems"
       :total-pages="totalPages"
       v-on:updated:page="getNewItems"
     />
 
-    <table-modal 
+    <table-modal
       :tableId="id"
     />
   </div>
@@ -93,7 +93,7 @@ export default {
     TableFilters,
     TableModal,
     TablePagination,
-    TableRow 
+    TableRow
   },
 
   props: {
@@ -223,13 +223,13 @@ export default {
           }
         }
       })
-      
+
       const obj = {
         tableId: this.id,
         filterOptions: array
       }
 
-      this.selectedFilterOptions(this.id, obj)
+      this.setFilterOptions(obj)
     },
 
     getNewItems () {
@@ -302,7 +302,7 @@ export default {
 .buttons {
   margin-bottom: 10px;
   height: 50px;
-  
+
   display: flex;
 }
 
