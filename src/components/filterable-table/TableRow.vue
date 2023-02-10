@@ -1,84 +1,101 @@
 <template>
   <div
     class="row"
+    :class="{ 'row--archived': archived }"
     :style="cssVariablesAndStyles"
   >
-
-    <div
+    <table-cell
       v-for="cell, cellIndex in columns"
       :key="Math.random() * cellIndex"
-      class="cell"
       :style="`grid-column: ${cellIndex + 1}`"
+      :cell="cell"
+      :disabled="archived"
+    />
+
+    <table-cell
+      v-if="config.showArchived"
+      :style="`grid-column: ${getAdminButtonColumn('archive')}`">
+      <archive-button
+        v-if="item"
+        @clicked="updateArchiveStatus"
+        :archive-url="item.archiveUrl"
+        :archived="archived"
+        :record-id="item.id"
+      />
+    </table-cell>
+
+    <table-cell
+      v-if="config.showEdit"
+      :style="`grid-column: ${getAdminButtonColumn('edit')}`"
+      :disabled="archived"
     >
-      <div
-        class="cell__legend"
-        v-if="cell.legend_on"
+      <a
+        :class="getButtonClasses('edit')"
+        :href="item.editUrl"
       >
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
+        <portal-target
+          class="button__svg-wrapper"
+          name="row-edit-icon"
+        >
+          <svg-edit class="button__svg" />
+        </portal-target>
+      </a>
+    </table-cell>
 
-        <span
-          v-for="value, valueIndex in cell.value"
-          class="legend__icon"
-          :class="kebabCaseClassName(value)"
-          :key="Math.random() * valueIndex"
-        />
-      </div>
-
-      <span v-else>
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
-
-        <span v-html="printValue(cell.value)" />
-      </span>
-
-
-    </div>
-
-    <span
-      v-if="this.isMoreContentColumnDisplayed(this.tableId)" 
-      class="cell"
+    <table-cell
+      v-if="this.isMoreContentColumnDisplayed(this.tableId)"
       :style="`grid-column: ${totalColumns}`"
+      :disabled="archived"
     >
       <a
         v-if="item.pageUrl"
-        class="button"
+        :class="getButtonClasses('more-content')"
         :href="item.pageUrl"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </a>
 
       <button
         v-else
-        class="button"
+        :class="getButtonClasses('more-content')"
         @click="openModal"
       >
-        <portal-target name="row-link-icon">
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
-    </span>
+    </table-cell>
   </div>
 </template>
 
 <script>
-import SvgArrow from './svgs/SvgArrow.vue'
-import { isALink } from '../../helpers/helpers-url.js'
-import mixinColumns from './mixins/mixin-columns'
 import { createNamespacedHelpers } from 'vuex'
+
+import ArchiveButton from './ArchiveButton.vue'
+import SvgArrow from './svgs/SvgArrow.vue'
+import SvgEdit from './svgs/SvgEdit.vue'
+import TableCell from './TableCell.vue'
+import mixinColumns from './mixins/mixin-columns'
 
 const { mapGetters } = createNamespacedHelpers('filterableTable')
 
 export default {
   name: "row",
 
-  components: { SvgArrow },
+  components: {
+    TableCell,
+    ArchiveButton,
+    SvgArrow,
+    SvgEdit
+  },
 
   mixins: [mixinColumns],
 
@@ -86,6 +103,11 @@ export default {
     item: {
       required: true,
       type: Object,
+    },
+
+    itemIndex: {
+      required: true,
+      type: Number,
     },
 
     tableId: {
@@ -99,11 +121,22 @@ export default {
     }
   },
 
+  data () {
+    return {
+      archived: this.item.archived
+    }
+  },
+
   computed: {
     ...mapGetters([
       'options',
       'isMoreContentColumnDisplayed'
     ]),
+
+    adminButtonsCount () {
+      return [this.config.showArchived, this.config.showEdit]
+        .filter(Boolean).length
+    },
 
     cssVariablesAndStyles () {
       return {
@@ -111,6 +144,7 @@ export default {
         'grid-columns'              : this.gridColumnsCss, // IE11
         '--bg-color-1'              : this.config.rows.bgColor1,
         '--bg-color-2'              : this.config.rows.bgColor2,
+        '--bg-color-archived'       : this.config.rows.bgColorArchived,
         '--bg-color-mobile'         : this.config.rows.bgColorMobile,
         '--border-color'            : this.config.rows.borderColor,
         '--border-style'            : this.config.rows.borderStyle,
@@ -140,6 +174,27 @@ export default {
       return url.includes('http') ? linkMarkdown : url
     },
 
+    getAdminButtonColumn (type) {
+      let columnIndex = this.totalColumns
+
+      if (this.isMoreContentColumnDisplayed(this.tableId)) {
+        columnIndex -= 1
+      }
+
+      if (this.adminButtonsCount === 2) {
+        columnIndex -= (type === 'archive' ? 1 : 0)
+      }
+
+      return columnIndex
+    },
+
+    getButtonClasses (type) {
+      return [
+        'button',
+        `button--${type}`
+      ]
+    },
+
     openModal () {
       const obj = {
         tableId: this.tableId,
@@ -148,22 +203,14 @@ export default {
 
       this.$store.dispatch('filterableTable/updateModal', obj)
 
-      this.$root.$emit('openModal', this.tableId)
-    },
-
-    printValue (value) {
-      let output = value
-
-      if(Array.isArray(value)) {
-        const strings = value.map(string => {
-          return isALink(string)
-        })
-
-        output = strings.join(', ')
-      return output
+      const payload = {
+        row: this.item,
+        rowIndex: this.itemIndex,
+        tableId: this.tableId,
+        totalColumns: this.totalColumns
       }
 
-      return isALink(value)
+      this.$root.$emit('openModal', payload)
     },
 
     trim (phrase) {
@@ -178,106 +225,120 @@ export default {
 
       return output
     },
-      
-    kebabCaseClassName (title) {
-      return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
+
+    updateArchiveStatus () {
+      this.archived = !this.archived
+    }
+  },
+
+  watch: {
+    item () {
+      this.archived = this.item.archived
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  .row {
-    background-color: #efefef; // IE11
-    background-color: var(--bg-color-mobile);
-    font-family: Arial, sans-serif; // IE11
-    font-family: var(--font-family);
-    margin-bottom: rem-calc(18);
-    padding: rem-calc(6 0);      
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-    display: flex;
-    flex-direction: column;
+.row {
+  background-color: #efefef; // IE11
+  background-color: var(--bg-color-mobile);
+  font-family: Arial, sans-serif; // IE11
+  font-family: var(--font-family);
+  margin-bottom: rem-calc(18);
+  padding: rem-calc(6 0);
 
-    @include breakpoint($medium) { 
-      background-color: #ffffff; // IE11
-      background-color: var(--bg-color-1);
-      margin: 0;
-      padding: 0;
+  display: flex;
+  flex-direction: column;
 
-      display: -ms-grid; // IE11
-      display: grid;
-    }
-
-    &:nth-child(even) { 
-      @include breakpoint($medium) { 
-        background-color: #f4f4f4; // IE11
-        background-color: var(--bg-color-2);
-      }
-    }
-  }
-
-  .legend {
-    &__icon {
-      margin: rem-calc(4);
-      height: rem-calc(38);
-      width: rem-calc(38);
-      background-size: cover;
-
-      display: inline-block;
-    }
-  }
-
-  .cell {
+  @include breakpoint($medium) {
+    background-color: #ffffff; // IE11
+    background-color: var(--bg-color-1);
     margin: 0;
-    padding: rem-calc(4 14);
-    width: 100%;
-
-    @include breakpoint($medium) {
-      border-left: solid #ffffff 1px; // IE11
-      border-left: var(--border-style) var(--border-color) var(--border-width);
-      padding: rem-calc(16 14);
-      width: auto;
-
-      display: block;
-    }
-
-    &:first-child { border-left: none; }
-
-    &__title {
-      font-weight: bold; 
-      margin-right: rem-calc(6);
-
-      @include breakpoint($medium){ display: none; }
-    }
-    
-    &__legend {
-      display: flex;
-      align-items: center;
-      @include breakpoint($medium) {
-        display: block;
-      }
-    }
-  }
-
-  .button {
-    background: transparent;
-    border: none;
     padding: 0;
 
-    display: block;
+    display: -ms-grid; // IE11
+    display: grid;
+  }
 
-    &:hover {
-      cursor: pointer;
-
-      ::v-deep .svg-arrow .svg__circle {
-        fill: #009FE3; // IE11
-        fill: var(--button-hover-color);
-      }
-
-      ::v-deep .svg-arrow .svg__arrow {
-        fill: #fff; // IE11
-        fill: var(--button-hover-color-arrow);
-      }
+  &:nth-child(even) {
+    @include breakpoint($medium) {
+      background-color: #f4f4f4; // IE11
+      background-color: var(--bg-color-2);
     }
   }
+
+  &.row--archived {
+    background-color: #bbb;
+    background-color: var(--bg-color-archived);
+
+    @include breakpoint($medium) {
+      background-color: #bbb;
+      background-color: var(--bg-color-archived);
+    }
+  }
+
+  &__button-form {
+    width: 100%;
+  }
+}
+
+.button {
+  @include flex-center;
+
+  background: transparent;
+  border: none;
+  padding: 0;
+  width: 100%; height: 100%;
+  max-width: 80px; max-height: 80px;
+
+  &:hover {
+    cursor: pointer;
+
+    ::v-deep .svg-arrow .svg__circle {
+      fill: #009fe3; // IE11
+      fill: var(--button-hover-color);
+    }
+
+    ::v-deep .svg-arrow .svg__arrow {
+      fill: #fff; // IE11
+      fill: var(--button-hover-color-arrow);
+    }
+  }
+
+  &--restore {
+    position: relative;
+    z-index: 1;
+
+    &::before {
+      background-color: #fff;
+      border-radius: 100%;
+      content: '';
+      width: 100%; padding-top: 100%;
+
+      display: block;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      z-index: -1;
+
+      transform: translate(-50%, -50%);
+    }
+  }
+
+  &__svg-wrapper {
+    @include flex-center;
+    width: 100%;
+  }
+
+  &__svg {
+    width: 56%; height: 56%;
+  }
+}
 </style>

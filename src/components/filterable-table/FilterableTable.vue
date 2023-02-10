@@ -3,10 +3,19 @@
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
-    
+
     <portal to="row-link-icon">
       <slot name="row-link-icon" />
     </portal>
+
+    <div
+      class='buttons'
+      v-if="shouldRenderNewRecordButton"
+    >
+      <new-record-button
+        :table-id="id"
+      />
+    </div>
 
     <table-filters
       :endpoint-download="endpointDownload"
@@ -17,40 +26,43 @@
     />
 
     <div class="table-head">
-      <table-head 
+      <table-head
         :headings="headings"
         :table-id="id"
         :totalColumns="totalColumns"
       />
     </div>
+
     <div class="table-body">
       <template v-if="hasItems">
-        <table-row v-for="item in items"
+        <table-row v-for="item, itemIndex in items"
           :key="item._uid"
-          :item="item" 
+          :item="item"
+          :item-index="itemIndex"
           :table-id="id"
           :totalColumns="totalColumns"
         />
       </template>
+
       <template v-else>
-        <div 
+        <div
           class="table-body__placeholder"
-          v-text="noResultsMessage" 
+          v-text="noResultsMessage"
         />
       </template>
     </div>
 
-    <table-pagination 
+    <table-pagination
       v-if="hasItems"
-      :current-page="currentPage" 
-      :items-per-page="itemsPerPage" 
+      :current-page="currentPage"
+      :items-per-page="itemsPerPage"
       :table-id="id"
-      :total-items="totalItems" 
+      :total-items="totalItems"
       :total-pages="totalPages"
       v-on:updated:page="getNewItems"
     />
 
-    <table-modal 
+    <table-modal
       :tableId="id"
     />
   </div>
@@ -58,13 +70,13 @@
 
 <script>
 import axios from 'axios'
-
 import { merge } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
 
 import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
+import NewRecordButton from './NewRecordButton.vue'
 import TableHead from './TableHead.vue'
 import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
@@ -76,12 +88,13 @@ const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterable
 export default {
   name: 'FilterableTable',
 
-  components: { 
+  components: {
+    NewRecordButton,
     TableHead,
     TableFilters,
     TableModal,
     TablePagination,
-    TableRow 
+    TableRow
   },
 
   props: {
@@ -101,13 +114,13 @@ export default {
       type: Array
     },
 
-    legendArray: {
-      type: Array
-    },
-
     itemsPerPage: {
       default: 10,
       type: Number
+    },
+
+    legendArray: {
+      type: Array
     },
 
     options: {
@@ -156,6 +169,10 @@ export default {
 
     noResultsMessage () {
       return this.config(this.id).text.noResultsMessage
+    },
+
+    shouldRenderNewRecordButton () {
+      return this.config(this.id).newRecordLink.url != null
     }
   },
 
@@ -207,13 +224,13 @@ export default {
           }
         }
       })
-      
+
       const obj = {
         tableId: this.id,
         filterOptions: array
       }
 
-      this.selectedFilterOptions(this.id, obj)
+      this.setFilterOptions(obj)
     },
 
     getNewItems () {
@@ -241,11 +258,13 @@ export default {
     getTotalTableColumns () {
       if (this.headings.length < 1) { return }
 
-      if (this.isMoreContentColumnDisplayed(this.id)) {
-        this.totalColumns = this.headings.length + 1
-      } else {
-        this.totalColumns = this.headings.length
-      }
+      this.totalColumns = this.headings.length
+
+      this.totalColumns += [
+        this.isMoreContentColumnDisplayed(this.id),
+        this.config(this.id).showArchived,
+        this.config(this.id).showEdit,
+      ].filter(Boolean).length
     },
 
     importUserOptions () {
@@ -272,6 +291,10 @@ export default {
       this.totalPages = data.total_pages
       this.items = data.items
     },
+  },
+
+  beforeDestroy () {
+    this.$root.$off('openModal', this.onOpenModal)
   }
 }
 </script>
@@ -279,6 +302,13 @@ export default {
 <style lang="scss">
 * {
   box-sizing: border-box;
+}
+
+.buttons {
+  margin-bottom: 10px;
+  height: 50px;
+
+  display: flex;
 }
 
 .cloak { display: none; }

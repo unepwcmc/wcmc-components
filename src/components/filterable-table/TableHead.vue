@@ -15,11 +15,12 @@
         :style="`grid-column: ${n+1}`"
       />
       
-      <!-- empty heading for 'more content' button -->
+      <!-- empty heading for 'more content' and admin buttons -->
       <table-heading
-        v-if="this.isMoreContentColumnDisplayed(this.tableId)"
+        v-for="n in emptyHeaderCount"
+        :key="`empty-header-${_uid}-${n}`"
         :tableId="tableId"
-        :style="`grid-column: ${totalColumns}`"
+        :style="`grid-column: ${getEmptyHeaderIndex(n)}`"
       />
     </div>
   </div>
@@ -72,6 +73,10 @@ export default {
         'grid-columns': this.gridColumnsCss, // IE11
       }
     },
+
+    emptyHeaderCount () {
+      return this.totalColumns - this.headings.length
+    }
   },
 
   mounted () {
@@ -80,6 +85,10 @@ export default {
   },
 
   methods: {
+    getEmptyHeaderIndex (n) {
+      return this.totalColumns - this.emptyHeaderCount + n
+    },
+
     setStickyTrigger () {
       const stickyElement = document.getElementById('sticky')
       const stickyElementHeight = stickyElement.clientHeight

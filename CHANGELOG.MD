@@ -1,3 +1,22 @@
+### 2.2.9
+
+- Added:
+  - New record button at the top of the table
+  - Yalc instructions to README as an alternative to yarn link(buggy) for development
+- Fix:
+  - Archive functionality
+  - Archive icon style
+
+### 2.2.7 / 2.2.8
+- No change - We weren't sure if yarn link was broken or the library was broken
+
+### 2.2.6
+
+- Added:
+  - Edit and archive buttons to table rows
+  - Archived styling for rows that are archived
+  - Configure whether edit and archive columns are shown via keys in the options prop of the FilterableTable. See README.md for more details about table props.
+
 ### 2.2.5
 
 - Fix: add .node-version and .tool-version files
@@ -65,7 +84,7 @@
   - Enforce newline between computed properties, methods and props
   - Enforce newline between sibling elements in markdown
   - Enforce whitespace between `if` and `()`
-- Refactoring: 
+- Refactoring:
   - Use `mapGetters`, `mapState` & `mapActions` and `createNamespacedHelpers` instead of `this.$store.getters[]`
   - Use `const` for mutable object assignments
   - Use `v-text` instead of `{{}}` wherever possible
@@ -95,7 +114,7 @@
 - Fix the CSV Download
 ### 1.0.1
 
-- 
+-
 
 ### 1.0.0
 
