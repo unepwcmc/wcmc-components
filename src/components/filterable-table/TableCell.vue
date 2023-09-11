@@ -1,28 +1,19 @@
 <template>
   <div :class="['cell', { 'cell--disabled': disabled }]">
     <template v-if="cell">
-      <div
-        class="cell__legend"
-        v-if="cell.legend_on"
-      >
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
+      <div v-if="cell.legend_on" class="cell__legend">
+        <span class="cell__title" v-text="cell.title" />
 
         <span
-          v-for="value, valueIndex in cell.value"
+          v-for="(value, valueIndex) in cell.value"
+          :key="Math.random() * valueIndex"
           class="legend__icon"
           :class="kebabCaseClassName(value)"
-          :key="Math.random() * valueIndex"
         />
       </div>
 
       <span v-else>
-        <span
-          class="cell__title"
-          v-text="cell.title"
-        />
+        <span class="cell__title" v-text="cell.title" />
 
         <span v-html="printValue(cell.value)" />
       </span>
@@ -38,12 +29,12 @@
 import { isALink } from '../../helpers/helpers-url.js'
 
 export default {
-  name: 'cell',
+  name: 'Cell',
 
   props: {
     cell: {
       type: Object,
-      default: undefined,
+      default: undefined
     },
 
     disabled: {
@@ -53,23 +44,25 @@ export default {
   },
 
   methods: {
-    printValue (value) {
+    printValue(value) {
       let output = value
 
       if (Array.isArray(value)) {
-        const strings = value.map(string => {
+        const strings = value.map((string) => {
           return isALink(string)
         })
 
         output = strings.join(', ')
-      return output
+        return output
       }
 
       return isALink(value)
     },
 
-    kebabCaseClassName (title) {
-      if (typeof title !== 'string') { return }
+    kebabCaseClassName(title) {
+      if (typeof title !== 'string') {
+        return
+      }
 
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
@@ -121,7 +114,8 @@ export default {
   }
 
   &__content {
-    width: 100%; height: 100%;
+    width: 100%;
+    height: 100%;
 
     @include breakpoint($medium) {
       display: flex;

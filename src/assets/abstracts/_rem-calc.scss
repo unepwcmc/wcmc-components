@@ -6,7 +6,7 @@
 /// @group functions
 ////
 
-@use "sass:math";
+@use 'sass:math';
 
 $global-font-size: 100% !default;
 
@@ -50,7 +50,7 @@ $global-font-size: 100% !default;
   }
 
   @for $i from 1 through $count {
-    $rem-values: append($rem-values, -zf-to-rem(nth($values, $i), $base));
+    $rem-values: append($rem-values, - zf-to-rem(nth($values, $i), $base));
   }
 
   @return $rem-values;
@@ -106,7 +106,6 @@ $global-font-size: 100% !default;
 ///
 /// @return {Number} - Unitless number
 @function unitless-calc($value, $base: null) {
-
   // If no base is defined, defer to the global font size
   @if $base == null {
     $base: $global-font-size;

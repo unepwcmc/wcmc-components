@@ -3,7 +3,7 @@
 //--------------------------------------------------
 // must be in px not rem!
 // IF MODIFIED, PLEASE CHECK ELSEWHERE IN PROJECT e.g. in mixin-responsive.js
-$small: 767px !default; 
+$small: 767px !default;
 $medium: 1024px !default;
 $large: 1200px !default;
 
@@ -21,4 +21,4 @@ $ft-filter-trigger-height-large: rem-calc(40);
 //--------------------------------------------------
 // font
 //--------------------------------------------------
-$ft-font: Arial, 'sans-serif' !default; 
+$ft-font: Arial, 'sans-serif' !default;

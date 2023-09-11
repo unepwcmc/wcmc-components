@@ -1,4 +1,5 @@
 ### 2.2.7 / 2.2.8
+
 - No change - We weren't sure if yarn link was broken or the library was broken
 
 ### 2.2.6
@@ -75,7 +76,7 @@
   - Enforce newline between computed properties, methods and props
   - Enforce newline between sibling elements in markdown
   - Enforce whitespace between `if` and `()`
-- Refactoring: 
+- Refactoring:
   - Use `mapGetters`, `mapState` & `mapActions` and `createNamespacedHelpers` instead of `this.$store.getters[]`
   - Use `const` for mutable object assignments
   - Use `v-text` instead of `{{}}` wherever possible
@@ -88,10 +89,12 @@
 - new legend components
 - small style fixes
 - default config update
+
 ### 1.0.5
 
 - CSS and JavaScript Fixes for IE11
 - Add option to change colour of the arrow in the "view more" button
+
 ### 1.0.4
 
 - Publish build files!
@@ -103,9 +106,10 @@
 ### 1.0.2
 
 - Fix the CSV Download
+
 ### 1.0.1
 
-- 
+-
 
 ### 1.0.0
 

@@ -1,65 +1,43 @@
 <template>
   <div
-    :class="['modal-wrapper', { 'active' : isActive }]"
     v-if="config"
-    @click.stop.self="closeModal"
+    :class="['modal-wrapper', { active: isActive }]"
     :style="cssVariables"
+    @click.stop.self="closeModal"
   >
     <div class="modal">
       <div class="modal__content">
-        <button
-          class="modal__close"
-          @click="closeModal"
-        >
+        <button class="modal__close" @click="closeModal">
           <svg-cross class="modal__close-svg" />
         </button>
 
-        <h2
-          v-if="config.modal.title"
-          class="modal__title"
-          v-text="config.modal.title"
-        />
+        <h2 v-if="config.modal.title" class="modal__title" v-text="config.modal.title" />
 
-        <template v-for="item, modalContentIndex in modalContent" >
-          <div
-            v-if="item.showInModal"
-            :key="modalContentIndex"
-            class="modal__item"
-          >
-            <span
-              class="modal__item-name"
-              v-text="item.title + ':'"
-            />
+        <template v-for="(item, modalContentIndex) in modalContent">
+          <div v-if="item.showInModal" :key="modalContentIndex" class="modal__item">
+            <span class="modal__item-name" v-text="item.title + ':'" />
 
-            <span
-              v-if="hasMultipleValues(item.value)"
-              :key="modalContentIndex"
-            >
-              <ul
-                v-if="item.legend_on"
-                class="legend"
-              >
-                <li v-for="string, valueIndex in item.value"
+            <span v-if="hasMultipleValues(item.value)" :key="modalContentIndex">
+              <ul v-if="item.legend_on" class="legend">
+                <li
+                  v-for="(string, valueIndex) in item.value"
                   :key="Math.random() * valueIndex"
                   class="legend__li"
                 >
-                  <span :class="`legend__icon ${kebabCaseClassName(string)}`"/>
+                  <span :class="`legend__icon ${kebabCaseClassName(string)}`" />
 
-                  <p v-html="printValue(string)"/>
+                  <p v-html="printValue(string)" />
                 </li>
               </ul>
 
-              <ul
-                v-else-if="displayBullet"
-                class="modal__ul"
-              >
+              <ul v-else-if="displayBullet" class="modal__ul">
                 <li
-                  v-for="string, valueIndex in item.value"
+                  v-for="(string, valueIndex) in item.value"
                   :key="Math.random() * valueIndex"
                   v-html="printValue(string)"
                 />
               </ul>
-              <span v-else>{{ item.value.join("; ") }}</span>
+              <span v-else>{{ item.value.join('; ') }}</span>
             </span>
 
             <template v-else>
@@ -91,19 +69,34 @@ export default {
   props: {
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     },
 
     legends: {
-      type: Array,
+      type: Array
     },
+    config: {
+      default: () => undefined,
+      required: true,
+      type: Object
+    },
+    modalContent: {
+      default: () => {},
+      required: true,
+      type: Object
+    },
+    isActive: {
+      required: true,
+      type: Boolean,
+      default: false
+    }
   },
 
-  data () {
+  data() {
     return {
-      isActive: false,
-      config: undefined,
-      modalContent: {},
+      // isActive: false,
+      // config: undefined,
+      // modalContent: {},
       modalOffset: 0,
       styleObject: {
         top: 0
@@ -112,7 +105,7 @@ export default {
   },
 
   computed: {
-    cssVariables () {
+    cssVariables() {
       return {
         '--svg-cross-color': this.config.modal.crossFill,
         '--close-bg-color': this.config.modal.closeBgColor,
@@ -122,29 +115,36 @@ export default {
       }
     },
 
-    displayBullet () { return this.config.modal.bulletDisplay },
+    displayBullet() {
+      return this.config.modal.bulletDisplay
+    }
   },
 
-  mounted () {
-    this.$root.$on('openModal', this.openModal)
+  mounted() {
+    // this.$root.$on('openModal', this.openModal)
   },
+
+  // beforeUnmount () {
+  //   this.$root.$off('openModal', this.openModal)
+  // },
 
   methods: {
-    openModal ({ tableId }) {
-      if (this.tableId !== tableId) { return false }
+    // openModal ({ tableId }) {
+    //   if (this.tableId !== tableId) { return false }
 
-      this.config = this.$store.getters['filterableTable/options'](this.tableId)
+    //   this.config = this.$store.getters['filterableTable/options'](this.tableId)
 
-      this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
+    //   this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
 
-      this.isActive = true
+    //   this.isActive = true
+    // },
+
+    closeModal() {
+      this.$emit('closeModal')
+      // this.isActive = false
     },
 
-    closeModal () {
-      this.isActive = false
-    },
-
-    hasMultipleValues (value) {
+    hasMultipleValues(value) {
       return Array.isArray(value)
     },
 
@@ -152,20 +152,16 @@ export default {
       return isALink(string)
     },
 
-    kebabCaseClassName (title) {
+    kebabCaseClassName(title) {
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
     }
-  },
-
-  beforeDestroy () {
-    this.$root.$off('openModal', this.openModal)
   }
 }
 </script>
 
 <style lang="scss" scoped>
 .modal-wrapper {
-  background-color: rgba(0,0,0,.2); // IE11
+  background-color: rgba(0, 0, 0, 0.2); // IE11
   background-color: var(--wrapper-color);
 
   display: none;
@@ -176,7 +172,9 @@ export default {
   left: 0;
   z-index: 3;
 
-  &.active { display: block; }
+  &.active {
+    display: block;
+  }
 }
 
 .modal {
@@ -186,7 +184,8 @@ export default {
   font-family: var(--font-family);
   overflow-y: scroll;
   padding: rem-calc(34 32);
-  width: 100%; height: 100vh;
+  width: 100%;
+  height: 100vh;
 
   position: fixed;
   top: 0;
@@ -196,7 +195,8 @@ export default {
   @include breakpoint($small) {
     border-radius: 0;
     padding: rem-calc(34 32);
-    width: 60%; height: auto;
+    width: 60%;
+    height: auto;
     max-height: 80vh;
 
     top: 50%;
@@ -212,7 +212,8 @@ export default {
     border-radius: 0; // IE11
     border-radius: var(--close-border-radius);
     cursor: pointer;
-    width: rem-calc(50); height: rem-calc(50);
+    width: rem-calc(50);
+    height: rem-calc(50);
 
     position: sticky;
     float: right;
@@ -220,7 +221,8 @@ export default {
     right: rem-calc(-16);
 
     &-svg {
-      width: rem-calc(20); height: rem-calc(20);
+      width: rem-calc(20);
+      height: rem-calc(20);
     }
   }
 

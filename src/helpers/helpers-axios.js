@@ -6,7 +6,7 @@ export const setAxiosHeaders = (axios, type) => {
     axios.defaults.headers.common['X-CSRF-Token'] = token.content
   }
 
-  if(type == 'download') {
+  if (type == 'download') {
     axios.defaults.headers.common['Accept'] = 'text/csv'
     axios.defaults.headers.common['responseType'] = 'blob'
   }

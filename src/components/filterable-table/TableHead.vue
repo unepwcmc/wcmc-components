@@ -1,26 +1,21 @@
 <template>
-  <div 
-    id="sticky" 
-    :class="{ 'stuck' : isSticky }"
-  >
-    <div
-      class="table-head"
-      :style="cssVariables"
-    >
-      <table-heading 
-        v-for="heading, n in headings" 
+  <div id="sticky" :class="{ stuck: isSticky }">
+    <div class="table-head" :style="cssVariables">
+      <table-heading
+        v-for="(heading, n) in headings"
         :key="heading._uid"
         :heading="heading"
-        :tableId="tableId"
-        :style="`grid-column: ${n+1}`"
+        :table-id="tableId"
+        :style="`grid-column: ${n + 1}`"
+        @getNewItems="getNewItems"
       />
-      
       <!-- empty heading for 'more content' and admin buttons -->
       <table-heading
         v-for="n in emptyHeaderCount"
         :key="`empty-header-${_uid}-${n}`"
-        :tableId="tableId"
+        :table-id="tableId"
         :style="`grid-column: ${getEmptyHeaderIndex(n)}`"
+        @getNewItems="getNewItems"
       />
     </div>
   </div>
@@ -48,12 +43,12 @@ export default {
 
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     },
 
     totalColumns: {
       required: true,
-      type: Number,
+      type: Number
     }
   },
 
@@ -67,29 +62,29 @@ export default {
   computed: {
     ...mapGetters(['isMoreContentColumnDisplayed']),
 
-    cssVariables () {
+    cssVariables() {
       return {
         'grid-template-columns': this.gridColumnsCss,
-        'grid-columns': this.gridColumnsCss, // IE11
+        'grid-columns': this.gridColumnsCss // IE11
       }
     },
 
-    emptyHeaderCount () {
+    emptyHeaderCount() {
       return this.totalColumns - this.headings.length
     }
   },
 
-  mounted () {
+  mounted() {
     this.setStickyTrigger()
     this.scrollHandler()
   },
 
   methods: {
-    getEmptyHeaderIndex (n) {
+    getEmptyHeaderIndex(n) {
       return this.totalColumns - this.emptyHeaderCount + n
     },
 
-    setStickyTrigger () {
+    setStickyTrigger() {
       const stickyElement = document.getElementById('sticky')
       const stickyElementHeight = stickyElement.clientHeight
       const stickyYOffset = stickyElement.getBoundingClientRect().top + window.pageYOffset
@@ -97,32 +92,35 @@ export default {
       this.stickyTrigger = stickyElementHeight + stickyYOffset
     },
 
-    scrollHandler () {
-      setInterval( () => {
+    scrollHandler() {
+      setInterval(() => {
         let scrollY = window.pageYOffset
 
         this.isSticky = scrollY > this.stickyTrigger ? true : false
       }, 100)
+    },
+    getNewItems() {
+      this.$emit('getNewItems')
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-  $table-head-bg-color: #333 !default;
-  $table-head-color: #fff !default;
+$table-head-bg-color: #333 !default;
+$table-head-color: #fff !default;
 
-  .table-head {
-    background-color: $table-head-bg-color;
-    color: $table-head-color;
-    margin-top: rem-calc(30);
-    // height: rem-calc(56);
+.table-head {
+  background-color: $table-head-bg-color;
+  color: $table-head-color;
+  margin-top: rem-calc(30);
+  // height: rem-calc(56);
 
-    display: none;
+  display: none;
 
-    @include breakpoint($medium) { 
-      display: -ms-grid; // IE11
-      display: grid;
-    }
+  @include breakpoint($medium) {
+    display: -ms-grid; // IE11
+    display: grid;
   }
+}
 </style>

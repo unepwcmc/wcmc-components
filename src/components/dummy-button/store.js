@@ -4,10 +4,10 @@ export const storeDummyButton = {
     counter: 0
   },
   getters: {
-    counter: state => state.counter
+    counter: (state) => state.counter
   },
   mutations: {
-    increment (state) {
+    increment(state) {
       state.counter += 1
     }
   }

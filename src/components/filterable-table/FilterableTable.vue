@@ -1,5 +1,8 @@
 <template>
   <div :style="cssVariables">
+    <div class="justify-center flex bg-yellow-300 items-center">
+      <div class="text-4xl">Tailwind is working</div>
+    </div>
     <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
@@ -8,13 +11,8 @@
       <slot name="row-link-icon" />
     </portal>
 
-    <div
-      class='buttons'
-      v-if="shouldRenderNewRecordButton"
-    >
-      <new-record-button
-        :table-id="id"
-      />
+    <div v-if="shouldRenderNewRecordButton" class="buttons">
+      <new-record-button :table-id="id" />
     </div>
 
     <table-filters
@@ -23,32 +21,33 @@
       :legends="legends"
       :table-id="id"
       :total-items="totalItems"
+      @getNewItems="getNewItems"
     />
 
     <div class="table-head">
       <table-head
         :headings="headings"
         :table-id="id"
-        :totalColumns="totalColumns"
+        :total-columns="totalColumns"
+        @getNewItems="getNewItems"
       />
     </div>
 
     <div class="table-body">
       <template v-if="hasItems">
-        <table-row v-for="item, itemIndex in items"
+        <table-row
+          v-for="(item, itemIndex) in items"
           :key="item._uid"
           :item="item"
           :item-index="itemIndex"
           :table-id="id"
-          :totalColumns="totalColumns"
+          :total-columns="totalColumns"
+          @openModal="openModal"
         />
       </template>
 
       <template v-else>
-        <div
-          class="table-body__placeholder"
-          v-text="noResultsMessage"
-        />
+        <div class="table-body__placeholder" v-text="noResultsMessage" />
       </template>
     </div>
 
@@ -59,11 +58,15 @@
       :table-id="id"
       :total-items="totalItems"
       :total-pages="totalPages"
-      v-on:updated:page="getNewItems"
+      @updated:page="getNewItems"
     />
 
     <table-modal
-      :tableId="id"
+      :table-id="id"
+      :config="modalConfig"
+      :modalContent="modalContent"
+      @openModal="openModal"
+      @closeModal="closeModal"
     />
   </div>
 </template>
@@ -99,7 +102,7 @@ export default {
 
   props: {
     attributes: {
-      type: Array,
+      type: Array
     },
 
     endpoint: {
@@ -128,7 +131,7 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
       headings: [],
       currentPage: 1,
@@ -139,13 +142,16 @@ export default {
       items: [],
       totalColumns: 0,
       totalItems: 5,
-      totalPages: 3
+      totalPages: 3,
+      modalConfig: undefined,
+      modalContent: {},
+      isActive: false
     }
   },
 
   computed: {
     ...mapState({
-      tableCount: state => state.tableCount
+      tableCount: (state) => state.tableCount
     }),
 
     ...mapGetters({
@@ -157,26 +163,26 @@ export default {
       isMoreContentColumnDisplayed: 'isMoreContentColumnDisplayed'
     }),
 
-    cssVariables () {
+    cssVariables() {
       return {
         '--font-family': this.config(this.id).fontFamily
       }
     },
 
-    hasItems () {
+    hasItems() {
       return this.items.length > 0
     },
 
-    noResultsMessage () {
+    noResultsMessage() {
       return this.config(this.id).text.noResultsMessage
     },
 
-    shouldRenderNewRecordButton () {
+    shouldRenderNewRecordButton() {
       return this.config(this.id).newRecordLink.url != null
     }
   },
 
-  created () {
+  created() {
     this.id = this.tableCount + 1
     this.createNewTable(this.id)
     this.importUserOptions()
@@ -193,11 +199,11 @@ export default {
       this.legends = this.legendArray
     }
 
-    this.$root.$on('getNewItems', this.getNewItems)
+    // this.$root.$on("getNewItems", this.getNewItems);
 
     this.createSelectedFilterOptions()
 
-    if(this.endpoint == undefined) {
+    if (this.endpoint == undefined) {
       this.items = this.dummyData.items
     } else {
       this.getNewItems()
@@ -207,15 +213,11 @@ export default {
   },
 
   methods: {
-    ...mapActions([
-      'createNewTable',
-      'setFilterOptions',
-      'updateOptions'
-    ]),
+    ...mapActions(['createNewTable', 'setFilterOptions', 'updateOptions']),
 
-    createSelectedFilterOptions () {
+    createSelectedFilterOptions() {
       // create an empty array for each filter
-      const array = this.filters.map(filter => {
+      const array = this.filters.map((filter) => {
         if (filter.name !== undefined && filter.options.length > 0) {
           return {
             name: filter.name,
@@ -233,11 +235,11 @@ export default {
       this.setFilterOptions(obj)
     },
 
-    getNewItems () {
+    getNewItems() {
       const data = {
         filters: this.selectedFilterOptions(this.id),
         items_per_page: this.itemsPerPage,
-        requested_page: this.requestedPage(this.id),
+        requested_page: this.requestedPage(this.id)
       }
 
       if (this.isSortable(this.id)) {
@@ -246,34 +248,40 @@ export default {
 
       setAxiosHeaders(axios)
 
-      axios.post(this.endpoint, data)
-      .then(response => {
-        this.updateProperties(response.data)
-      })
-      .catch(function (error) {
-        console.log(error)
-      })
+      axios
+        .post(this.endpoint, data)
+        .then((response) => {
+          console.log(response.data)
+          this.updateProperties(response.data)
+        })
+        .catch(function (error) {
+          console.log(error)
+        })
     },
 
-    getTotalTableColumns () {
-      if (this.headings.length < 1) { return }
+    getTotalTableColumns() {
+      if (this.headings.length < 1) {
+        return
+      }
 
       this.totalColumns = this.headings.length
 
       this.totalColumns += [
         this.isMoreContentColumnDisplayed(this.id),
         this.config(this.id).showArchived,
-        this.config(this.id).showEdit,
+        this.config(this.id).showEdit
       ].filter(Boolean).length
     },
 
-    importUserOptions () {
-      const providedOptions = typeof(this.options) == 'object' ? this.options : {}
+    importUserOptions() {
+      const providedOptions = typeof this.options == 'object' ? this.options : {}
 
-      const defaultOptionsWithoutColumns = JSON.parse(JSON.stringify(DEFAULT_OPTIONS));
+      const defaultOptionsWithoutColumns = JSON.parse(JSON.stringify(DEFAULT_OPTIONS))
       delete defaultOptionsWithoutColumns.columns // remove default columns widths which was messing the vertical alignment
 
-      const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns') ? defaultOptionsWithoutColumns : DEFAULT_OPTIONS
+      const defaultOptionsToMerge = Object.prototype.hasOwnProperty.call(providedOptions, 'columns')
+        ? defaultOptionsWithoutColumns
+        : DEFAULT_OPTIONS
 
       const options = merge(defaultOptionsToMerge, providedOptions)
       const obj = {
@@ -284,17 +292,31 @@ export default {
       this.updateOptions(obj)
     },
 
-    updateProperties (data) {
+    updateProperties(data) {
       this.currentPage = data.current_page
       this.itemsPerPage = data.per_page
       this.totalItems = data.total_entries
       this.totalPages = data.total_pages
       this.items = data.items
     },
+    openModal({ tableId }) {
+      if (this.tableId !== tableId) {
+        return false
+      }
+
+      this.modalConfig = this.$store.getters['filterableTable/options'](this.tableId)
+
+      this.modalContent = this.$store.getters['filterableTable/modalContent'](this.tableId)
+
+      this.isActive = true
+    },
+    closeModal() {
+      this.isActive = false
+    }
   },
 
-  beforeDestroy () {
-    this.$root.$off('openModal', this.onOpenModal)
+  beforeUnmount() {
+    // this.$root.$off("openModal", this.onOpenModal);
   }
 }
 </script>
@@ -311,7 +333,9 @@ export default {
   display: flex;
 }
 
-.cloak { display: none; }
+.cloak {
+  display: none;
+}
 
 .table {
   font-family: Arial, sans-serif; // IE11

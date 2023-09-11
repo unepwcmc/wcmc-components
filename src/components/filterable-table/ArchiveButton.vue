@@ -1,9 +1,6 @@
 <template>
-  <div @click="archive" :class="`button button__svg-wrapper button--${archiveClass}`" >
-    <component
-      :is="`svg-${archiveClass}`"
-      class="button__svg"
-    />
+  <div :class="`button button__svg-wrapper button--${archiveClass}`" @click="archive">
+    <component :is="`svg-${archiveClass}`" class="button__svg" />
   </div>
 </template>
 
@@ -35,17 +32,17 @@ export default {
     recordId: {
       type: Number,
       required: true
-    },
+    }
   },
 
   computed: {
-    archiveClass () {
+    archiveClass() {
       return this.archived ? 'restore' : 'archive'
     }
   },
 
-  methods:{
-    archive () {
+  methods: {
+    archive() {
       const data = {
         id: this.recordId,
         archived: this.archived ? 0 : 1
@@ -53,17 +50,17 @@ export default {
 
       setAxiosHeaders(axios)
 
-      axios.post(this.archiveUrl, data)
-        .then(response => {
+      axios
+        .post(this.archiveUrl, data)
+        .then((response) => {
           this.$emit('clicked', response.data.archived)
         })
         .catch(function (error) {
-            console.log(error)
+          console.log(error)
         })
     }
   }
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -71,8 +68,10 @@ export default {
   background: transparent;
   border: none;
   padding: 0;
-  width: 100%; height: 80px;
-  max-width: 80px; max-height: 80px;
+  width: 100%;
+  height: 80px;
+  max-width: 80px;
+  max-height: 80px;
 
   &:hover {
     cursor: pointer;
@@ -96,7 +95,8 @@ export default {
       background-color: #fff;
       border-radius: 100%;
       content: '';
-      width: 100%; padding-top: 100%;
+      width: 100%;
+      padding-top: 100%;
 
       display: block;
       position: absolute;
@@ -113,7 +113,8 @@ export default {
   }
 
   &__svg {
-    width: 56%; height: 56%;
+    width: 56%;
+    height: 56%;
   }
 }
 </style>

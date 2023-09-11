@@ -1,19 +1,14 @@
 <template>
-  <div 
-    class="pagination"
-    :style="cssVariables"
-  >
-    <div 
-      v-show="haveResults"
-      class="pagination__content"
-    >
+  <div class="pagination" :style="cssVariables">
+    <div v-show="haveResults" class="pagination__content">
       <span class="pagination__numbers">
-        {{ options(tableId).pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of {{ totalItems }} {{ options(tableId).pagination.textItems }}
+        {{ options(tableId).pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of
+        {{ totalItems }} {{ options(tableId).pagination.textItems }}
       </span>
 
       <button
         class="button--previous button__margin"
-        :class="{ 'disabled': !previousIsActive }"
+        :class="{ disabled: !previousIsActive }"
         @click="goToEnd('first')"
       >
         <svg-chevron class="button__svg" />
@@ -23,14 +18,15 @@
 
       <button
         class="button--previous button__margin"
-        :class="{ 'disabled': !previousIsActive }"
+        :class="{ disabled: !previousIsActive }"
         @click="changePage(previousIsActive, 'previous')"
       >
         <svg-chevron class="button__svg" />
       </button>
 
       <div v-for="(page, pageIndex) in pages" :key="pageIndex">
-        <button v-if="numberOfPageButtons"
+        <button
+          v-if="numberOfPageButtons"
           class="button--page button__margin"
           :class="{ 'button__page--selected': currentPage === page }"
           @click="goToPage(page)"
@@ -40,27 +36,20 @@
 
       <button
         class="button--next button__margin"
-        :class="{ 'disabled' : !nextIsActive }"
+        :class="{ disabled: !nextIsActive }"
         @click="changePage(nextIsActive, 'next')"
       >
         <svg-chevron class="button__svg" />
       </button>
 
-      <button
-        class="button--next"
-        :class="{ 'disabled': !nextIsActive }"
-        @click="goToEnd('last')"
-      >
+      <button class="button--next" :class="{ disabled: !nextIsActive }" @click="goToEnd('last')">
         <svg-chevron class="button__svg" />
 
         <svg-chevron class="button__svg" />
       </button>
     </div>
 
-    <p 
-      v-show="!haveResults"
-      class="pagination__message"
-    >
+    <p v-show="!haveResults" class="pagination__message">
       There are no evaluations matching the selected filters options.
     </p>
   </div>
@@ -75,7 +64,7 @@ const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 import SvgChevron from './svgs/SvgChevron.vue'
 
 export default {
-  name: "TablePagination",
+  name: 'TablePagination',
 
   components: { SvgChevron },
 
@@ -109,25 +98,25 @@ export default {
   computed: {
     ...mapGetters({ options: 'options' }),
 
-    cssVariables () {
+    cssVariables() {
       return {
-        '--svg-chevron-fill'        : this.options(this.tableId).pagination.chevronFill,
-        '--button-bg-color'         : this.options(this.tableId).pagination.buttonBgColor,
+        '--svg-chevron-fill': this.options(this.tableId).pagination.chevronFill,
+        '--button-bg-color': this.options(this.tableId).pagination.buttonBgColor,
         '--button-bg-color-disabled': this.options(this.tableId).pagination.buttonBgColorDisabled,
-        '--button-border-radius'    : this.options(this.tableId).pagination.buttonBorderRadius,
-        '--button-bg-color-selected'    : this.options(this.tableId).pagination.pageSelectedBgColor,
+        '--button-border-radius': this.options(this.tableId).pagination.buttonBorderRadius,
+        '--button-bg-color-selected': this.options(this.tableId).pagination.pageSelectedBgColor
       }
     },
 
-    nextIsActive () {
-      return  this.currentPage < this.totalPages
+    nextIsActive() {
+      return this.currentPage < this.totalPages
     },
 
-    previousIsActive () {
+    previousIsActive() {
       return this.currentPage > 1
     },
 
-    firstItem () {
+    firstItem() {
       let first
 
       if (this.totalItems === 0) {
@@ -141,7 +130,7 @@ export default {
       return first
     },
 
-    lastItem () {
+    lastItem() {
       let lastItem = this.itemsPerPage * this.currentPage
 
       if (lastItem > this.totalItems) {
@@ -151,19 +140,19 @@ export default {
       return lastItem
     },
 
-    haveResults () {
+    haveResults() {
       return this.totalItems > 0
     },
 
-    numberOfPageButtons () {
+    numberOfPageButtons() {
       return this.options(this.tableId).pagination.numberOfPageButtonsToShow
     },
 
-    pages () {
+    pages() {
       let firstPageButton
       let lastPageButton
 
-      // paginationRadius is the number of pages to have either side of the this.currentPage, where possible 
+      // paginationRadius is the number of pages to have either side of the this.currentPage, where possible
       const paginationRadius = Math.round(this.numberOfPageButtons / 2)
       const isFirstPageVisible = this.currentPage - paginationRadius >= 0
       const isLastPageVisible = this.currentPage + paginationRadius < this.totalPages
@@ -183,45 +172,45 @@ export default {
       }
 
       return range(firstPageButton, lastPageButton + 1)
-    },
+    }
   },
 
   methods: {
     ...mapActions({ updateRequestedPage: 'updateRequestedPage' }),
 
-    changePage (isActive, direction) {
+    changePage(isActive, direction) {
       if (!isActive) return // only change the page if the button is active
-      
+
       const newPage = direction == 'next' ? this.currentPage + 1 : this.currentPage - 1
 
-      const obj = { 
+      const obj = {
         tableId: this.tableId,
-        requestedPage: newPage 
+        requestedPage: newPage
       }
 
       this.updateRequestedPage(obj)
       this.$emit('updated:page')
     },
 
-    goToPage (page) {
+    goToPage(page) {
       const obj = {
         tableId: this.tableId,
-        requestedPage: page,
-      };
-      this.updateRequestedPage(obj)
-      this.$emit("updated:page")
-    },
-
-    goToEnd (end) {
-      const obj = {
-        tableId: this.tableId,
-        requestedPage: (end === 'first' ? 1 : this.totalPages)
+        requestedPage: page
       }
       this.updateRequestedPage(obj)
-      this.$emit("updated:page")
+      this.$emit('updated:page')
     },
-  },
-};
+
+    goToEnd(end) {
+      const obj = {
+        tableId: this.tableId,
+        requestedPage: end === 'first' ? 1 : this.totalPages
+      }
+      this.updateRequestedPage(obj)
+      this.$emit('updated:page')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -253,20 +242,24 @@ $buttons: ('next', 'previous', 'page', '');
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
     @include button-basic;
-    background-color: #009FE3; // IE11
+    background-color: #009fe3; // IE11
     background-color: var(--button-bg-color);
     border-radius: 0; // IE11
     border-radius: var(--button-border-radius);
     padding: 0;
-    width: 50px; height: 50px;
+    width: 50px;
+    height: 50px;
 
     @if nth($buttons, $i) == 'previous' {
-      margin: rem-calc(0 6 0 10); 
+      margin: rem-calc(0 6 0 10);
 
-      .button__svg { transform: rotateY(180deg); }
+      .button__svg {
+        transform: rotateY(180deg);
+      }
     }
     .button__svg {
-      width: rem-calc(12); height: rem-calc(22);
+      width: rem-calc(12);
+      height: rem-calc(22);
     }
 
     @if nth($buttons, $i) == 'page' {
@@ -274,9 +267,9 @@ $buttons: ('next', 'previous', 'page', '');
       font-size: rem-calc(22);
     }
 
-    &.disabled { 
-      background-color: #ccc; // IE11 
-      background-color: var(--button-bg-color-disabled); 
+    &.disabled {
+      background-color: #ccc; // IE11
+      background-color: var(--button-bg-color-disabled);
       cursor: disabled;
     }
   }

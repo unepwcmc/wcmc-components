@@ -1,0 +1,16 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": ["vite.config.*"],
+  "compilerOptions": {
+    "composite": true,
+    "types": ["node", "vitest"],
+    "strictNullChecks": false,
+    "baseUrl": ".",
+    "paths": {
+        "@/*": ["./src/*"],
+        "@assets/*": ["./src/assets/*"],
+    },
+    "target": "es2021",
+  },
+  "allowJs":true,
+}

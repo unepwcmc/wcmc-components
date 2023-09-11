@@ -1,25 +1,10 @@
 <template>
   <li class="option">
-    <input 
-      type="checkbox" 
-      :id="optionId" 
-      v-model="isSelected" 
-      class="checkbox"
-    />
+    <input :id="optionId" v-model="isSelected" type="checkbox" class="checkbox" />
 
-    <svg-tick
-      v-show="isSelected"
-      class="icon-tick" 
-      :style="cssVariables"
-    />
+    <svg-tick v-show="isSelected" class="icon-tick" :style="cssVariables" />
 
-    <label 
-      :for="optionId"
-      :title="option"
-      class="label"
-      :class="labelClasses"
-      v-text="option"
-    />
+    <label :for="optionId" :title="option" class="label" :class="labelClasses" v-text="option" />
   </li>
 </template>
 
@@ -28,7 +13,7 @@ import SvgTick from './svgs/SvgTick.vue'
 
 export default {
   name: 'TableFilterOption',
-  
+
   components: { SvgTick },
 
   props: {
@@ -38,24 +23,24 @@ export default {
 
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     }
   },
 
-  data () {
+  data() {
     return {
       isSelected: false
     }
   },
 
   computed: {
-    cssVariables () {
+    cssVariables() {
       return {
         '--svg-tick-color': this.config.filters.filterOptions.tickFill
       }
     },
 
-    config () {
+    config() {
       return this.$store.getters['filterableTable/options'](this.tableId)
     },
     /**
@@ -64,12 +49,12 @@ export default {
      * @returns {string} returns array/string with values 'truncate', 'wrap'
      * passed as classes to labels (see example constants.js)
      */
-    labelClasses () {
+    labelClasses() {
       return this.config.filters.filterOptions.handleLongLabels
     },
 
-    optionId () {
-      return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random()*10000)}`
+    optionId() {
+      return `${this.option.replace(/\s/g, '-').toLowerCase()}-${Math.ceil(Math.random() * 10000)}`
     }
   }
 }
@@ -90,7 +75,9 @@ $sm-label-max-width: 80vw !default;
   display: block;
   position: relative;
 
-  label { cursor: pointer; }
+  label {
+    cursor: pointer;
+  }
 }
 
 .checkbox {
@@ -98,8 +85,9 @@ $sm-label-max-width: 80vw !default;
   border: solid rem-calc(1) $checkbox-border-color;
   cursor: pointer;
   margin: 0;
-  padding: 0; 
-  width: $checkbox-height; height: $checkbox-height;
+  padding: 0;
+  width: $checkbox-height;
+  height: $checkbox-height;
 
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -116,7 +104,6 @@ $sm-label-max-width: 80vw !default;
   display: inline-block;
 }
 
-
 .icon-tick {
   position: absolute;
   top: 3px;
@@ -124,7 +111,7 @@ $sm-label-max-width: 80vw !default;
 }
 
 ::v-deep .svg-tick {
-  fill: #009FE3; // IE11
+  fill: #009fe3; // IE11
   fill: var(--svg-tick-color);
 }
 

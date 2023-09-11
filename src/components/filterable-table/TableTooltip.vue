@@ -1,8 +1,6 @@
 <template>
-  <div 
-    :class="['tooltip', { 'tooltip--active': isActive }]"
-  >
-    <div 
+  <div :class="['tooltip', { 'tooltip--active': isActive }]">
+    <div
       v-if="onHover"
       v-touch="toggleTooltip"
       tabindex="0"
@@ -14,7 +12,7 @@
     >
       <slot />
     </div>
-    <div 
+    <div
       v-else
       tabindex="0"
       :aria-describedby="id"
@@ -24,18 +22,9 @@
     >
       <slot />
     </div>
-      
-    <div
-      v-show="isActive"
-      :id="id"
-      role="tooltip"
-      class="tooltip__target"
-    >
-      <button 
-        v-if="!onHover" 
-        @click="toggleTooltip(false)" 
-        class="tooltip__close"
-      />
+
+    <div v-show="isActive" :id="id" role="tooltip" class="tooltip__target">
+      <button v-if="!onHover" class="tooltip__close" @click="toggleTooltip(false)" />
 
       <div v-html="text" />
     </div>
@@ -61,15 +50,15 @@ export default {
     }
   },
 
-  data () {
+  data() {
     return {
       id: `tooltip_${this._uid}`,
       isActive: false
     }
   },
 
-  mounted () {   
-    if(this.onHover) {
+  mounted() {
+    if (this.onHover) {
       const tooltipTrigger = this.$el.querySelector('.tooltip__trigger')
 
       tooltipTrigger.addEventListener('blur', () => {
@@ -82,13 +71,13 @@ export default {
   },
 
   methods: {
-    toggleTooltip (boolean) {
+    toggleTooltip(boolean) {
       this.isActive = typeof boolean == 'boolean' ? boolean : !this.isActive
     },
 
-    closeTooltip () {
+    closeTooltip() {
       this.toggleTooltip(false)
     }
   }
-}  
+}
 </script>

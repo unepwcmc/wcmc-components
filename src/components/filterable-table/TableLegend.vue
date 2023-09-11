@@ -1,63 +1,35 @@
 <template>
   <div v-if="config.legend && legends">
-    <button
-      @click="openLegend(tableId)"
-      class="legend__button"
-    >
-      <span 
-        class="legend__icon"
-        :class="config.legend.buttonClass"
-      />
+    <button class="legend__button" @click="openLegend(tableId)">
+      <span class="legend__icon" :class="config.legend.buttonClass" />
 
-      <span 
-        class="legend__item"
-        v-text="config.legend.buttonTitle.toUpperCase()"
-      />
+      <span class="legend__item" v-text="config.legend.buttonTitle.toUpperCase()" />
     </button>
 
     <div
       class="modal-wrapper"
       :class="{ active: isActive }"
-      @click.stop.self="closeModal"
       :style="cssVariables"
+      @click.stop.self="closeModal"
     >
       <div class="modal">
         <div class="modal__content">
-          <button 
-            class="modal__close"
-            @click="closeModal"
-          >
+          <button class="modal__close" @click="closeModal">
             <svg-cross class="modal__close-svg" />
           </button>
 
-          <div 
-            v-for="legend in legends"
-            :key="legend.title"
-          >
+          <div v-for="legend in legends" :key="legend.title">
             <h2 class="modal__title">
               <strong v-text="config.legend.title" />
             </h2>
 
-            <h3
-              class="modal__item-name"
-              v-text="legend.title"
-            />
-            
-            <div class="legend__options">
-              <div 
-                class="legend__row"
-                v-for="item, index in legend.options" 
-                :key="index"
-              >
-                <span 
-                  class="legend__icon"
-                  :class="kebabCaseClassName(item)"
-                />
+            <h3 class="modal__item-name" v-text="legend.title" />
 
-                <p
-                  class="legend__item"
-                  v-text="item"
-                />
+            <div class="legend__options">
+              <div v-for="(item, index) in legend.options" :key="index" class="legend__row">
+                <span class="legend__icon" :class="kebabCaseClassName(item)" />
+
+                <p class="legend__item" v-text="item" />
               </div>
             </div>
           </div>
@@ -68,22 +40,22 @@
 </template>
 
 <script>
-import SvgCross from "./svgs/SvgCross.vue";
+import SvgCross from './svgs/SvgCross.vue'
 
 export default {
-  name: "TableLegend",
+  name: 'TableLegend',
 
   components: { SvgCross },
 
   props: {
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     },
 
     legends: {
-      type: Array,
-    },
+      type: Array
+    }
   },
 
   data() {
@@ -91,48 +63,48 @@ export default {
       isActive: false,
       modalOffset: 0,
       styleObject: {
-        top: 0,
-      },
-    };
+        top: 0
+      }
+    }
   },
 
   computed: {
     cssVariables() {
       return {
-        "--svg-cross-color": this.config.legend.crossFill,
-        "--close-bg-color": this.config.legend.closeBgColor,
-        "--close-border-radius": this.config.legend.closeBorderRadius,
-        "--wrapper-color": this.config.legend.wrapperColor,
-      };
+        '--svg-cross-color': this.config.legend.crossFill,
+        '--close-bg-color': this.config.legend.closeBgColor,
+        '--close-border-radius': this.config.legend.closeBorderRadius,
+        '--wrapper-color': this.config.legend.wrapperColor
+      }
     },
 
     config() {
-      return this.$store.getters["filterableTable/options"](this.tableId);
-    },
+      return this.$store.getters['filterableTable/options'](this.tableId)
+    }
   },
 
   mounted() {
-    this.$root.$on("openLegend", this.openLegend);
+    // this.$root.$on("openLegend", this.openLegend);
   },
 
   methods: {
     openLegend(tableId) {
       if (this.tableId !== tableId) {
-        return false;
+        return false
       }
 
-      this.isActive = true;
+      this.isActive = true
     },
 
     closeModal() {
-      this.isActive = false;
+      this.isActive = false
     },
 
     kebabCaseClassName(title) {
       return title.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
-    },
-  },
-};
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
@@ -219,7 +191,6 @@ export default {
 }
 
 .legend {
-
   &__button {
     border: 1px solid #000;
     display: flex;

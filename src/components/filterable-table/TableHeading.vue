@@ -1,26 +1,14 @@
 <template>
-  <div 
-    class="cell flex flex-h-center"
-    :style="cssVariables"
-  >
+  <div class="cell flex flex-h-center" :style="cssVariables">
     <template v-if="heading">
-      <span 
-        class="title"
-        v-text="heading.title"
-      />
+      <span class="title" v-text="heading.title" />
 
-      <table-tooltip 
-        v-if="hasTooltip" 
-        :text="heading.tooltip"
-      />
+      <table-tooltip v-if="hasTooltip" :text="heading.tooltip" />
 
-      <div
-        v-if="columnIsSortable"
-        class="sorting-toggle"
-        @click="sortColumn"
-      >
+      <div v-if="columnIsSortable" class="sorting-toggle" @click="sortColumn">
         <portal-target name="sort-icon">
-          <svg-sort-icon class="sort-icon--default" /> <!-- Default sort icon -->
+          <svg-sort-icon class="sort-icon--default" />
+          <!-- Default sort icon -->
         </portal-target>
       </div>
     </template>
@@ -55,19 +43,17 @@ export default {
   },
 
   computed: {
-    ...mapGetters([
-      'getSelectedSort'
-    ]),
+    ...mapGetters(['getSelectedSort']),
 
     ...mapState({
-      tables (state) { 
+      tables(state) {
         return state.tables
-      },
+      }
     }),
 
-    cssVariables () {
-
-      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } = this.headings
+    cssVariables() {
+      const { bgColor, borderColor, borderStyle, borderWidth, fontFamily, fontWeight } =
+        this.headings
 
       return {
         '--bg-color': bgColor,
@@ -79,31 +65,39 @@ export default {
       }
     },
 
-    hasTooltip () { return 'tooltip' in this.heading },
+    hasTooltip() {
+      return 'tooltip' in this.heading
+    },
 
-    headings () { return this.options.headings },
+    headings() {
+      return this.options.headings
+    },
 
-    options () { return this.table.options },
+    options() {
+      return this.table.options
+    },
 
-    table () { return this.tables[this.tableId] },
+    table() {
+      return this.tables[this.tableId]
+    },
 
-    tableIsSortable () { return this.options.sortable },
+    tableIsSortable() {
+      return this.options.sortable
+    },
 
-    columnIsSortable () { 
+    columnIsSortable() {
       return this.heading.sortable === null ? this.tableIsSortable : this.heading.sortable
     }
-
-
   },
 
   methods: {
-    ...mapActions([
-      'updateSelectedSort'
-    ]),
+    ...mapActions(['updateSelectedSort']),
 
-    isNewSortAscending () { return this.columnUnsorted || this.currentSortIsDescending },
+    isNewSortAscending() {
+      return this.columnUnsorted || this.currentSortIsDescending
+    },
 
-    sortColumn () {
+    sortColumn() {
       const currentSort = this.getSelectedSort(this.tableId)
       const isNewSortAscending = currentSort.column !== this.heading.field || !currentSort.ascending
       const sortingPayload = {
@@ -115,13 +109,13 @@ export default {
       }
 
       this.updateSelectedSort(sortingPayload)
-      this.$root.$emit('getNewItems')
-    },
+      this.$emit('getNewItems')
+    }
   }
 }
 </script>
 
-<style lang='scss' scoped>
+<style lang="scss" scoped>
 .cell {
   background-color: #000000; // IE11
   background-color: var(--bg-color);
@@ -153,7 +147,6 @@ export default {
 
 .sorting-toggle {
   margin-left: rem-calc(5);
-  
   &:hover {
     cursor: pointer;
   }
@@ -161,7 +154,7 @@ export default {
 
 .sort-icon--default {
   color: #fff;
-  width: rem-calc(10.3); height: rem-calc(10.3);
+  width: rem-calc(10.3);
+  height: rem-calc(10.3);
 }
-
 </style>

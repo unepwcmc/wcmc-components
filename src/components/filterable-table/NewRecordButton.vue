@@ -1,10 +1,5 @@
 <template>
-   <a 
-      :style="cssVariables"
-      :href="buttonURL"
-      class="button new-record-button"
-      v-text="buttonText"
-    />
+  <a :style="cssVariables" :href="buttonURL" class="button new-record-button" v-text="buttonText" />
 </template>
 
 <script>
@@ -18,64 +13,60 @@ export default {
   props: {
     tableId: {
       required: true,
-      type: Number,
+      type: Number
     }
   },
 
   computed: {
-    ...mapGetters([
-      'options'
-    ]),
+    ...mapGetters(['options']),
 
-    buttonText () {
+    buttonText() {
       return this.config.newRecordLink.text
     },
-    
-    buttonURL () {
+
+    buttonURL() {
       return this.config.newRecordLink.url
     },
 
-    config () {
+    config() {
       return this.options(this.tableId)
     },
 
-    cssVariables () {
+    cssVariables() {
       return {
-        '--bg-color'          : this.config.download.bgColor,
-        '--bg-color-hover'    : this.config.download.bgColorHover,
-        '--border-color'      : this.config.download.borderColor,
+        '--bg-color': this.config.download.bgColor,
+        '--bg-color-hover': this.config.download.bgColorHover,
+        '--border-color': this.config.download.borderColor,
         '--border-color-hover': this.config.download.borderColorHover,
-        '--color'             : this.config.download.color,
-        '--font-size'         : this.config.download.fontSize,
-        '--font-weight'       : this.config.download.fontWeight,
-        '--height'            : this.config.download.height,
-        '--icon-fill'         : this.config.download.iconFill,
-        '--padding-left'      : this.config.download.paddingLeft,
-        '--padding-right'     : this.config.download.paddingRight
+        '--color': this.config.download.color,
+        '--font-size': this.config.download.fontSize,
+        '--font-weight': this.config.download.fontWeight,
+        '--height': this.config.download.height,
+        '--icon-fill': this.config.download.iconFill,
+        '--padding-left': this.config.download.paddingLeft,
+        '--padding-right': this.config.download.paddingRight
       }
-    },
-  },
+    }
+  }
 }
-
 </script>
 
 <style lang="scss" scoped>
-
-// Styles here are only for IE11 
+// Styles here are only for IE11
 .new-record-button {
   background-color: #aaa;
-  border-color: #009FE3;
+  border-color: #009fe3;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 18px;
   font-weight: 500;
   padding-left: 24px;
-  padding-right: 24px; 
+  padding-right: 24px;
   height: 50px;
 
   &:hover {
-    background-color: #009FE3;
-    border-color: #009FE3; 
+    background-color: #009fe3;
+    border-color: #009fe3;
   }
 }
 
@@ -103,7 +94,9 @@ export default {
   display: flex;
   align-items: center;
 
-  @include breakpoint($medium) { margin-bottom: 0; }
+  @include breakpoint($medium) {
+    margin-bottom: 0;
+  }
 
   &:hover {
     background-color: var(--bg-color-hover);

@@ -198,8 +198,7 @@ export const DUMMY_DATA = {
         {
           name: 'attribute_1',
           title: 'Attribute 1',
-          value:
-            ' Attribute 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit',
+          value: ' Attribute 1 Lorem ipsum dolor sit amet, consectetur adipiscing elit',
           showInTable: false,
           showInModal: true
         },
