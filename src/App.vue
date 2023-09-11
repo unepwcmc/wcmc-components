@@ -18,7 +18,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, inject } from 'vue'
+import type { useWcmcComponentsMainStoreType } from '@/types/store/main'
+import { storeToRefs } from 'pinia'
+
 const config = ref<{}>({
   attributes: [
     { field: 'goal_target', title: 'Goal/target', sortable: null },
@@ -140,6 +143,8 @@ const config = ref<{}>({
     }
   }
 })
+
+const wcmcComponentStore = inject<useWcmcComponentsMainStoreType>('useWcmcComponentsMainStore')
 </script>
 
 <style lang="postcss" scoped>

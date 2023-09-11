@@ -4,6 +4,7 @@ const postcssJs = require('postcss-js')
 const screens = require('./tailwind-breakpoints.config.js')
 
 module.exports = {
+  mode: 'jit',
   content: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
   theme: {
     screens,

@@ -17,3 +17,30 @@
       cursor-not-allowed;
   }
 }
+
+.base {
+  &-icon {
+    &--in-table {
+      @apply h-[8vw]
+      md:h-[3vw];
+    }
+
+    &:hover {
+      @apply cursor-pointer;
+    }
+  }
+}
+
+/*
+    cursor: pointer;
+
+    ::v-deep .svg-arrow .svg__circle {
+      fill: #009fe3; // IE11
+      fill: var(--button-hover-color);
+    }
+
+    ::v-deep .svg-arrow .svg__arrow {
+      fill: #fff; // IE11
+      fill: var(--button-hover-color-arrow);
+    }
+     */

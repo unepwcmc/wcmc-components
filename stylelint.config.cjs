@@ -13,7 +13,8 @@ module.exports = {
     'no-descending-specificity': null,
     'plugin/stylelint-bem-namics': {
       namespaces: [
-        // 'ct-',
+        'app',
+        'ct-'
         // 'layout-',
         // 'page-',
         // 'mapboxgl-'
