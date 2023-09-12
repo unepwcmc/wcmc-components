@@ -18,9 +18,13 @@
 </template>
 
 <script setup lang="ts">
+// @ts-nocheck
 import { ref, inject } from 'vue'
-import type { useWcmcComponentsMainStoreType } from '@/types/store/main'
-import { storeToRefs } from 'pinia'
+import { useWcmcComponentsMainStore } from '@/store/wcmcComponentsMainStore'
+
+const wcmcComponentsMainStore = useWcmcComponentsMainStore()
+wcmcComponentsMainStore.updateHeaders({ dsfds: 'sdfsdf' })
+console.log(wcmcComponentsMainStore.headers)
 
 const config = ref<{}>({
   attributes: [
@@ -143,8 +147,6 @@ const config = ref<{}>({
     }
   }
 })
-
-const wcmcComponentStore = inject<useWcmcComponentsMainStoreType>('useWcmcComponentsMainStore')
 </script>
 
 <style lang="postcss" scoped>

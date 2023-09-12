@@ -11,11 +11,13 @@
   />
 </template>
 <script setup lang="ts">
+// @ts-nocheck
 import { computed } from 'vue'
 import SvgArchive from '@/components/filterable-table/svgs/SvgArchive.vue'
 import SvgRestore from '@/components/filterable-table/svgs/SvgRestore.vue'
 import axios from 'axios'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
+import { useWcmcComponentsMainStore } from '@/store/wcmcComponentsMainStore'
 
 const props = defineProps({
   archiveUrl: {
@@ -54,4 +56,7 @@ function archive() {
       console.log(error)
     })
 }
+
+const wcmcComponentsMainStore = useWcmcComponentsMainStore()
+console.log(wcmcComponentsMainStore.headers)
 </script>

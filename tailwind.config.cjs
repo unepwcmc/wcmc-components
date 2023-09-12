@@ -1,7 +1,7 @@
 const fs = require('fs')
 const plugin = require('tailwindcss/plugin')
 const postcssJs = require('postcss-js')
-const screens = require('./tailwind-breakpoints.config.js')
+const screens = require('./tailwind-breakpoints.config')
 
 module.exports = {
   mode: 'jit',

@@ -1,4 +1,7 @@
 <template>
+  <archive-button />
+  <br />
+  <br />
   <div :style="cssVariables">
     <div class="justify-center flex bg-yellow-300 items-center">
       <div class="text-4xl">Tailwind is working</div>
@@ -11,7 +14,10 @@
       <slot name="row-link-icon" />
     </portal>
 
-    <div v-if="shouldRenderNewRecordButton" class="buttons">
+    <div
+      v-if="shouldRenderNewRecordButton"
+      class="buttons"
+    >
       <new-record-button :table-id="id" />
     </div>
 
@@ -47,7 +53,10 @@
       </template>
 
       <template v-else>
-        <div class="table-body__placeholder" v-text="noResultsMessage" />
+        <div
+          class="table-body__placeholder"
+          v-text="noResultsMessage"
+        />
       </template>
     </div>
 
@@ -85,6 +94,7 @@ import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
 import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
+import ArchiveButton from './ArchiveButton.vue'
 
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
@@ -97,7 +107,8 @@ export default {
     TableFilters,
     TableModal,
     TablePagination,
-    TableRow
+    TableRow,
+    ArchiveButton
   },
 
   props: {
@@ -329,7 +340,6 @@ export default {
 .buttons {
   margin-bottom: 10px;
   height: 50px;
-
   display: flex;
 }
 
