@@ -1,5 +1,9 @@
 <template>
-  <div v-if="hasOptions" class="filter" :style="cssVariables">
+  <div
+    v-if="hasOptions"
+    class="filter"
+    :style="cssVariables"
+  >
     <p
       class="trigger"
       :class="{ active: isOpen, 'has-selected': hasSelected }"
@@ -8,13 +12,23 @@
     >
       {{ title }}
 
-      <span v-show="hasSelected" class="option-total" v-text="totalSelectedOptions" />
+      <span
+        v-show="hasSelected"
+        class="option-total"
+        v-text="totalSelectedOptions"
+      />
 
       <svg-chevron class="trigger__icon" />
     </p>
 
-    <div class="options" :class="{ active: isOpen }">
-      <ul class="options-ul" :class="filterClass">
+    <div
+      class="options"
+      :class="{ active: isOpen }"
+    >
+      <ul
+        class="options-ul"
+        :class="filterClass"
+      >
         <!-- v-for="option in options" -->
         <table-filter-option
           ref="tableFilterOptions"
@@ -27,11 +41,23 @@
       </ul>
 
       <div class="buttons">
-        <button class="button--clear" @click="clear" v-text="'Clear'" />
+        <button
+          class="button--clear"
+          @click="clear"
+          v-text="'Clear'"
+        />
 
-        <button class="button--cancel" @click="cancel" v-text="'Cancel'" />
+        <button
+          class="button--cancel"
+          @click="cancel"
+          v-text="'Cancel'"
+        />
 
-        <button class="button--apply" @click="apply" v-text="'Apply'" />
+        <button
+          class="button--apply"
+          @click="apply"
+          v-text="'Apply'"
+        />
       </div>
     </div>
   </div>
@@ -40,7 +66,7 @@
 <script>
 import { ref } from 'vue'
 import TableFilterOption from './TableFilterOption.vue'
-import SvgChevron from './svgs/SvgChevron.vue'
+import SvgChevron from './../svgs/SvgChevron.vue'
 import { createNamespacedHelpers } from 'vuex'
 const { mapGetters } = createNamespacedHelpers('filterableTable')
 
@@ -288,7 +314,6 @@ $table-filter-trigger-border-color: black !default;
 .filter {
   margin-right: rem-calc(10);
   margin-bottom: rem-calc(10);
-
   display: inline-block;
   position: relative;
 
@@ -300,6 +325,7 @@ $table-filter-trigger-border-color: black !default;
 
 .trigger {
   @include button-basic;
+
   background-color: var(--color-bg);
   border: solid 1px $table-filter-trigger-border-color;
   border-radius: 0; // IE11
@@ -315,7 +341,6 @@ $table-filter-trigger-border-color: black !default;
   padding-left: var(--padding-left);
   height: 50px; // IE11
   height: var(--height);
-
   align-items: center;
   display: flex;
   position: relative;
@@ -371,18 +396,17 @@ $table-filter-trigger-border-color: black !default;
   &__icon {
     width: rem-calc(10);
     height: rem-calc(6);
-
     display: block;
     position: absolute;
     right: rem-calc(16);
     top: 50%;
-
     transform: translateY(-50%) rotateZ(90deg);
   }
 
   ::v-deep .svg-chevron {
     @include svg-color(#000); //IE11
     @include svg-color(--var(--color-text));
+
     stroke-width: 3px;
   }
 }
@@ -401,12 +425,10 @@ $table-filter-trigger-border-color: black !default;
     text-align: center;
     width: $total-width-mobile;
     height: $total-width-mobile;
-
     display: block;
     position: absolute;
     right: rem-calc(9);
     top: 50%;
-
     transform: translateY(-50%);
   }
 
@@ -424,12 +446,10 @@ $table-filter-trigger-border-color: black !default;
   padding: rem-calc(30 25);
   width: 100%;
   height: 100vh;
-
   display: none;
   position: fixed;
   top: 0;
   left: 0;
-
   z-index: 1;
 
   @include breakpoint($small) {
@@ -438,12 +458,8 @@ $table-filter-trigger-border-color: black !default;
     min-width: rem-calc(460);
     width: auto;
     height: auto;
-
     position: absolute;
-    top: auto;
-    right: auto;
-    bottom: auto;
-    left: auto;
+    inset: auto;
   }
 
   &.active {
@@ -467,7 +483,6 @@ $table-filter-trigger-border-color: black !default;
 .buttons {
   margin-top: rem-calc(18);
   text-align: right;
-
   display: flex;
 }
 
@@ -483,17 +498,7 @@ $buttons: ('apply', 'cancel', 'clear', '');
 
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
-    border-color: #000; // IE11
-    border-radius: 2px; // IE11
-    border-style: solid; // IE11
-    border-width: 2px; // IE11
-    background-color: #fff; // IE11
-    color: #000; // IE11
-    padding-right: 24px; // IE11
-    padding-left: 24px; // IE11
-    text-transform: capitalize; // IE11
-
-    height: 50px; // IE11
+    // IE11 // IE11 // IE11 // IE11 // IE11 // IE11 // IE11 // IE11 // IE11 // IE11
 
     @if nth($buttons, $i) == 'apply' {
       border-color: #009fe3; // IE11
@@ -510,7 +515,6 @@ $buttons: ('apply', 'cancel', 'clear', '');
     padding-right: var(--#{nth($buttons, $i)}-padding-right);
     padding-left: var(--#{nth($buttons, $i)}-padding-left);
     text-transform: var(--#{nth($buttons, $i)}-text-transform);
-
     height: var(--#{nth($buttons, $i)}-height);
 
     @if nth($buttons, $i) == 'cancel' {

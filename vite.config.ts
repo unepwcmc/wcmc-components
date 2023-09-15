@@ -11,33 +11,7 @@ export default defineConfig({
   plugins: [
     vue(),
     libCss(), // To make css auto import when using in another project
-    dts() //insertTypesEntry
-    // typescript2({
-    //   check: false,
-    //   include: [
-    //     'src/components/**/*.vue',
-    //     'src/wcmc-components-entry.ts',
-    //     'src/wcmc-components-types.ts'
-    //   ],
-
-    //   tsconfigOverride: {
-    //     compilerOptions: {
-    //       paths: {
-    //         '@/*': ['./src/*']
-    //       },
-    //       // declaration: true,
-    //       // emitDeclarationOnly: true,
-    //       // outDir: 'dist',
-    //       // sourceMap: true,
-    //       // declarationMap: true
-    //       outDir: 'dist',
-    //       sourceMap: true,
-    //       declaration: true,
-    //       declarationMap: true
-    //     },
-    //     exclude: ['src/app.vue', 'vite.config.ts'] //, 'main.ts'
-    //   }
-    // })
+    dts()
   ],
   resolve: {
     alias: {

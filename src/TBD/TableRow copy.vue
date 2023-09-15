@@ -1,5 +1,9 @@
 <template>
-  <div class="row" :class="{ 'row--archived': archived }" :style="cssVariablesAndStyles">
+  <div
+    class="row"
+    :class="{ 'row--archived': archived }"
+    :style="cssVariablesAndStyles"
+  >
     <table-cell
       v-for="(cell, cellIndex) in columns"
       :key="Math.random() * cellIndex"
@@ -26,8 +30,14 @@
       :style="`grid-column: ${getAdminButtonColumn('edit')}`"
       :disabled="archived"
     >
-      <a :class="getButtonClasses('edit')" :href="item.editUrl">
-        <portal-target class="button__svg-wrapper" name="row-edit-icon">
+      <a
+        :class="getButtonClasses('edit')"
+        :href="item.editUrl"
+      >
+        <portal-target
+          class="button__svg-wrapper"
+          name="row-edit-icon"
+        >
           <svg-edit class="button__svg" />
         </portal-target>
       </a>
@@ -38,14 +48,28 @@
       :style="`grid-column: ${totalColumns}`"
       :disabled="archived"
     >
-      <a v-if="item.pageUrl" :class="getButtonClasses('more-content')" :href="item.pageUrl">
-        <portal-target name="row-link-icon" class="button__svg-wrapper">
+      <a
+        v-if="item.pageUrl"
+        :class="getButtonClasses('more-content')"
+        :href="item.pageUrl"
+      >
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </a>
 
-      <button v-else :class="getButtonClasses('more-content')" @click="openModal">
-        <portal-target name="row-link-icon" class="button__svg-wrapper">
+      <button
+        v-else
+        :class="getButtonClasses('more-content')"
+        @click="openModal"
+      >
+        <portal-target
+          name="row-link-icon"
+          class="button__svg-wrapper"
+        >
           <svg-arrow class="button__svg" />
         </portal-target>
       </button>
@@ -57,8 +81,8 @@
 import { createNamespacedHelpers } from 'vuex'
 
 import ArchiveButton from './ArchiveButton.vue'
-import SvgArrow from './svgs/SvgArrow.vue'
-import SvgEdit from './svgs/SvgEdit.vue'
+import SvgArrow from './../svgs/SvgArrow.vue'
+import SvgEdit from './../svgs/SvgEdit.vue'
 import TableCell from './TableCell.vue'
 import mixinColumns from './mixins/mixin-columns'
 
@@ -223,17 +247,14 @@ export default {
   font-family: var(--font-family);
   margin-bottom: rem-calc(18);
   padding: rem-calc(6 0);
-
   display: flex;
   flex-direction: column;
 
   @include breakpoint($medium) {
-    background-color: #ffffff; // IE11
+    background-color: #fff; // IE11
     background-color: var(--bg-color-1);
     margin: 0;
-    padding: 0;
-
-    display: -ms-grid; // IE11
+    padding: 0; // IE11
     display: grid;
   }
 
@@ -294,19 +315,18 @@ export default {
       content: '';
       width: 100%;
       padding-top: 100%;
-
       display: block;
       position: absolute;
       top: 50%;
       left: 50%;
       z-index: -1;
-
       transform: translate(-50%, -50%);
     }
   }
 
   &__svg-wrapper {
     @include flex-center;
+
     width: 100%;
   }
 

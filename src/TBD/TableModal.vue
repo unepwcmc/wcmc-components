@@ -7,18 +7,38 @@
   >
     <div class="modal">
       <div class="modal__content">
-        <button class="modal__close" @click="closeModal">
+        <button
+          class="modal__close"
+          @click="closeModal"
+        >
           <svg-cross class="modal__close-svg" />
         </button>
 
-        <h2 v-if="config.modal.title" class="modal__title" v-text="config.modal.title" />
+        <h2
+          v-if="config.modal.title"
+          class="modal__title"
+          v-text="config.modal.title"
+        />
 
         <template v-for="(item, modalContentIndex) in modalContent">
-          <div v-if="item.showInModal" :key="modalContentIndex" class="modal__item">
-            <span class="modal__item-name" v-text="item.title + ':'" />
+          <div
+            v-if="item.showInModal"
+            :key="modalContentIndex"
+            class="modal__item"
+          >
+            <span
+              class="modal__item-name"
+              v-text="item.title + ':'"
+            />
 
-            <span v-if="hasMultipleValues(item.value)" :key="modalContentIndex">
-              <ul v-if="item.legend_on" class="legend">
+            <span
+              v-if="hasMultipleValues(item.value)"
+              :key="modalContentIndex"
+            >
+              <ul
+                v-if="item.legend_on"
+                class="legend"
+              >
                 <li
                   v-for="(string, valueIndex) in item.value"
                   :key="Math.random() * valueIndex"
@@ -30,7 +50,10 @@
                 </li>
               </ul>
 
-              <ul v-else-if="displayBullet" class="modal__ul">
+              <ul
+                v-else-if="displayBullet"
+                class="modal__ul"
+              >
                 <li
                   v-for="(string, valueIndex) in item.value"
                   :key="Math.random() * valueIndex"
@@ -48,7 +71,10 @@
                 v-text="item.value"
               />
 
-              <span v-else v-html="printValue(item.value)" />
+              <span
+                v-else
+                v-html="printValue(item.value)"
+              />
             </template>
           </div>
         </template>
@@ -58,7 +84,7 @@
 </template>
 
 <script>
-import SvgCross from './svgs/SvgCross.vue'
+import SvgCross from './../svgs/SvgCross.vue'
 import { isALink } from '../../helpers/helpers-url.js'
 
 export default {
@@ -161,15 +187,11 @@ export default {
 
 <style lang="scss" scoped>
 .modal-wrapper {
-  background-color: rgba(0, 0, 0, 0.2); // IE11
+  background-color: rgb(0 0 0 / 20%); // IE11
   background-color: var(--wrapper-color);
-
   display: none;
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 3;
 
   &.active {
@@ -186,7 +208,6 @@ export default {
   padding: rem-calc(34 32);
   width: 100%;
   height: 100vh;
-
   position: fixed;
   top: 0;
   left: 0;
@@ -198,15 +219,14 @@ export default {
     width: 60%;
     height: auto;
     max-height: 80vh;
-
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
   }
 
   &__close {
     @include button-basic;
+
     background-color: #fff; // IE11
     background-color: var(--close-bg-color);
     border-radius: 0; // IE11
@@ -214,7 +234,6 @@ export default {
     cursor: pointer;
     width: rem-calc(50);
     height: rem-calc(50);
-
     position: sticky;
     float: right;
     top: rem-calc(-18);
@@ -255,17 +274,16 @@ export default {
 
   &__li {
     padding: rem-calc(12);
-
     display: flex;
     flex-wrap: wrap;
     align-items: center;
   }
+
   &__icon {
     margin: rem-calc(4);
     height: rem-calc(38);
     width: rem-calc(38);
     background-size: cover;
-
     display: inline-block;
   }
 }

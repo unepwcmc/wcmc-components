@@ -23,8 +23,17 @@
       <slot />
     </div>
 
-    <div v-show="isActive" :id="id" role="tooltip" class="tooltip__target">
-      <button v-if="!onHover" class="tooltip__close" @click="toggleTooltip(false)" />
+    <div
+      v-show="isActive"
+      :id="id"
+      role="tooltip"
+      class="tooltip__target"
+    >
+      <button
+        v-if="!onHover"
+        class="tooltip__close"
+        @click="toggleTooltip(false)"
+      />
 
       <div v-html="text" />
     </div>
@@ -42,11 +51,12 @@ export default {
   props: {
     text: {
       type: String,
-      required: true
+      required: true,
+      default: 'Hi'
     },
     onHover: {
       type: Boolean,
-      default: true
+      default: false
     }
   },
 

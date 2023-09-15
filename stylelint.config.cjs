@@ -13,7 +13,7 @@ module.exports = {
     'no-descending-specificity': null,
     'plugin/stylelint-bem-namics': {
       namespaces: [
-        'app',
+        'app-',
         'ct-'
         // 'layout-',
         // 'page-',

@@ -1,15 +1,30 @@
 <template>
   <li class="option">
-    <input :id="optionId" v-model="isSelected" type="checkbox" class="checkbox" />
+    <input
+      :id="optionId"
+      v-model="isSelected"
+      type="checkbox"
+      class="checkbox"
+    />
 
-    <svg-tick v-show="isSelected" class="icon-tick" :style="cssVariables" />
+    <svg-tick
+      v-show="isSelected"
+      class="icon-tick"
+      :style="cssVariables"
+    />
 
-    <label :for="optionId" :title="option" class="label" :class="labelClasses" v-text="option" />
+    <label
+      :for="optionId"
+      :title="option"
+      class="label"
+      :class="labelClasses"
+      v-text="option"
+    />
   </li>
 </template>
 
 <script>
-import SvgTick from './svgs/SvgTick.vue'
+import SvgTick from './../svgs/SvgTick.vue'
 
 export default {
   name: 'TableFilterOption',
@@ -71,7 +86,6 @@ $sm-label-max-width: 80vw !default;
   font-size: rem-calc(16);
   margin-bottom: rem-calc(16);
   width: 100%;
-
   display: block;
   position: relative;
 
@@ -88,11 +102,7 @@ $sm-label-max-width: 80vw !default;
   padding: 0;
   width: $checkbox-height;
   height: $checkbox-height;
-
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-
+  appearance: none;
   display: block;
   position: absolute;
   left: 0;
@@ -120,6 +130,7 @@ $sm-label-max-width: 80vw !default;
   max-width: $sm-label-max-width;
   text-overflow: ellipsis;
   white-space: nowrap;
+
   @include breakpoint($small) {
     max-width: $label-max-width;
   }
@@ -129,6 +140,7 @@ $sm-label-max-width: 80vw !default;
   min-width: $sm-label-max-width;
   white-space: normal;
   word-wrap: break-word;
+
   @include breakpoint($small) {
     min-width: $label-min-width;
   }

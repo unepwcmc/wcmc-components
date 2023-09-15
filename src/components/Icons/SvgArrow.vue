@@ -1,15 +1,28 @@
 <template>
   <svg
-    class="svg-arrow"
+    class="base-icon"
     xmlns="http://www.w3.org/2000/svg"
-    width="50"
-    height="50"
     viewBox="0 0 50 50"
   >
     <g transform="translate(-1150.044 -1159)">
-      <g class="a" transform="translate(1150.044 1159)">
-        <rect width="50" height="50" rx="25" />
-        <rect fill="#fff" class="svg__circle" x="0.5" y="0.5" width="49" height="49" rx="24.5" />
+      <g
+        class="a"
+        transform="translate(1150.044 1159)"
+      >
+        <rect
+          width="50"
+          height="50"
+          rx="25"
+        />
+        <rect
+          fill="#fff"
+          class="svg__circle"
+          x="0.5"
+          y="0.5"
+          width="49"
+          height="49"
+          rx="24.5"
+        />
       </g>
     </g>
     <g transform="translate(62.382 66.572) rotate(180)">

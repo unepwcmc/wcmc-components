@@ -1,19 +1,13 @@
 <template>
-  <archive-button />
-  <br />
-  <br />
-  <div :style="cssVariables">
-    <div class="justify-center flex bg-yellow-300 items-center">
-      <div class="text-4xl">Tailwind is working</div>
-    </div>
-    <portal to="sort-icon">
+  <div>
+    <!-- <portal to="sort-icon">
       <slot name="sort-icon" />
     </portal>
 
     <portal to="row-link-icon">
       <slot name="row-link-icon" />
-    </portal>
-
+    </portal> -->
+    <!--
     <div
       v-if="shouldRenderNewRecordButton"
       class="buttons"
@@ -28,39 +22,39 @@
       :table-id="id"
       :total-items="totalItems"
       @getNewItems="getNewItems"
-    />
-
-    <div class="table-head">
-      <table-head
-        :headings="headings"
-        :table-id="id"
-        :total-columns="totalColumns"
-        @getNewItems="getNewItems"
+    /> -->
+    <table class="ct-filterable-table">
+      <TableHeaders
+        v-bind="{ tableId }"
+        @fetchNewData="fetchNewData"
       />
-    </div>
 
-    <div class="table-body">
-      <template v-if="hasItems">
-        <table-row
-          v-for="(item, itemIndex) in items"
-          :key="item._uid"
-          :item="item"
-          :item-index="itemIndex"
-          :table-id="id"
-          :total-columns="totalColumns"
-          @openModal="openModal"
+      <template v-if="modelValue.length > 0">
+        <TableRow
+          v-for="(row, rowIndex) in modelValue"
+          :key="`row${rowIndex}`"
+          v-bind="{
+            row,
+            tableId
+            // itemIndex: rowIndex,
+          }"
+          @editAction="editAction"
+          @routeInternalLink="routeInternalLink"
         />
+        <!-- @openModal="openModal" -->
       </template>
-
-      <template v-else>
-        <div
-          class="table-body__placeholder"
-          v-text="noResultsMessage"
+      <tr v-else>
+        <td
+          :colspan="headersInfomation.headersLength"
+          class="ct-filterable-table__no-result-message"
+          v-text="getAText('noResult')"
         />
-      </template>
-    </div>
+      </tr>
+      <!-- <div class="table-body">
+    
+    </div> -->
 
-    <table-pagination
+      <!-- <table-pagination
       v-if="hasItems"
       :current-page="currentPage"
       :items-per-page="itemsPerPage"
@@ -76,11 +70,91 @@
       :modalContent="modalContent"
       @openModal="openModal"
       @closeModal="closeModal"
-    />
+    /> -->
+    </table>
   </div>
 </template>
+<script setup lang="ts">
+import TableHeaders from '@/components/FilterableTable/Headers/Headers.vue'
+import TableRow from '@/components/FilterableTable/TableRow.vue'
+import { defaultOptions, useFilterableTableStore } from '@/store/filterableTable'
+import { storeToRefs } from 'pinia'
+import type { InternalLinkInfo } from '@/types/FilterableTable/emitTypes.ts'
 
-<script>
+const props = defineProps({
+  modelValue: { type: Array, required: true },
+  id: {
+    type: String,
+    required: true,
+    default: () => {
+      const tableID = `FilterableTable${Math.random() * 100}`
+      console.warn(
+        `Please provide unique id for the table. We have assigned a ramdom id to the component. However, if the table ID ${tableID} is coincidentally same as another filterable table it will cause error for pinia!`
+      )
+      return tableID
+    }
+  },
+  attributes: {
+    type: Array,
+    default: []
+  },
+  options: {
+    type: Object,
+    default: () => defaultOptions()
+  },
+  classes: {
+    type: Object,
+    default: () => {}
+  }
+  // filterArray: {
+  //   type: Array
+  // },
+
+  // itemsPerPage: {
+  //   default: 10,
+  //   type: Number
+  // },
+
+  // legendArray: {
+  //   type: Array
+  // },
+})
+
+const tableId = props.id
+const emit = defineEmits(['editAction', 'fetchNewData', 'routeInternalLink'])
+const FilterableTableStore = useFilterableTableStore(tableId)
+const { config, headersInfomation } = storeToRefs(FilterableTableStore)
+const { initTable, updateOptionsElement, getAText } = FilterableTableStore
+
+initTable(props)
+// const { attributes, options } = config.value
+
+function editAction(currentRowData: any) {
+  console.log('EditAction is called')
+
+  // const { refreshData } = emit('editAction', currentRowData)
+  // if (refreshData) getNewItems()
+}
+function routeInternalLink(routeInfo: InternalLinkInfo) {
+  emit('routeInternalLink', routeInfo)
+}
+function fetchNewData(actionConfig: any) {
+  console.log(actionConfig)
+  emit('fetchNewData')
+}
+</script>
+
+<style lang="postcss" scoped>
+.ct-filterable-table {
+  @apply table-auto;
+
+  &__no-result-message {
+    @apply text-center;
+  }
+}
+</style>
+<!-- <script>
+import { computed, defineEmits } from 'vue'
 import axios from 'axios'
 import { merge } from 'lodash'
 import { createNamespacedHelpers } from 'vuex'
@@ -89,13 +163,14 @@ import { DEFAULT_OPTIONS, DUMMY_DATA } from './constants.js'
 import { setAxiosHeaders } from '../../helpers/helpers-axios.js'
 
 import NewRecordButton from './NewRecordButton.vue'
-import TableHead from './TableHead.vue'
+import TableHeader from '@/components/filterable-table/header/Header.vue'
 import TableFilters from './TableFilters.vue'
 import TableModal from './TableModal.vue'
 import TablePagination from './TablePagination.vue'
 import TableRow from './TableRow.vue'
 import ArchiveButton from './ArchiveButton.vue'
-
+import { useFilterableTableStore } from '@/store/filterableTable'
+import { storeToRefs } from 'pinia'
 const { mapState, mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
 export default {
@@ -103,7 +178,7 @@ export default {
 
   components: {
     NewRecordButton,
-    TableHead,
+    TableHeader,
     TableFilters,
     TableModal,
     TablePagination,
@@ -112,6 +187,7 @@ export default {
   },
 
   props: {
+    modelValue: { type: Array },
     attributes: {
       type: Array
     },
@@ -139,9 +215,50 @@ export default {
 
     options: {
       type: Object
+    },
+    data: {
+      type: Array
     }
   },
+  setup(props) {
+    const emit = defineEmits(['editAction', 'fetchNewData'])
+    const FilterableTableStore = useFilterableTableStore(1)()
+    const { rows, config } = storeToRefs(FilterableTableStore)
 
+    const { initTable, updateOptionsElement } = FilterableTableStore
+
+    initTable(props)
+    const { attributes, options } = config.value
+
+    const totalTableColumnLengh = computed(() => {
+      const totalColumns =
+        attributes.value.length +
+        [
+          options.value.showArchived,
+          options.value.showEdit,
+          options.value.showMoreContentColumn
+        ].filter((extraColumn) => extraColumn === true).length
+      return totalColumns
+    })
+    const attributesA = computed(() => attributes.value)
+
+    function editAction(currentRowData) {
+      const { refreshData } = emit('editAction', currentRowData)
+      if (refreshData) getNewItems()
+    }
+    function fetchNewData(actionConfig) {
+      console.log(actionConfig)
+      emit('fetchNewData')
+    }
+    return {
+      updateOptionsElement,
+      totalTableColumnLengh,
+      attributesA,
+      rows,
+      editAction,
+      fetchNewData
+    }
+  },
   data() {
     return {
       headings: [],
@@ -180,9 +297,9 @@ export default {
       }
     },
 
-    hasItems() {
-      return this.items.length > 0
-    },
+    // hasItems() {
+    //   return this.items.length > 0
+    // },
 
     noResultsMessage() {
       return this.config(this.id).text.noResultsMessage
@@ -217,7 +334,7 @@ export default {
     if (this.endpoint == undefined) {
       this.items = this.dummyData.items
     } else {
-      this.getNewItems()
+      // this.getNewItems()
     }
 
     this.getTotalTableColumns()
@@ -246,29 +363,29 @@ export default {
       this.setFilterOptions(obj)
     },
 
-    getNewItems() {
-      const data = {
-        filters: this.selectedFilterOptions(this.id),
-        items_per_page: this.itemsPerPage,
-        requested_page: this.requestedPage(this.id)
-      }
+    // getNewItems() {
+    //   const data = {
+    //     filters: this.selectedFilterOptions(this.id),
+    //     items_per_page: this.itemsPerPage,
+    //     requested_page: this.requestedPage(this.id)
+    //   }
 
-      if (this.isSortable(this.id)) {
-        data.sort = this.selectedSort(this.id)
-      }
+    //   if (this.isSortable(this.id)) {
+    //     data.sort = this.selectedSort(this.id)
+    //   }
 
-      setAxiosHeaders(axios)
+    //   setAxiosHeaders(axios)
 
-      axios
-        .post(this.endpoint, data)
-        .then((response) => {
-          console.log(response.data)
-          this.updateProperties(response.data)
-        })
-        .catch(function (error) {
-          console.log(error)
-        })
-    },
+    //   axios
+    //     .post(this.endpoint, data)
+    //     .then((response) => {
+    //       console.log(response.data)
+    //       this.updateProperties(response.data)
+    //     })
+    //     .catch(function (error) {
+    //       console.log(error)
+    //     })
+    // },
 
     getTotalTableColumns() {
       if (this.headings.length < 1) {
@@ -282,6 +399,11 @@ export default {
         this.config(this.id).showArchived,
         this.config(this.id).showEdit
       ].filter(Boolean).length
+      console.log([
+        this.isMoreContentColumnDisplayed(this.id),
+        this.config(this.id).showArchived,
+        this.config(this.id).showEdit
+      ])
     },
 
     importUserOptions() {
@@ -309,6 +431,7 @@ export default {
       this.totalItems = data.total_entries
       this.totalPages = data.total_pages
       this.items = data.items
+      console.log('Updated')
     },
     openModal({ tableId }) {
       if (this.tableId !== tableId) {
@@ -330,33 +453,4 @@ export default {
     // this.$root.$off("openModal", this.onOpenModal);
   }
 }
-</script>
-
-<style lang="scss">
-* {
-  box-sizing: border-box;
-}
-
-.buttons {
-  margin-bottom: 10px;
-  height: 50px;
-  display: flex;
-}
-
-.cloak {
-  display: none;
-}
-
-.table {
-  font-family: Arial, sans-serif; // IE11
-  font-family: var(--font-family);
-
-  &-body__placeholder {
-    font-size: rem-calc(18);
-    font-family: Arial, sans-serif; // IE11
-    font-family: var(--font-family);
-    padding: rem-calc(60 0 100 0);
-    text-align: center;
-  }
-}
-</style>
+</script> -->

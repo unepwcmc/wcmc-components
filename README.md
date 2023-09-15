@@ -75,6 +75,6 @@ In your **new project** do the following:
 - Check installation with `vuedoc.md --version`
 
 If you want generate markdown for a component in the terminal type `vuedoc.md` followed by the path of the component. For example:
-`vuedoc.md src/components/filterable-table/FilterableTable.vue`
+`vuedoc.md src/components/FilterableTable/FilterableTable.vue`
 
 Then copy the markdown out of the terminal and into the markdown file in the /docs folder.

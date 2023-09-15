@@ -1,6 +1,12 @@
 <template>
-  <div class="pagination" :style="cssVariables">
-    <div v-show="haveResults" class="pagination__content">
+  <div
+    class="pagination"
+    :style="cssVariables"
+  >
+    <div
+      v-show="haveResults"
+      class="pagination__content"
+    >
       <span class="pagination__numbers">
         {{ options(tableId).pagination.textTitle }} {{ firstItem }} - {{ lastItem }} of
         {{ totalItems }} {{ options(tableId).pagination.textItems }}
@@ -24,7 +30,10 @@
         <svg-chevron class="button__svg" />
       </button>
 
-      <div v-for="(page, pageIndex) in pages" :key="pageIndex">
+      <div
+        v-for="(page, pageIndex) in pages"
+        :key="pageIndex"
+      >
         <button
           v-if="numberOfPageButtons"
           class="button--page button__margin"
@@ -42,14 +51,21 @@
         <svg-chevron class="button__svg" />
       </button>
 
-      <button class="button--next" :class="{ disabled: !nextIsActive }" @click="goToEnd('last')">
+      <button
+        class="button--next"
+        :class="{ disabled: !nextIsActive }"
+        @click="goToEnd('last')"
+      >
         <svg-chevron class="button__svg" />
 
         <svg-chevron class="button__svg" />
       </button>
     </div>
 
-    <p v-show="!haveResults" class="pagination__message">
+    <p
+      v-show="!haveResults"
+      class="pagination__message"
+    >
       There are no evaluations matching the selected filters options.
     </p>
   </div>
@@ -61,7 +77,7 @@ import { range } from 'lodash'
 
 const { mapGetters, mapActions } = createNamespacedHelpers('filterableTable')
 
-import SvgChevron from './svgs/SvgChevron.vue'
+import SvgChevron from './../svgs/SvgChevron.vue'
 
 export default {
   name: 'TablePagination',
@@ -217,7 +233,6 @@ export default {
 .pagination {
   &__content {
     margin-top: rem-calc(16);
-
     align-items: center;
     display: flex;
     justify-items: flex-end;
@@ -242,6 +257,7 @@ $buttons: ('next', 'previous', 'page', '');
 @for $i from 1 to length($buttons) {
   .button--#{nth($buttons, $i)} {
     @include button-basic;
+
     background-color: #009fe3; // IE11
     background-color: var(--button-bg-color);
     border-radius: 0; // IE11
@@ -257,6 +273,7 @@ $buttons: ('next', 'previous', 'page', '');
         transform: rotateY(180deg);
       }
     }
+
     .button__svg {
       width: rem-calc(12);
       height: rem-calc(22);
@@ -282,6 +299,7 @@ $buttons: ('next', 'previous', 'page', '');
     margin: rem-calc(0 6 0 0);
   }
 }
+
 ::v-deep .svg-chevron {
   fill: #fff; // IE11
   fill: var(--svg-chevron-fill);

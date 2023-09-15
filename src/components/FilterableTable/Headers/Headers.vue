@@ -1,26 +1,53 @@
 <template>
-  <div id="sticky" :class="{ stuck: isSticky }">
-    <div class="table-head" :style="cssVariables">
-      <table-heading
-        v-for="(heading, n) in headings"
-        :key="heading._uid"
-        :heading="heading"
-        :table-id="tableId"
-        :style="`grid-column: ${n + 1}`"
-        @getNewItems="getNewItems"
-      />
-      <!-- empty heading for 'more content' and admin buttons -->
-      <table-heading
-        v-for="n in emptyHeaderCount"
-        :key="`empty-header-${_uid}-${n}`"
-        :table-id="tableId"
-        :style="`grid-column: ${getEmptyHeaderIndex(n)}`"
-        @getNewItems="getNewItems"
-      />
-    </div>
-  </div>
+  <tr
+    id="sticky"
+    class="ct-table-head__tr"
+  >
+    <TableHeader
+      v-for="(heading, tableHeadingIndex) in headersInfomation.headersForTable"
+      :key="`${tableHeadingIndex}tableHeading`"
+      v-bind="{
+        headerAttributes: heading,
+        tableId
+      }"
+      @fetchNewData="(actionConfig) => emit('fetchNewData', actionConfig)"
+    />
+    <!-- empty header for 'more content' and admin buttons -->
+    <TableHeader
+      v-for="n in headersInfomation.headersLength - headersInfomation.headersForTable.length"
+      :key="`${n}tableHeadingAdminMoreContent`"
+      v-bind="{
+        tableId
+      }"
+    />
+  </tr>
 </template>
+<script setup lang="ts">
+import TableHeader from '@/components/FilterableTable/Headers/Header.vue'
+import { useFilterableTableStore } from '@/store/filterableTable'
+import { storeToRefs } from 'pinia'
 
+const props = defineProps({
+  tableId: {
+    required: true,
+    type: String
+  }
+})
+const emit = defineEmits(['fetchNewData'])
+
+const FilterableTableStore = useFilterableTableStore(props.tableId)
+const { headersInfomation } = storeToRefs(FilterableTableStore)
+</script>
+
+<style lang="postcss" scoped>
+.ct-table-head {
+  &__tr {
+    @apply bg-primary;
+  }
+}
+</style>
+
+<!-- 
 <script>
 import { createNamespacedHelpers } from 'vuex'
 import TableHeading from './TableHeading.vue'
@@ -104,10 +131,11 @@ export default {
     }
   }
 }
-</script>
+</script>-->
 
+<!--
 <style lang="scss" scoped>
-$table-head-bg-color: #333 !default;
+$table-head-bg-color: #306088ff !default;
 $table-head-color: #fff !default;
 
 .table-head {
@@ -119,8 +147,8 @@ $table-head-color: #fff !default;
   display: none;
 
   @include breakpoint($medium) {
-    display: -ms-grid; // IE11
+    // IE11
     display: grid;
   }
 }
-</style>
+</style> -->

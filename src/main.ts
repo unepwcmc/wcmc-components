@@ -10,5 +10,5 @@ const pinia = createPinia()
 
 app.use(store)
 
-app.use(FilterableTablePlugin, { store, $pinia: pinia })
+app.use(FilterableTablePlugin, { store, axios: null })
 app.mount('#app')

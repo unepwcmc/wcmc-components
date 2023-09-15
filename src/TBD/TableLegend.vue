@@ -1,9 +1,18 @@
 <template>
   <div v-if="config.legend && legends">
-    <button class="legend__button" @click="openLegend(tableId)">
-      <span class="legend__icon" :class="config.legend.buttonClass" />
+    <button
+      class="legend__button"
+      @click="openLegend(tableId)"
+    >
+      <span
+        class="legend__icon"
+        :class="config.legend.buttonClass"
+      />
 
-      <span class="legend__item" v-text="config.legend.buttonTitle.toUpperCase()" />
+      <span
+        class="legend__item"
+        v-text="config.legend.buttonTitle.toUpperCase()"
+      />
     </button>
 
     <div
@@ -14,22 +23,41 @@
     >
       <div class="modal">
         <div class="modal__content">
-          <button class="modal__close" @click="closeModal">
+          <button
+            class="modal__close"
+            @click="closeModal"
+          >
             <svg-cross class="modal__close-svg" />
           </button>
 
-          <div v-for="legend in legends" :key="legend.title">
+          <div
+            v-for="legend in legends"
+            :key="legend.title"
+          >
             <h2 class="modal__title">
               <strong v-text="config.legend.title" />
             </h2>
 
-            <h3 class="modal__item-name" v-text="legend.title" />
+            <h3
+              class="modal__item-name"
+              v-text="legend.title"
+            />
 
             <div class="legend__options">
-              <div v-for="(item, index) in legend.options" :key="index" class="legend__row">
-                <span class="legend__icon" :class="kebabCaseClassName(item)" />
+              <div
+                v-for="(item, index) in legend.options"
+                :key="index"
+                class="legend__row"
+              >
+                <span
+                  class="legend__icon"
+                  :class="kebabCaseClassName(item)"
+                />
 
-                <p class="legend__item" v-text="item" />
+                <p
+                  class="legend__item"
+                  v-text="item"
+                />
               </div>
             </div>
           </div>
@@ -40,7 +68,7 @@
 </template>
 
 <script>
-import SvgCross from './svgs/SvgCross.vue'
+import SvgCross from './../svgs/SvgCross.vue'
 
 export default {
   name: 'TableLegend',
@@ -109,15 +137,11 @@ export default {
 
 <style lang="scss" scoped>
 .modal-wrapper {
-  background-color: rgba(0, 0, 0, 0.2); // IE11
+  background-color: rgb(0 0 0 / 20%); // IE11
   background-color: var(--wrapper-color);
-
   display: none;
   position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  inset: 0;
   z-index: 3;
 
   &.active {
@@ -132,7 +156,6 @@ export default {
   padding: rem-calc(34 38);
   width: 100%;
   height: 100vh;
-
   position: fixed;
   top: 0;
   left: 0;
@@ -143,15 +166,14 @@ export default {
     width: 60%;
     height: auto;
     max-height: 80vh;
-
     top: 50%;
     left: 50%;
-
     transform: translate(-50%, -50%);
   }
 
   &__close {
     @include button-basic;
+
     background-color: #fff; // IE11
     background-color: var(--close-bg-color);
     border-radius: 0; // IE11
@@ -159,7 +181,6 @@ export default {
     cursor: pointer;
     width: rem-calc(50);
     height: rem-calc(50);
-
     position: sticky;
     float: right;
     top: rem-calc(-18);
@@ -199,6 +220,7 @@ export default {
     font-weight: 600;
     margin-right: rem-calc(10);
     margin-bottom: rem-calc(10);
+
     @include breakpoint($medium) {
       margin-bottom: 0;
     }
@@ -206,6 +228,7 @@ export default {
 
   &__options {
     display: grid;
+
     @include breakpoint($medium) {
       grid-template-columns: repeat(2, 1fr);
     }
